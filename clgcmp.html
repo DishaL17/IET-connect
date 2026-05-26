@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Campus Connect</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Poppins:ital,wght@0,400;0,500;0,600;1,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="try.css">
+</head>
+<body>
+
+<!-- Sidebar -->
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-icon">🎓</div>
+    <div class="logo-text">Campus<br><b>Connect</b></div>
+  </div>
+
+  <div class="nav-links">
+    <a href="index.html" class="nav-link active"><span>🏠</span> Home</a>
+    <a href="#" class="nav-link"><span>ℹ️</span> About Us</a>
+    <a href="#" class="nav-link"><span>📋</span> My Post</a>
+    <a href="#" class="nav-link"><span>🔔</span> Notifications <em class="badge">3</em></a>
+    <a href="#" class="nav-link"><span>⚙️</span> Settings</a>
+  </div>
+
+  <a href="#" class="nav-link logout"><span>🚪</span> Logout</a>
+</nav>
+
+<!-- Main -->
+<main class="main">
+
+  <!-- Topbar -->
+  <div class="topbar">
+    <div class="search-bar">
+      <span class="s-icon">🔍</span>
+      <input type="text" id="sea" placeholder="Search for lost, rent, sell items…"
+             oninput="searchItems()" 
+             onkeydown="if(event.key==='Enter')searchItems()">
+      <button onclick="searchItems()">Search</button>
+    </div>
+    <div class="user-chip">
+      <div class="avatar">DL</div>
+      <span class="username">Disha Lowanshi</span>
+    </div>
+  </div>
+
+  <!-- Search Dropdown -->
+  <div class="search-drop" id="searchDrop" style="display:none">
+    <ul id="result"></ul>
+  </div>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-text">
+      <div class="hero-tag">🎓 Your Campus Marketplace</div>
+      <h1>Everything you need,<br><span>right here on campus</span></h1>
+      <p>Lost something? Found something?<br>Buy, sell or rent academic items easily.</p>
+    </div>
+    <div class="hero-cards">
+      <div class="hcard hc-lost" onclick="handleClick('lost')">
+        <div class="hc-emoji">🔍</div>
+        <div class="hc-num" id="lostCount">24</div>
+        <div class="hc-lbl">Lost Items</div>
+      </div>
+      <div class="hcard hc-found" onclick="handleClick('found')">
+        <div class="hc-emoji">✅</div>
+        <div class="hc-num" id="foundCount">18</div>
+        <div class="hc-lbl">Found Items</div>
+      </div>
+      <div class="hcard hc-sell" onclick="handleClick('sell')">
+        <div class="hc-emoji">🛍️</div>
+        <div class="hc-num" id="sellCount">41</div>
+        <div class="hc-lbl">Sold Items</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bottom -->
+  <div class="bottom">
+
+    <!-- Quick Access -->
+    <section class="qa-section">
+      <div class="sh">
+        <h2>Quick Access</h2>
+        <p>What are you looking for today?</p>
+      </div>
+      <div class="qa-grid">
+
+        <div class="qcard" id="qc-lost" onclick="handleClick('lost')">
+          <div class="qc-head">
+            <div class="qc-icon">🔦</div>
+            <span class="qc-tag tg-lost">Lost</span>
+          </div>
+          <h3>Report Lost Item</h3>
+          <p>Post details about items you lost on campus.</p>
+          <div class="qc-btn btn-lost">Report Now →</div>
+        </div>
+
+        <div class="qcard" id="qc-found" onclick="handleClick('found')">
+          <div class="qc-head">
+            <div class="qc-icon">🤝</div>
+            <span class="qc-tag tg-found">Found</span>
+          </div>
+          <h3>Report Found Item</h3>
+          <p>Help others by reporting items you found.</p>
+          <div class="qc-btn btn-found">Report Now →</div>
+        </div>
+
+        <div class="qcard" id="qc-sell" onclick="handleClick('sell')">
+          <div class="qc-head">
+            <div class="qc-icon">📦</div>
+            <span class="qc-tag tg-sell">Sell</span>
+          </div>
+          <h3>Sell an Item</h3>
+          <p>List books, gadgets, or notes for sale.</p>
+          <div class="qc-btn btn-sell">List Item →</div>
+        </div>
+
+        <div class="qcard" id="qc-rent" onclick="handleClick('rent')">
+          <div class="qc-head">
+            <div class="qc-icon">🔑</div>
+            <span class="qc-tag tg-rent">Rent</span>
+          </div>
+          <h3>Rent an Item</h3>
+          <p>Give items on rent to fellow students.</p>
+          <div class="qc-btn btn-rent">List Rental →</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Recent Activity -->
+    <aside class="activity" id="recentSection">
+      <div class="sh" style="margin-bottom:14px">
+        <h2>Recent Activity</h2>
+        <span class="live-dot">● Live</span>
+      </div>
+
+      <ul id="recentList" class="act-list"></ul>
+
+    
+       
+
+      <button class="view-btn" onclick="showAll()">View More Activity →</button>
+
+      <!-- All page -->
+      <div id="allPage" style="display:none">
+        <div class="sh" style="margin:10px 0 12px">
+          <h2>All Activities</h2>
+          <button class="back-btn" onclick="goBack()">← Back</button>
+        </div>
+        <ul id="allList" class="act-list"></ul>
+      </div>
+    </aside>
+
+  </div>
+</main>
+
+<script src="lnf.js"></script>
+</body>
+</html>
