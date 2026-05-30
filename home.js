@@ -70,10 +70,20 @@ document.addEventListener("click", e => {
 });
 
 // ── NAVIGATION ────────────────────────
-function handleClick(type) {
-  const routes = { lost: "lost.html", found: "found.html", sell: "sell.html", rent: "rent.html" };
-  if (routes[type]) window.location.href = routes[type];
-}
+ function handleClick(type) {
+    if (type === "lost") {
+      window.location.href = "lost.html";
+    } 
+    else if (type === "found") {
+      window.location.href = "found.html";
+    } 
+    else if (type === "sell") {
+      window.location.href = "sell.html";
+    } 
+    else if (type === "rent") {
+      window.location.href = "rent.html";
+    }
+  }
 
 // ── RECENT ACTIVITY ───────────────────
 function loadRecent() {
@@ -133,4 +143,17 @@ document.addEventListener("DOMContentLoaded", () => {
   countUp("lostCount",  24);
   countUp("foundCount", 18);
   countUp("sellCount",  41);
+   countUp("rentcount",  17);
 });
+
+
+/*document.addEventListener("DOMContentLoaded", function () {
+
+  const btn = document.getElementById("mbtn");
+  const sidebar = document.getElementById("sidebar");
+
+  btn.addEventListener("click", function () {
+    sidebar.classList.toggle("show");
+  });
+
+});*/

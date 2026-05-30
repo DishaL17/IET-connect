@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="lost.css">
+</head>
+<body>
+    
+  <header class="n">
+
+  <div class="app">
+    <div class="logo-icon">🎓</div>
+    <span>Campus Connect</span>
+  </div>
+
+   <div class="topbar">
+    <div class="search-bar">
+  
+      <input type="text" id="sea" placeholder=" 🔍 Search for lost, rent, sell items…"
+             oninput="searchItems()" 
+             onkeydown="if(event.key==='Enter')searchItems()">
+      <button onclick="searchItems()">Search</button>
+    </div>
+    <div class="user-chip">
+      <div class="avatar">DL</div>
+      <span class="username">Disha Lowanshi</span>
+    </div>
+  </div>
+
+  <!-- Search Dropdown -->
+  <div class="search-drop" id="searchDrop" style="display:none">
+    <ul id="result"></ul>
+  </div>
+
+</header>
+         
+<div class="nav-links">
+    
+    <a href="home.html" class="nav-link "><span>🏠</span> Home</a>
+    <a href="post.html" class="nav-link"><span>📋</span> My Post</a>
+    <a href="Announcment.html" class="nav-link"><span>📢</span> Announcements</a>
+       <a href="notification.html" class="nav-link"><span>🔔</span> Notifications <em class="badge">3</em></a>
+        <a href="setthing.html" class="nav-link"><span>⚙️</span> Settings</a>
+  </div>
+  
+ 
+    
+    <div>
+        <div class="pages">
+        <button class="lpage" onclick="window.location.href='lost.html'">Lost items</button>
+        <button class="fpage" onclick="window.location.href='found.html'">Found items</butthon>
+        <button class="spage" onclick="window.location.href='sell.html'">For Sell</button>
+        <button class="rpage" onclick="window.location.href='rent.html'">Rentals</button>
+        </div>
+    
+       <div class="main"> <h1>Lost an item on campus or nearby?</h1>
+        <span class="line">Let the community know and get help finding it faster</span>
+       <div class="rep"><button class="btn">I Lost Something</button>
+    <button class="view">View Found Items ➜</button>
+       </div></div> 
+    <div class="type">
+        <span class="category">All</span>
+         <span class="category">Phones</span>
+          <span class="category">Wallets</span>
+           <span class="category">Keys</span>
+            <span class="category">Cards</span>
+             <span class="category">Documents</span>
+             <span class="category">More ⋮ </span>
+    </div >
+    <div class="look"><span class="act">Active Search </span>
+        <span class="all">view all ➝</span></div>
+    
+   
+    <div class="items">
+      <div class="item"><img src="" alt="">
+        <span class="identity">phone</span>
+       <span class="name"> OPPO A5 2020-Blue cover</span>
+        <span class="location">Last seen: M-block garden</span>
+        <div class="last"><span class="time">28 May </span>
+        <button class="claim">I found it!</button></div>
+     </div>
+     <div class="item"><img src="" alt="">
+        <span class="identity">Card</span>
+       <span class="name">Library id card</span>
+        <span class="location">Last seen: F-block</span>
+        <div class="last"><span class="time">4 hous ago </span>
+        <button class="claim">I found it!</button></div>
+    </div>
+    <div class="item"><img src="" alt="">
+        <span class="identity">Keys</span>
+       <span class="name"> Scooty  key</span>
+        <span class="location">Last seen: Canteen</span>
+        <div class="last"><span class="time">7 hous agoy </span>
+        <button class="claim">I found it!</button></div>
+    </div>
+       <div class="item"><img src="" alt="">
+        <span class="identity">Bottle</span>
+       <span class="name"> Blue water bottle</span>
+        <span class="location">Last seen: Canteen</span>
+        <div class="last"><span class="time">yesterday </span>
+        <button class="claim">I found it!</button></div>
+    </div>
+    </div>
+    </div>
+</body>
+</html>

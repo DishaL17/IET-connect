@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="post.css">
+</head>
+<body>
+    <nav class="sidebar"  id="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-icon">🎓</div>
+    <div class="logo-text">Campus<br><b>Connect</b></div>
+  </div>
+
+  <div class="nav-links">
+    
+    <a href="home.html" class="nav-link "><span>🏠</span> Home</a>
+    <a href="post.html" class="nav-link"><span>📋</span> My Post</a>
+    <a href="Announcment.html" class="nav-link"><span>📢</span> Announcements</a>
+       <a href="notification.html" class="nav-link"><span>🔔</span> Notifications <em class="badge">3</em></a>
+        <a href="setthing.html" class="nav-link"><span>⚙️</span> Settings</a>
+  </div>
+  </nav>
+  <div class="main"></div>
+   <!-- Topbar -->
+  <div class="topbar">
+    <div class="search-bar">
+  
+      <input type="text" id="sea" placeholder=" 🔍 Search for lost, rent, sell items…"
+             oninput="searchItems()" 
+             onkeydown="if(event.key==='Enter')searchItems()">
+      <button onclick="searchItems()">Search</button>
+    </div>
+    <div class="user-chip">
+      <div class="avatar">DL</div>
+      <span class="username">Disha Lowanshi</span>
+    </div>
+  </div>
+
+  <!-- Search Dropdown -->
+  <div class="search-drop" id="searchDrop" style="display:none">
+    <ul id="result"></ul>
+  </div>
+
+ 
+    
+    <div class="con">
+       <div class="head"> <span class="ti">From lost treasures to great deals—find all your posts here.</span>
+       <span class="li">Manage all your Buy, Sell, Lost & Found posts in one place.</span></div>
+       
+       <span class="pp">Your Posted items</span>
+            <div class="itm"> 
+                <div class="post">
+                  <div class="det">
+                      <div class="s">
+                         <div class="g">
+                           <span class="situation">Founded</span>
+                           <span class="identity">Phone</span>
+                           <span class="location">Found near M-block Auditorium</span>
+                         
+                         </div>
+                          <img src="Screenshot 2026-05-29 015857.png" alt="">
+                      </div>
+                        <span class="status">Status: ✅ Returned to Owner</span>
+                       <div class="time">
+                         <span>Found: 12 Apr 2026</span>
+                         <span>Returned: 14 Apr 2026</span>
+                       </div>
+                       
+                       <span class="desc">Black over-ear headphones with carrying case.
+Owner verified ownership and collected the item.</span>
+                        <span class="own">Owner Name: kk</span>
+                   </div>
+                       
+                       
+                      
+                 
+                </div>
+            </div>
+    </div>
+    
+       </div>
+  
+
+</body>
+</html>

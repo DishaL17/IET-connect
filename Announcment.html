@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Campus Connect</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Poppins:ital,wght@0,400;0,500;0,600;1,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="ann.css">
+</head>
+<body>
+
+<!-- Sidebar -->
+
+<nav class="sidebar"  id="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-icon">🎓</div>
+    <div class="logo-text">Campus<br><b>Connect</b></div>
+  </div>
+   <div class="nav-links">
+    
+    <a href="home.html" class="nav-link active"><span>🏠</span> Home</a>
+    <a href="post.html" class="nav-link"><span>📋</span> My Post</a>
+    <a href="Announcment.html" class="nav-link"><span>📢</span> Announcements</a>
+       <a href="notification.html" class="nav-link"><span>🔔</span> Notifications <em class="badge">3</em></a>
+        <a href="setthing.html" class="nav-link"><span>⚙️</span> Settings</a>
+  </div>
+
+ 
+
+
+</nav>
+
+<!-- Main -->
+<main class="main">
+  <div class="topbar">
+    <div class="search-bar">
+  
+      <input type="text" id="sea" placeholder=" 🔍 Search for lost, rent, sell items…"
+             oninput="searchItems()" 
+             onkeydown="if(event.key==='Enter')searchItems()">
+      <button onclick="searchItems()">Search</button>
+    </div>
+    <div class="user-chip">
+      <div class="avatar">DL</div>
+      <span class="username">Disha Lowanshi</span>
+    </div>
+  </div>
+
+  <!-- Search Dropdown -->
+  <div class="search-drop" id="searchDrop" style="display:none">
+    <ul id="result"></ul>
+  </div>
+
+ <div class="head"><span class="ico">Announcements</span>
+<span class="para">Stay updatedwith the latest news and important updates from the campus</span></div>
+  <div class="bottom">
+  <!--announcements-->
+  <div class="container">
+
+  <!-- Announcements -->
+  <div class="announcement-section">
+
+    <div class="bt">
+      <button class="new">Latest ⮟</button>
+    </div>
+
+    <div class="a">
+      <div class="k">
+        <span class="club">E-Cell</span>
+        <span class="t">Speaker Session</span>
+        <span class="venue">M-block Auditorium, July 5</span>
+      </div>
+      <div class="time">1 hour ago</div>
+    </div>
+
+    <div class="a">
+      <div class="k">
+        <span class="club">E-Cell</span>
+        <span class="t">Speaker Session</span>
+        <span class="venue">M-block Auditorium, July 5</span>
+      </div>
+      <div class="time">1 hour ago</div>
+    </div>
+
+   <button class="more">View all announcements ➝</button>
+  </div>
+
+  <!-- Clubs -->
+  <div class="clist">
+    <span class="cl">Clubs</span>
+
+    <div class="cn">
+      <span class="c">E-Cell</span>
+      <span class="ar">></span>
+    </div>
+
+    <div class="cn">
+      <span class="c">GDG</span>
+      <span class="ar">></span>
+    </div>
+
+    <div class="cn">
+      <span class="c">NSS</span>
+      <span class="ar">></span>
+    </div>
+  </div>
+
+</div>
+    
+  </div>
+  </div>
+</main>
+
+<script src="clgcmp.js"></script>
+</body>
+</html>
