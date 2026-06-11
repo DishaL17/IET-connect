@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="notification.css">
+    <link rel="stylesheet" href="dash.css">
+</head>
+<body>
+    <nav class="sidebar"  id="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-icon">🎓</div>
+    <div class="logo-text">Campus<br><b>Connect</b></div>
+  </div>
+
+  <div class="nav-links">
+    
+    <a href="home.html" class="nav-link "><span>🏠</span> Home</a>
+    <a href="post.html" class="nav-link"><span>📋</span> My Post</a>
+    <a href="Announcment.html" class="nav-link"><span>📢</span> Announcements</a>
+       <a href="notification.html" class="nav-link"><span>🔔</span> Notifications <em class="badge">3</em></a>
+        <a href="setthing.html" class="nav-link"><span>⚙️</span> Settings</a>
+  </div>
+  </nav>
+
+   <!-- Topbar -->
+  <header class="topbar">
+    <div class="search-bar">
+  
+      <input type="text" id="sea" placeholder=" 🔍 Search for lost, rent, sell items…"
+             oninput="searchItems()" 
+             onkeydown="if(event.key==='Enter')searchItems()">
+      <button onclick="searchItems()">Search</button>
+    </div>
+    <div class="user-chip">
+      <div class="avatar">DL</div>
+      <span class="username">Disha Lowanshi</span>
+    </div>
+  </div>
+  
+
+  <!-- Search Dropdown -->
+  <div class="search-drop" id="searchDrop" style="display:none">
+    <ul id="result"></ul>
+  </div>
+</header>
+  <!--notifications-->
+   <main class="main">
+       <div class="noti">
+            <span class="Notifications">Notifications</span>
+            <div class="m">
+                          <div class="ic">👤</div>
+                          <div class="h">
+                               <div class="me">
+                                 <span class="n">Disha </span>
+                                 <span class="time">22 May</span>
+                               </div>
+                               <div class="c">
+                                 <span class="e">Hello </span>
+                                 <span class="time">4</span>
+                          </div>
+                </div>
+                 </div>
+                  <div class="m">
+                          <div class="ic">👤</div>
+                          <div class="h">
+                               <div class="me">
+                                 <span class="n">Disha </span>
+                                 <span class="time">22 May</span>
+                               </div>
+                               <div class="c">
+                                 <span class="e">Hello </span>
+                                 <span class="time">4</span>
+                          </div>
+                </div>
+               
+            </div>
+       
+  </div>
+</main>
+<script src="notification.js"></script>
+<script src="darktheme.js"></script>
+</body>
+</html>

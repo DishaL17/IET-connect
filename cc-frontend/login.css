@@ -1,0 +1,163 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Nunito', sans-serif;
+}
+
+body {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(
+    135deg,
+    #dff4f2,
+    #eef8f7,
+    #d8f0ee
+  );
+  padding: 20px;
+}
+
+.login-box {
+  width: 100%;
+  max-width: 400px;
+  background: #ffffff;
+  padding: 40px 30px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(47, 126, 120, 0.08);
+  border: 1px solid #e2e8f0;
+  animation: cardFade 0.4s ease-out;
+}
+
+@keyframes cardFade {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.logo-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.logo-icon {
+  font-size: 32px;
+  background: #e0f7f5;
+  color: #2f7e78;
+  border-radius: 16px;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+  box-shadow: 0 4px 12px rgba(47, 126, 120, 0.1);
+}
+
+.logo-text {
+  font-size: 20px;
+  font-weight: 800;
+  color: #1d5e5a;
+}
+
+.wb {
+  text-align: center;
+  font-weight: 700;
+  font-size: 15px;
+  color: #29938d;
+  margin-bottom: 6px;
+}
+
+.login-box h2 {
+  text-align: center;
+  font-size: 24px;
+  font-weight: 800;
+  margin-bottom: 25px;
+  color: #1e293b;
+}
+
+.input-box {
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.input-box input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 12px;
+  outline: none;
+  font-size: 15px;
+  color: #1e293b;
+  background: #ffffff;
+  transition: all 0.2s;
+}
+
+.input-box input:focus {
+  border-color: #2f7e78;
+  box-shadow: 0 0 0 3px rgba(47, 126, 120, 0.12);
+}
+
+.input-box input::placeholder {
+  color: #94a3b8;
+}
+
+.input-box i {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #64748b;
+  transition: color 0.2s;
+}
+
+.input-box i:hover {
+  color: #2f7e78;
+}
+
+.btn {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  background: linear-gradient(135deg, #2f7e78, #1d5e5a);
+  color: white;
+  font-size: 16px;
+  font-weight: 700;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(47, 126, 120, 0.15);
+  transition: all 0.2s;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(47, 126, 120, 0.25);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.extra {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 14px;
+  color: #64748b;
+}
+
+.extra a {
+  color: #2f7e78;
+  text-decoration: none;
+  font-weight: 700;
+  margin-left: 5px;
+}
+
+.extra a:hover {
+  text-decoration: underline;
+}
