@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reviews - Campus Connect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="setting.css">
+    <style>
+        body { font-family: 'Nunito', sans-serif; }
+        .rating-summary {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            padding: 20px;
+            border-radius: 14px;
+            background: var(--bottom-line);
+            margin-bottom: 25px;
+            border: 1px dashed var(--teal-1);
+        }
+        .rating-number {
+            font-size: 48px;
+            font-weight: 800;
+            color: var(--teal-1);
+        }
+        .rating-stars {
+            font-size: 24px;
+            color: #fbbf24;
+            margin-bottom: 5px;
+        }
+        .rating-label {
+            font-size: 13px;
+            color: var(--muted);
+        }
+        .review-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .review-card {
+            padding: 16px;
+            border-radius: 14px;
+            border: 1.5px solid var(--border);
+            background: var(--white);
+            text-align: left;
+        }
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        .reviewer-name {
+            font-weight: 700;
+            color: var(--text);
+            font-size: 15px;
+        }
+        .review-stars {
+            color: #fbbf24;
+            font-size: 14px;
+        }
+        .review-text {
+            font-size: 14px;
+            color: var(--muted);
+            line-height: 1.4;
+        }
+        .settings-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 25px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 15px;
+        }
+        .settings-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--teal-1);
+            margin: 0;
+        }
+        .back-link {
+            text-decoration: none;
+            color: var(--text);
+            font-size: 14px;
+            font-weight: 700;
+            border: 1px solid var(--border);
+            padding: 6px 12px;
+            border-radius: 8px;
+            background: var(--white);
+        }
+        .back-link:hover {
+            color: var(--teal-1);
+            border-color: var(--teal-1);
+            background: var(--bottom-line);
+        }
+    </style>
+</head>
+<body>
+    <div class="settings-container">
+        <div class="settings-header">
+            <h1 class="settings-title">⭐ Reviews</h1>
+            <a href="setthing.html" class="back-link">← Settings</a>
+        </div>
+
+        <div class="rating-summary">
+            <div>
+                <div class="rating-number">4.8</div>
+                <div class="rating-stars">★★★★★</div>
+                <div class="rating-label">based on 12 trades</div>
+            </div>
+            <div style="font-size: 14px; color: var(--text); text-align: left;">
+                <div>👍 100% Positive Feedback</div>
+                <div>⚡ Average response: 15 mins</div>
+                <div>🤝 Verified Student Seller</div>
+            </div>
+        </div>
+
+        <h2>Recent Reviews</h2>
+        
+        <div class="review-list">
+            <div class="review-card">
+                <div class="review-header">
+                    <span class="reviewer-name">Rahul Mehta</span>
+                    <span class="review-stars">★★★★★</span>
+                </div>
+                <p class="review-text">"Bought engineering notes. Super clean handwriting and really helpful. Seller responded instantly and met up on campus in 10 minutes!"</p>
+            </div>
+
+            <div class="review-card">
+                <div class="review-header">
+                    <span class="reviewer-name">Sneha Sharma</span>
+                    <span class="review-stars">★★★★★</span>
+                </div>
+                <p class="review-text">"Rented a scientific calculator for exams. It was in perfect condition and she was very flexible with the return timing. Highly recommend!"</p>
+            </div>
+
+            <div class="review-card">
+                <div class="review-header">
+                    <span class="reviewer-name">Amit Verma</span>
+                    <span class="review-stars">★★★★☆</span>
+                </div>
+                <p class="review-text">"Helpful seller, deal went smoothly. The textbook had some highlights but still in great shape for CSE course."</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Bar at Bottom -->
+    <div class="nav-links">
+        <a href="home.html" class="nav-link"><span>🏠</span> Home</a>
+        <a href="post.html" class="nav-link"><span>📋</span> My Post</a>
+        <a href="Announcment.html" class="nav-link"><span>📢</span> Announcements</a>
+        <a href="notification.html" class="nav-link"><span>🔔</span> Notifications <em class="badge">3</em></a>
+        <a href="setthing.html" class="nav-link active"><span>⚙️</span> Settings</a>
+    </div>
+    <script src="darktheme.js"></script>
+</body>
+</html>

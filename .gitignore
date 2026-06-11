@@ -1,0 +1,7 @@
+node_modules/
+cc-backend/node_modules/
+cc-frontend/node_modules/
+*/node_modules/
+
+.env
+node_modules/

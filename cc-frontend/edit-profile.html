@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile - Campus Connect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="setting.css">
+    <style>
+        body { font-family: 'Nunito', sans-serif; }
+        .form-group {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            text-align: left;
+        }
+        label {
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--text);
+        }
+        input[type="text"], input[type="email"], textarea {
+            padding: 12px 16px;
+            font-size: 15px;
+            border: 1.5px solid var(--border);
+            border-radius: 14px;
+            outline: none;
+            background: var(--white);
+            color: var(--text);
+            transition: all 0.2s;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        input:focus, textarea:focus {
+            border-color: var(--teal-1);
+            box-shadow: 0 0 0 3px var(--bottom-line);
+        }
+        .settings-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 25px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 15px;
+        }
+        .settings-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--teal-1);
+            margin: 0;
+        }
+        .back-link {
+            text-decoration: none;
+            color: var(--text);
+            font-size: 14px;
+            font-weight: 700;
+            border: 1px solid var(--border);
+            padding: 6px 12px;
+            border-radius: 8px;
+            background: var(--white);
+        }
+        .back-link:hover {
+            color: var(--teal-1);
+            border-color: var(--teal-1);
+            background: var(--bottom-line);
+        }
+        .save-btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 14px;
+            background: linear-gradient(135deg, var(--teal-2), var(--teal-1));
+            color: white;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(47, 126, 120, 0.2);
+            transition: all 0.2s;
+            margin-top: 10px;
+        }
+        .save-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(47, 126, 120, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="settings-container">
+        <div class="settings-header">
+            <h1 class="settings-title">👤 Edit Profile</h1>
+            <a href="setthing.html" class="back-link">← Settings</a>
+        </div>
+
+        <form onsubmit="event.preventDefault(); alert('Profile changes saved successfully!'); window.location.href='setthing.html';">
+            <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" value="Disha Lowanshi" required />
+            </div>
+
+            <div class="form-group">
+                <label for="email">College Email Address</label>
+                <input type="email" id="email" value="disha.l@college.edu" required />
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="text" id="phone" value="+91 9876543210" placeholder="e.g. +91 9876543210" />
+            </div>
+
+            <div class="form-group">
+                <label for="dept">Department / Major</label>
+                <input type="text" id="dept" value="Computer Science & Engineering" placeholder="e.g. CSE, Mechanical" />
+            </div>
+
+            <div class="form-group">
+                <label for="bio">Bio</label>
+                <textarea id="bio" placeholder="Tell other campus members a bit about yourself...">CS sophomore, book lover, and coffee enthusiast.</textarea>
+            </div>
+
+            <button type="submit" class="save-btn">Save Changes</button>
+        </form>
+    </div>
+
+    <!-- Navigation Bar at Bottom -->
+    <div class="nav-links">
+        <a href="home.html" class="nav-link"><span>🏠</span> Home</a>
+        <a href="post.html" class="nav-link"><span>📋</span> My Post</a>
+        <a href="Announcment.html" class="nav-link"><span>📢</span> Announcements</a>
+        <a href="notification.html" class="nav-link"><span>🔔</span> Notifications <em class="badge">3</em></a>
+        <a href="setthing.html" class="nav-link active"><span>⚙️</span> Settings</a>
+    </div>
+    <script src="darktheme.js"></script>
+</body>
+</html>

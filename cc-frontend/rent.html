@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="rent.css">
+    <link rel="stylesheet" href="lsrf.css">
+</head>
+<body>
+       <header class="n">
+
+ 
+
+   <div class="topbar">
+     <div class="app">
+    <div class="logo-icon">🎓</div>
+    <span>Campus Connect</span>
+  </div>
+    <div class="search-bar">
+  
+      <input type="text" id="sea" placeholder=" 🔍 Search for lost, rent, sell items…"
+             oninput="searchItems()" 
+             onkeydown="if(event.key==='Enter')searchItems()">
+      <button onclick="searchItems()">Search</button>
+    </div>
+    <div class="user-chip">
+      <div class="avatar">DL</div>
+      <span class="username">Disha Lowanshi</span>
+    </div>
+  </div>
+
+  <!-- Search Dropdown -->
+  <div class="search-drop" id="searchDrop" style="display:none">
+    <ul id="result"></ul>
+  </div>
+
+</header>
+<div class="nav-links">
+    
+    <a href="home.html" class="nav-link "><span>🏠</span> Home</a>
+    <a href="post.html" class="nav-link"><span>📋</span> My Post</a>
+    <a href="Announcment.html" class="nav-link"><span>📢</span> Announcements</a>
+       <a href="notification.html" class="nav-link"><span>🔔</span> Notifications <em class="badge">3</em></a>
+        <a href="setthing.html" class="nav-link"><span>⚙️</span> Settings</a>
+  </div>
+    <div>
+        <div class="pages">
+        <button class="lpage" onclick="window.location.href='lost.html'">Lost items</button>
+        <button class="fpage" onclick="window.location.href='found.html'">Found items</button>
+        <button class="spage" onclick="window.location.href='sell.html'">For Sell</button>
+        <button class="rpage" onclick="window.location.href='rent.html'">Rentals</button>
+        </div>
+    
+       <div class="main"> <h1>Rent anything you need
+ nearby?</h1>
+        <span class="line">Homes, gadgets, vehicles — rent from trusted locals at fair prices
+       <div class="rep"><button class="btn" onclick="window.location.href='itemform.html?type=rent'">+ Post a Rental</button>
+
+    <button class="view">View Available Items ➜</button>
+       </div></div> 
+    <div class="type">
+        <span class="category">All</span>
+         <span class="category">Phones</span>
+          <span class="category">Wallets</span>
+           <span class="category">Keys</span>
+            <span class="category">Cards</span>
+             <span class="category">Documents</span>
+             <span class="category">More ⋮ </span>
+    </div >
+    <div class="look"><span class="act">Available Items</span>
+        <button class="all">view all ➝</button></div>
+    
+   
+    <div class="items">
+        
+    <div class="item"><img src="" alt="">
+        <span class="identity">Calculator</span>
+       <span class="name"> Casio Scientific Calculator fx-99 IES</span>
+        <span class="location">Contacter</span>
+        <div class="last"><span class="time">Free</span>
+        <button class="claim">Enquire</button></div>
+    </div>
+       
+
+
+    </div>
+
+
+    </div>
+    <script src="common.js"></script>
+    <script src="darktheme.js"></script>
+</body>
+</html>

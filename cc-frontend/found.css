@@ -1,0 +1,128 @@
+/* =============================================
+   HOMEPAGE CSS
+   Imports tokens from shared-root.css.
+   Character: warm, open, card-grid layout.
+   Teal is used as accent to connect to dashboard.
+   ============================================= */
+:root {
+  /* ── Brand ── */
+  --teal:      #2f7e78;
+  --teal-md:   #407f7c;      /* sidebar bg */
+  --teal-lt:   #e0f7f5;
+  --teal-dark: #1d5e5a;
+
+  /* ── Status ── */
+  --lost:      #b40b0b;
+  --lost-lt:   #fdeaea;
+  --found:     #1b8843;
+  --found-lt:  #dcfce7;
+  --sell:      #a26b2d;
+  --sell-lt:   #fef3c7;
+  --rent:      #2563eb;
+  --rent-lt:   #dbeafe;
+
+  /* ── Neutral ── */
+  --text:      #1e293b;
+  --muted:     #64748b;
+  --border:    #e2e8f0;
+  --border-lt: #f1f5f9;
+  --bg:        #fff7f5;       /* warm page bg — both pages */
+  --surface:   #ffffff;
+  --white:     #ffffff;
+  --gg:         rgb(236, 243, 236);
+
+  /* ── Sidebar ── */
+  --sidebar-w: 270px;
+
+  /* ── Shared sizes ── */
+  --radius-sm:  8px;
+  --radius-md:  14px;
+  --radius-lg:  20px;
+  --radius-xl:  24px;
+  --shadow-sm:  0 2px 8px rgba(0,0,0,.06);
+  --shadow-md:  0 4px 16px rgba(0,0,0,.08);
+  --shadow-lg:  0 8px 24px rgba(0,0,0,.10);
+}
+
+body {
+  background: var(--gg);
+  font-family: 'Nunito', Arial, Helvetica, sans-serif;
+  color: var(--text);
+}
+
+
+
+
+/* ── Hero / Main section ── */
+.main {
+  background: var(--main-gradient, linear-gradient(135deg, #f1fff4, var(--white)));
+  border: 1.5px solid var(--main-border, #ddfeca);
+  border-radius: var(--radius-xl);
+  display: flex;
+  flex-direction: column;
+  padding: 15px 20px;
+  margin: 20px 15px;
+}
+
+.h1 {
+  padding: 10px 0;
+  margin: 10px 0;
+  font-size: 28px;
+  color: var(--text);
+}
+
+
+
+.line { color: var(--muted); margin-bottom: 20px; }
+
+/* ── Report button strip ── */
+.rep { padding: 10px; display: flex; gap: 50px; }
+
+.btn {
+  background: linear-gradient(135deg, #32a33b, #8ec28d);
+  color: var(--white);
+  border: 1.5px solid rgba(76, 163, 50, 0.25);
+  box-shadow: 0 8px 20px rgba(90, 220, 38, 0.25);
+  margin: 4px;
+  padding: 7px 14px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+.btn:hover { transform: translateY(-3px); box-shadow: 0 12px 24px rgba(38, 220, 68, 0.3); }
+
+.view {
+  margin: 4px;
+  border: 1.5px solid var(--border);
+  background: var(--white);
+  border-radius: var(--radius-sm);
+  padding: 7px 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.view:hover { transform: translateY(-3px); border-color: var(--teal); color: var(--teal); }
+
+
+
+.identity { color: var(--found); }
+.name     { display: flex; flex-wrap: wrap; }
+.location { font-size: 13px; color: var(--muted); }
+.time     { color: var(--muted); font-size: 12px; }
+.last     { display: flex; justify-content: space-between; }
+
+.claim {
+  border: 1.5px solid transparent;
+  background-color: var(--teal-lt);
+  border-radius: var(--radius-sm);
+  color: var(--teal-dark);
+  cursor: pointer;
+  padding: 5px 10px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+.claim:hover { transform: translateY(-3px); border-color: var(--found); }
+
+    
+
+
