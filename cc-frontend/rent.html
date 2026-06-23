@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+     <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css">
     <link rel="stylesheet" href="rent.css">
     <link rel="stylesheet" href="lsrf.css">
 </head>
@@ -18,15 +19,18 @@
     <span>Campus Connect</span>
   </div>
     <div class="search-bar">
-  
-      <input type="text" id="sea" placeholder=" 🔍 Search for lost, rent, sell items…"
-             oninput="searchItems()" 
-             onkeydown="if(event.key==='Enter')searchItems()">
+      <div class="search-box">
+        <i class="fi fi-rr-search"></i>
+        <input type="text" id="sea"
+          placeholder="Search for lost, rent, sell items…"
+          oninput="searchItems()"
+          onkeydown="if(event.key==='Enter') searchItems()">
+      </div>
       <button onclick="searchItems()">Search</button>
     </div>
     <div class="user-chip">
-      <div class="avatar">DL</div>
-      <span class="username">Disha Lowanshi</span>
+      <div class="avatar"></div>
+      <span class="username"></span>
     </div>
   </div>
 
@@ -36,13 +40,13 @@
   </div>
 
 </header>
-<div class="nav-links">
+ <div class="nav-links">
     
-    <a href="home.html" class="nav-link "><span>🏠</span> Home</a>
-    <a href="post.html" class="nav-link"><span>📋</span> My Post</a>
-    <a href="Announcment.html" class="nav-link"><span>📢</span> Announcements</a>
-       <a href="notification.html" class="nav-link"><span>🔔</span> Notifications <em class="badge">3</em></a>
-        <a href="setthing.html" class="nav-link"><span>⚙️</span> Settings</a>
+    <a href="home.html" class="nav-link "><i class="fi fi-rr-home"></i> Home</a>
+    <a href="post.html" class="nav-link"><i class="fi fi-rr-edit"></i> My Post</a>
+    <a href="Announcment.html" class="nav-link"><i class="fi fi-rr-megaphone"></i> Announcements</a>
+       <a href="notification.html" class="nav-link"><i class="fi fi-rr-comment-dots"></i> Messages </a>
+        <a href="setthing.html" class="nav-link"><i class="fi fi-rr-settings"></i> Settings</a>
   </div>
     <div>
         <div class="pages">
@@ -56,8 +60,6 @@
  nearby?</h1>
         <span class="line">Homes, gadgets, vehicles — rent from trusted locals at fair prices
        <div class="rep"><button class="btn" onclick="window.location.href='itemform.html?type=rent'">+ Post a Rental</button>
-
-    <button class="view">View Available Items ➜</button>
        </div></div> 
     <div class="type">
         <span class="category">All</span>
@@ -72,23 +74,11 @@
         <button class="all">view all ➝</button></div>
     
    
-    <div class="items">
-        
-    <div class="item"><img src="" alt="">
-        <span class="identity">Calculator</span>
-       <span class="name"> Casio Scientific Calculator fx-99 IES</span>
-        <span class="location">Contacter</span>
-        <div class="last"><span class="time">Free</span>
-        <button class="claim">Enquire</button></div>
-    </div>
-       
-
-
-    </div>
+    <div class="items" id="rentItems"></div>
 
 
     </div>
     <script src="common.js"></script>
-    <script src="darktheme.js"></script>
+    <script src="rent.js"></script>
 </body>
 </html>

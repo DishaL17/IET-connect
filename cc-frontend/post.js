@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // ---------------- FETCH AND RENDER MY POSTS ----------------
 async function loadMyPosts() {
+  const userId = localStorage.getItem("userId");
   const postsContainer = document.querySelector(".itm");
   if (!postsContainer) {
     console.error("No .itm container found on this page.");
@@ -13,7 +14,9 @@ async function loadMyPosts() {
 
   try {
     // Fetch all items from the database
-    const res = await fetch("http://localhost:5000/api/items");
+   const res = await fetch(
+  `http://localhost:5000/api/myposts/${userId}`
+);
     const items = await res.json();
     
     // Clear mock/hardcoded posts

@@ -1,4 +1,102 @@
+async function searchItems() {
+    const query = document.getElementById("sea").value.trim();
+    const resultBox = document.getElementById("result");
+    const drop = document.getElementById("searchDrop");
+    if (!query) {
+        drop.style.display = "none";
+        resultBox.innerHTML = "";
+        return;
+    }
+    try {
+        const res = await fetch("http://localhost:5000/api/items");
+        const data = await res.json();
+
+        // filter results
+        const filtered = data.filter(item =>
+            item.title.toLowerCase().includes(query.toLowerCase())
+        );
+
+        // show dropdown
+        drop.style.display = "block";
+
+        // clear old results
+        resultBox.innerHTML = "";
+
+        // no results
+        if (filtered.length === 0) {
+            resultBox.innerHTML = "<li>No results found</li>";
+            return;
+        }
+
+        // render results
+        filtered.slice(0, 5).forEach(item => {
+            const li = document.createElement("li");
+            li.textContent = item.title;
+
+            // click on result
+            li.onclick = () => {
+                document.getElementById("sea").value = item.title;
+                drop.style.display = "none";
+            };
+
+            resultBox.appendChild(li);
+        });
+
+    } catch (error) {
+        console.error("Search error:", error);
+    }
+}
+
+// Global startChat helper to redirect to chats page with correct active recipient
+window.startChat = function(ownerId, ownerName) {
+  const currentUserId = localStorage.getItem("userId");
+  if (!currentUserId) {
+    alert("Please log in to chat with the owner.");
+    window.location.href = "loginpage.html";
+    return;
+  }
+  
+  if (currentUserId === ownerId) {
+    alert("This is your own listing!");
+    return;
+  }
+  
+  localStorage.setItem("activeChatUserId", ownerId);
+  localStorage.setItem("activeChatUsername", ownerName || "Item Owner");
+  window.location.href = "notification.html";
+};
+
+window.updateNotificationBadge = function() {
+  // Safe no-op to prevent ReferenceError
+};
+document.addEventListener("DOMContentLoaded", async () => {
+  const userId = localStorage.getItem("userId");
+ 
+  // Fetch and display user profile details
+  try {
+    const res = await fetch(`http://localhost:5000/api/profile/${userId}`);
+    if (res.ok) {
+      const user = await res.json();
+      
+      const usernameEl = document.querySelector(".user-chip .username");
+      const emailEl = document.querySelector(".user-chip .user-email");
+      const avatarEl = document.querySelector(".user-chip .avatar");
+      
+      if (usernameEl) usernameEl.textContent = user.name || "User";
+      if (emailEl) emailEl.textContent = user.email || "";
+      if (avatarEl && user.name) {
+        avatarEl.textContent = user.name.split(" ").map(n => n[0]).join("").toUpperCase().slice(0, 2);
+      }
+    }
+  } catch (err) {
+    console.error("Error loading settings profile:", err);
+  }
+});
+
+
 // ---------------- GLOBAL DATA STORE ----------------
+
+/*
 let dbItems = []; // Populated from database on page load
 
 // ---------------- DETECT CURRENT PAGE TYPE ----------------
@@ -10,7 +108,6 @@ function getPageType() {
   if (path.includes("rent.html")) return "rent";
   return null;
 }
-/*
 // ---------------- FETCH AND RENDER ITEMS ----------------
 async function loadPageItems() {
   const type = getPageType();
@@ -123,132 +220,48 @@ function handleItemAction(itemId, type) {
   alert(`Action clicked for item ID: ${itemId} (${type} item). Next, we can connect this to chat or contact details!`);
 }
 
-// ---------------- LOAD ALL ITEMS FOR SEARCH ----------------
-async function loadAllItemsForSearch() {
-  try {
-    const res = await fetch("http://localhost:5000/api/items");
-    dbItems = await res.json();
-  } catch (err) {
-    console.error("Error loading search items:", err);
-  }
-}
 
-// ---------------- LIVE SEARCH ----------------
-window.searchItems = function() {
-  const it = document.getElementById("sea").value.trim().toLowerCase();
-  const result = document.getElementById("result");
-  const sd = document.getElementById("searchDrop");
-
-  result.innerHTML = "";
-
-  if (it === "") {
-    sd.style.display = "none";
-    return;
-  }
-
-  // Search through database items
-  const match = dbItems.filter(itm =>
-    (itm.title && itm.title.toLowerCase().includes(it)) ||
-    (itm.type && itm.type.toLowerCase().includes(it)) ||
-    (itm.category && itm.category.toLowerCase().includes(it))
-  );
-
-  if (match.length === 0) {
-    result.innerHTML = "<li>No items found</li>";
-  } else {
-    match.forEach(itm => {
-      const li = document.createElement("li");
-      li.style.cursor = "pointer";
-      li.onclick = () => {
-        // Redirect to the correct page for this item type
-        window.location.href = `${itm.type}.html`;
-      };
-      li.innerHTML = `
-        <span>${itm.title}</span>
-        <span class="tag ${itm.type}">
-          ${itm.type}
-        </span>
-      `;
-      result.appendChild(li);
-    });
-  }
-
-  sd.style.display = "block";
-}
-
-// Close search dropdown on click outside
-document.addEventListener("click", (e) => {
-  const sd = document.getElementById("searchDrop");
-  const searchInput = document.getElementById("sea");
-  if (sd && e.target !== searchInput && !sd.contains(e.target)) {
-    sd.style.display = "none";
-  }
-});
 
 // ---------------- INITIALIZATION ----------------
 document.addEventListener("DOMContentLoaded", () => {
-  loadPageItems();
-  loadAllItemsForSearch();
+  if (typeof loadPageItems === "function") {
+    loadPageItems();
+  }
+  if (typeof loadAllItemsForSearch === "function") {
+    loadAllItemsForSearch();
+  }
   setupProfileDropdown();
   updateNotificationBadge();
+
+  // Highlight active nav link based on current page
+  const path = window.location.pathname;
+  const pageName = path.substring(path.lastIndexOf("/") + 1).toLowerCase();
+  
+  const navLinks = document.querySelectorAll(".nav-link");
+  const homePages = ["home.html", "lost.html", "found.html", "sell.html", "rent.html", ""];
+  
+  navLinks.forEach(link => {
+    const href = link.getAttribute("href");
+    if (href) {
+      const linkPageName = href.toLowerCase();
+      
+      let isMatch = false;
+      if (linkPageName === "home.html") {
+        isMatch = homePages.includes(pageName) || pageName === "index.html";
+      } else {
+        isMatch = (pageName === linkPageName);
+      }
+      
+      if (isMatch) {
+        link.classList.add("active");
+      } else {
+        link.classList.remove("active");
+      }
+    }
+  });
 });
 
-// ---------------- DYNAMIC PROFILE DROPDOWN ----------------
-function setupProfileDropdown() {
-  const userChip = document.querySelector(".user-chip");
-  if (!userChip) return;
 
-  // Make sure userChip is set up for dropdown positioning
-  userChip.style.position = "relative";
-  userChip.style.cursor = "pointer";
-  userChip.id = "userChip";
-
-  // Create the dropdown menu
-  const dropdown = document.createElement("div");
-  dropdown.id = "profileDropdown";
-  dropdown.className = "profile-dropdown";
-  dropdown.style.display = "none";
-  
-  // Extract name and initials
-  const usernameSpan = userChip.querySelector(".username");
-  const avatarDiv = userChip.querySelector(".avatar");
-  
-  const fullname = usernameSpan ? usernameSpan.textContent.trim() : "Disha Lowanshi";
-  const initials = avatarDiv ? avatarDiv.textContent.trim() : "DL";
-  const email = fullname.toLowerCase().replace(/\s+/g, ".") + "@college.edu";
-
-  dropdown.innerHTML = `
-    <div class="profile-header">
-      <div class="profile-avatar">${initials}</div>
-      <div class="profile-info">
-        <div class="profile-name">${fullname}</div>
-        <div class="profile-email">${email}</div>
-      </div>
-    </div>
-    <hr class="dropdown-divider">
-    <a href="post.html" class="dropdown-item"><span>📋</span> My Posts</a>
-    <a href="setthing.html" class="dropdown-item"><span>⚙️</span> Settings</a>
-    <hr class="dropdown-divider">
-    <a href="loginpage.html" class="dropdown-item logout-item"><span>🚪</span> Logout</a>
-  `;
-
-  userChip.appendChild(dropdown);
-
-  // Toggle on click
-  userChip.addEventListener("click", (e) => {
-    if (!dropdown.contains(e.target)) {
-      e.stopPropagation();
-      dropdown.style.display = dropdown.style.display === "none" ? "flex" : "none";
-    }
-  });
-
-  // Close when clicking outside
-  document.addEventListener("click", (e) => {
-    if (e.target !== userChip && !userChip.contains(e.target)) {
-      dropdown.style.display = "none";
-    }
-  });
-}
 
 // ---------------- NOTIFICATION BADGE SYSTEM ----------------
 window.updateNotificationBadge = function() {

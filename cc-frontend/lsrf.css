@@ -1,4 +1,5 @@
 :root {
+     --background: linear-gradient(135deg, #bde1dd, #366b6b);
   /* ── Brand ── */
   --teal:      #2f7e78;
   --teal-md:   #29938d;      /* sidebar bg */
@@ -76,18 +77,47 @@
   border-radius: var(--radius-lg);
   background: var(--white);
   box-shadow: var(--shadow-sm);
+  position: relative;
 }
 
 /* ── Search ── */
 .search-bar {
-  background: var(--white);
-  border: 1.5px solid var(--border);
-  box-shadow: var(--shadow-sm);
   display: flex;
   align-items: center;
+  gap: 10px;
   width: 100%;
+  max-width: 680px;
+  background: var(--sbc);            /* warm tint inside dashboard */
+  border: 1.5px solid var(--border);
   border-radius: var(--radius-xl);
-  justify-content: space-between;
+  padding: 4px 8px;
+  box-shadow: none;
+}
+
+.search-box {
+  position: relative;
+  flex: 1;
+  width: 100%;
+}
+
+.search-box i {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: gray;
+  font-size: 16px;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 10px 10px 10px 35px; /* space for icon */
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--text);
+  font-size: 15px;
+  font-family: 'Nunito', sans-serif;
 }
 
 .s-icon {
@@ -97,14 +127,12 @@
 }
 
 .search-bar input {
+  flex: 1;
   width: 100%;
-  max-width: 400px;
-  padding: 10px 15px;
   font-size: 15px;
   font-family: 'Nunito', sans-serif;
   border: none;
   outline: none;
-  border-radius: var(--radius-md);
   background: transparent;
   color: var(--text);
 }
@@ -132,42 +160,48 @@ box-shadow: 0 8px 20px rgba(94, 163, 163, 0.25);
   color: var(--white);
   transform: scale(1.05);
 }
+.username{margin-right: 4px; color: var(--teal);  }
 .user-chip {
+  border: 1.5px solid transparent;
+  background: linear-gradient(135deg, #bde1dd, #95bcbc);
+box-shadow: 0 8px 20px rgba(94, 163, 163, 0.25);          /* teal tint button */
+  color: var(--teal);
   display: flex;
   align-items: center;
+  justify-content: space-evenly;
   gap: 10px;
-  border: 1.5px solid var(--border);
-  border-radius: 35px;
-  margin: 0 8px;
-  padding: 4px 20px 4px 4px;
+
+  border-radius: 50px;
+  margin: 8px 8px ;
+  padding: px 20px 4px 4px;
   font-weight: 700;
-  box-shadow: var(--shadow-sm);
-  background: var(--white);
   margin-left: auto;
 }
 
 .avatar {
+    background: linear-gradient(135deg, #bde1dd, #95bcbc);
+box-shadow: 0 8px 20px rgba(94, 163, 163, 0.25);          /* teal tint button */
+  color: var(--teal);
   width: 34px; height: 34px;
+  border: solid 1px ;
   border-radius: 50%;
-   background: linear-gradient(135deg, #6fbab1, #4cadad);
-box-shadow: 0 8px 20px rgba(94, 163, 163, 0.25);
   font-size: 14px; font-weight: 800;
   display: flex; flex-shrink: 0;
   align-items: center; justify-content: center;
-  color: var(--white);
+ 
 }
 
 
 /* ── Search dropdown ── */
 .search-drop {
   position: absolute;
-  top:80px;
-  left:calc(var(--sidebar-w) + 16px);
+  top: 100%;
+  left: 12px;
   background: var(--white);
   border: 1.5px solid var(--border);
   border-radius: var(--radius-lg);
-  width:680px;
-  max-width:calc(100vw - var(--sidebar-w) - 40px);
+  width: calc(100% - 24px);
+  max-width: 680px;
   z-index: 300;
   box-shadow: var(--shadow-lg);
   overflow: hidden;
@@ -284,6 +318,7 @@ box-shadow: 0 8px 20px rgba(94, 163, 163, 0.25); color:  #366b6b; }
 
 /*bottom*/
 .nav-links{
+  border-radius: 12px;
     position: fixed;
     left: 0;
     bottom: 0;
@@ -312,6 +347,11 @@ color: var(--nvc);
   }
     .nav-link span{
         font-size:22px;
+    }
+    .nav-link.active {
+      background: rgba(255, 255, 255, 0.25);
+      color: var(--white) !important;
+      font-weight: 800;
     }
 .badge {
   display: flex;
@@ -436,7 +476,7 @@ color: var(--nvc);
     padding: 5px;
   }
 
-  .search-bar input{
+  .search-box input{
     max-width: 100%;
     font-size: 14px;
   }

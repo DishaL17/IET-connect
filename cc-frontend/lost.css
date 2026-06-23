@@ -44,7 +44,7 @@
 }
 
 body {
-  background: rgb(17, 0, 0);
+  background: rgb(253, 250, 250);
   font-family: 'Nunito', Arial, Helvetica, sans-serif;
   color: var(--text);
 }
@@ -98,20 +98,6 @@ body {
   transition: all 0.2s ease;
 }
 .btn:hover { transform: translateY(-3px); box-shadow: 0 12px 24px rgba(220,38,38,.3); }
-
-.view {
-  margin: 4px;
-  border: 1.5px solid var(--border);
-  background: var(--white);
-  border-radius: var(--radius-sm);
-  padding: 7px 14px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-.view:hover { transform: translateY(-3px); border-color: var(--teal); color: var(--teal); }
-
-
-
 .item:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--border); }
 
 .identity { color: var(--lost); }

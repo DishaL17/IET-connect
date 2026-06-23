@@ -92,44 +92,35 @@
             <a href="setthing.html" class="back-link">← Settings</a>
         </div>
 
-        <form onsubmit="event.preventDefault(); alert('Profile changes saved successfully!'); window.location.href='setthing.html';">
+        <form id="profileForm" onsubmit="event.preventDefault(); alert('Profile changes saved successfully!'); window.location.href='setthing.html';">
             <div class="form-group">
                 <label for="name">Full Name</label>
-                <input type="text" id="name" value="Disha Lowanshi" required />
+                <input type="text" id="name" required />
             </div>
 
             <div class="form-group">
                 <label for="email">College Email Address</label>
-                <input type="email" id="email" value="disha.l@college.edu" required />
+                <input type="email" id="email" required />
             </div>
 
             <div class="form-group">
                 <label for="phone">Phone Number</label>
-                <input type="text" id="phone" value="+91 9876543210" placeholder="e.g. +91 9876543210" />
+                <input type="text" id="phone"  />
             </div>
 
             <div class="form-group">
                 <label for="dept">Department / Major</label>
-                <input type="text" id="dept" value="Computer Science & Engineering" placeholder="e.g. CSE, Mechanical" />
+                <input type="text" id="dept" />
             </div>
 
             <div class="form-group">
                 <label for="bio">Bio</label>
-                <textarea id="bio" placeholder="Tell other campus members a bit about yourself...">CS sophomore, book lover, and coffee enthusiast.</textarea>
+                <textarea id="bio" ></textarea>
             </div>
 
             <button type="submit" class="save-btn">Save Changes</button>
         </form>
+        <script src="setting.js"></script>
     </div>
-
-    <!-- Navigation Bar at Bottom -->
-    <div class="nav-links">
-        <a href="home.html" class="nav-link"><span>🏠</span> Home</a>
-        <a href="post.html" class="nav-link"><span>📋</span> My Post</a>
-        <a href="Announcment.html" class="nav-link"><span>📢</span> Announcements</a>
-        <a href="notification.html" class="nav-link"><span>🔔</span> Notifications <em class="badge">3</em></a>
-        <a href="setthing.html" class="nav-link active"><span>⚙️</span> Settings</a>
-    </div>
-    <script src="darktheme.js"></script>
 </body>
 </html>

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Settings - Campus Connect</title>
     <!-- Google Fonts Nunito -->
+     <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="setting.css">
     
@@ -13,16 +14,16 @@
     <div class="settings-container">
         <!-- Settings Top Header -->
         <div class="settings-header">
-            <h1 class="settings-title">⚙️ Settings</h1>
+            <h1 class="settings-title" ><i class="fi fi-rr-settings"></i> Settings</h1>
             <a href="home.html" class="home-link">← Home</a>
         </div>
 
         <!-- Profile Card -->
         <div class="user-chip" style="margin-bottom: 25px;">
-            <div class="avatar">DL</div>
+            <div class="avatar"></div>
             <div>
-                <div class="username">Disha Lowanshi</div>
-                <div class="user-email">disha.l@college.edu</div>
+                <div class="username"></div>
+                <div class="user-email"></div>
             </div>
         </div>
 
@@ -31,22 +32,22 @@
             <div class="k">Account Settings</div>
             
             <div class="acc" onclick="window.location.href='edit-profile.html'" style="cursor: pointer;">
-                <span class="h"><span class="icon">👤</span> Edit Profile</span>
+                <span class="h"><span class="icon"><i class="fi fi-rr-user"></i></span> Edit Profile</span>
                 <button class="a">&gt;</button>
             </div>
             
             <div class="acc" onclick="window.location.href='languages.html'" style="cursor: pointer;">
-                <span class="h"><span class="icon">🌐</span> Select Languages</span>
+                <span class="h"><span class="icon"><i class="fi fi-rr-badge-check"></i></span> Verification</span>
                 <button class="a">&gt;</button>
             </div>
             
             <div class="acc" onclick="window.location.href='notification.html'" style="cursor: pointer;">
-                <span class="h"><span class="icon">🔔</span> Notification Settings</span>
-                <button class="a">&gt;</button>
+                <span class="h"><span class="icon"><i class="fi fi-rr-lock"></i></span> Password </span>
+                 <button class="a">&gt;</button>
             </div>
             
-            <div class="acc" onclick="window.location.href='loginpage.html'" style="cursor: pointer; color: #b40b0b;">
-                <span class="h" style="color: #b40b0b;"><span class="icon">🚪</span> Logout</span>
+            <div class="acc" id="logoutBtn" style="cursor: pointer; color: #b40b0b;">
+                <span class="h" style="color: #b40b0b;"><span class="icon"><i class="fi fi-rr-sign-out-alt"></i></span> Logout</span>
                 <button class="a" style="color: #b40b0b;">&gt;</button>
             </div>
         </div>
@@ -55,20 +56,15 @@
         <div class="set">
             <div class="k">My Activity</div>
             
-            <div class="acc" id="theme-toggle" style="cursor: pointer;">
-    <span class="h">
-        <span class="icon" id="theme-icon">🌙</span> Theme
-    </span>
-    <button class="a">&gt;</button>
-</div>
+            
             
             <div class="acc" onclick="window.location.href='reviews.html'" style="cursor: pointer;">
-                <span class="h"><span class="icon">⭐</span> Reviews</span>
+                <span class="h"><span class="icon"><i class="fi fi-rr-edit"></i></span> Reviews</span>
                 <button class="a">&gt;</button>
             </div>
             
             <div class="acc" onclick="window.location.href='qa.html'" style="cursor: pointer;">
-                <span class="h"><span class="icon">💬</span> Questions & Answers</span>
+                <span class="h"><span class="icon"><i class="fi fi-rr-interrogation"></i></span> Questions & Answers</span>
                 <button class="a">&gt;</button>
             </div>
         </div>
@@ -78,17 +74,16 @@
             <div class="k">Feedback & Information</div>
             
             <div class="acc" onclick="window.location.href='about.html'" style="cursor: pointer;">
-                <span class="h"><span class="icon">ℹ️</span> About Us</span>
+                <span class="h"><span class="icon"><i class="fi fi-rr-info"></i></span> About Us</span>
                 <button class="a">&gt;</button>
             </div>
             
             <div class="acc" onclick="window.location.href='feedback.html'" style="cursor: pointer;">
-                <span class="h"><span class="icon">📝</span> Feedback</span>
+                <span class="h"><span class="icon"><i class="fi fi-rr-comment-alt"></i></span> Feedback</span>
                 <button class="a">&gt;</button>
             </div>
         </div>
     </div>
-
-    <script src="darktheme.js"></script>
+    <script src="setthing.js"></script>
 </body>
 </html>

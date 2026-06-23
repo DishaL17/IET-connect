@@ -45,7 +45,7 @@
 }
 
 body {
-  background: rgb(0, 0, 16);
+  background: rgb(249, 249, 252);
   font-family: 'Nunito', Arial, Helvetica, sans-serif;
   color: var(--text);
 }
@@ -100,17 +100,7 @@ body {
 }
 .btn:hover { transform: translateY(-3px); box-shadow: 0 12px 24px rgba(47, 38, 220, 0.3); }
 
-.view {
-  margin: 4px;
-  border: 1.5px solid var(--border);
-  background: var(--white);
-  border-radius: var(--radius-sm);
-  padding: 7px 14px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-    color: var(--teal);
-}
-.view:hover { transform: translateY(-3px); border-color: var(--teal); color: var(--teal); }
+
 
 .item:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--border); }
 

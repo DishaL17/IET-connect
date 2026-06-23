@@ -92,18 +92,6 @@ body {
 }
 .btn:hover { transform: translateY(-3px); box-shadow: 0 12px 24px rgba(38, 220, 68, 0.3); }
 
-.view {
-  margin: 4px;
-  border: 1.5px solid var(--border);
-  background: var(--white);
-  border-radius: var(--radius-sm);
-  padding: 7px 14px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-.view:hover { transform: translateY(-3px); border-color: var(--teal); color: var(--teal); }
-
-
 
 .identity { color: var(--found); }
 .name     { display: flex; flex-wrap: wrap; }

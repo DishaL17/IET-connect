@@ -97,7 +97,7 @@
             <a href="setthing.html" class="back-link">← Settings</a>
         </div>
 
-        <form onsubmit="event.preventDefault(); alert('Thank you for your feedback! We appreciate your suggestions.'); window.location.href='setthing.html';">
+        <form id="feedbackForm">
             <div class="form-group">
                 <label for="feedbackType">Feedback Type</label>
                 <select id="feedbackType" required>
@@ -121,15 +121,6 @@
             <button type="submit" class="submit-btn">Submit Feedback</button>
         </form>
     </div>
-
-    <!-- Navigation Bar at Bottom -->
-    <div class="nav-links">
-        <a href="home.html" class="nav-link"><span>🏠</span> Home</a>
-        <a href="post.html" class="nav-link"><span>📋</span> My Post</a>
-        <a href="Announcment.html" class="nav-link"><span>📢</span> Announcements</a>
-        <a href="notification.html" class="nav-link"><span>🔔</span> Notifications <em class="badge">3</em></a>
-        <a href="setthing.html" class="nav-link active"><span>⚙️</span> Settings</a>
-    </div>
-    <script src="darktheme.js"></script>
+    <script src="feedback.js"></script>
 </body>
 </html>

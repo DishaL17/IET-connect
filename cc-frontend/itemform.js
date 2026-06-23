@@ -83,7 +83,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Disable button & show loading state
     submitBtn.disabled = true;
     submitBtn.textContent = "Submitting Listing...";
-
+   const userId = localStorage.getItem("userId");
     // Collect Form Values
     const payload = {
       title: document.getElementById("itemTitle").value.trim(),
@@ -92,6 +92,7 @@ document.addEventListener("DOMContentLoaded", () => {
       location: inputLocation.value.trim(),
       description: document.getElementById("itemDescription").value.trim(),
       imageUrl: document.getElementById("itemImageUrl").value.trim(),
+        userId: userId
     };
 
     // Include price only if it's sell or rent

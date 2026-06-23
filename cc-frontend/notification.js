@@ -1,119 +1,288 @@
 document.addEventListener("DOMContentLoaded", () => {
-  loadNotifications();
-  setupProfileDropdown(); // Support topbar chip dropdown
-  updateNotificationBadge(); // Sync global notification badge
+  initChatSystem();
 });
 
-const defaultNotifications = [
-  { id: 1, sender: "Aman Sharma", avatar: "AS", message: "sent you an enquiry about your Casio Calculator.", time: "2 hours ago", unread: true },
-  { id: 2, sender: "Priya Patel", avatar: "PP", message: "marked your lost keys as found near canteen.", time: "Yesterday", unread: true },
-  { id: 3, sender: "GDG Club", avatar: "GD", message: "posted a new tech workshop announcement.", time: "3 days ago", unread: true }
-];
+let currentUserId = localStorage.getItem("userId");
+let currentUsername = localStorage.getItem("username") || "Me";
+let activeRecipientId = null;
+let activeRecipientName = null;
+let messagePollInterval = null;
+let chatCountMap = {}; // Tracks message count to avoid unnecessary redraws
 
-function loadNotifications() {
-  const container = document.querySelector(".noti");
-  if (!container) return;
-
-  // Fetch notifications from localStorage
-  let notifications = JSON.parse(localStorage.getItem("campus_notifications"));
-  if (!notifications) {
-    notifications = defaultNotifications;
-    localStorage.setItem("campus_notifications", JSON.stringify(notifications));
-  }
-
-  // Clear existing items but preserve title header and actions
-  container.innerHTML = `
-    <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; border-bottom: 1.5px solid #f1f5f9; padding-bottom: 12px; margin-bottom: 8px;">
-      <span class="Notifications">Notifications</span>
-      <div style="display: flex; gap: 10px;">
-        <button id="markAllBtn" class="noti-btn" onclick="markAllRead()" style="padding: 6px 12px; font-size: 12px; font-weight: 700; border: 1.5px solid #2f7e78; border-radius: 8px; background: #e0f7f5; color: #2f7e78; cursor: pointer; transition: all 0.2s;">Mark all as read</button>
-        <button id="clearAllBtn" class="noti-btn" onclick="clearAllNotifications()" style="padding: 6px 12px; font-size: 12px; font-weight: 700; border: 1.5px solid #b40b0b; border-radius: 8px; background: #fdeaea; color: #b40b0b; cursor: pointer; transition: all 0.2s;">Clear all</button>
-      </div>
-    </div>
-  `;
-
-  if (notifications.length === 0) {
-    container.innerHTML += `
-      <div style="text-align: center; padding: 50px; color: #64748b;">
-        <div style="font-size: 32px; margin-bottom: 10px;">📭</div>
-        <div style="font-weight: 700; font-size: 16px;">All caught up!</div>
-        <div style="font-size: 13px; color: #94a3b8; margin-top: 4px;">You have no new notifications.</div>
-      </div>
-    `;
+function initChatSystem() {
+  if (!currentUserId) {
+    alert("Please log in to access messages.");
+    window.location.href = "loginpage.html";
     return;
   }
 
-  notifications.forEach(item => {
-    const itemDiv = document.createElement("div");
-    itemDiv.className = "m";
-    itemDiv.onclick = () => toggleReadStatus(item.id);
-    
-    // Add custom styling for unread background
-    if (item.unread) {
-      itemDiv.style.background = "#e0f7f5";
-      itemDiv.style.borderLeft = "4px solid #2f7e78";
-    } else {
-      itemDiv.style.background = "#f8fafc";
-      itemDiv.style.borderLeft = "4px solid transparent";
+  // Setup profile dropdown in top bar
+  setupProfileDropdown();
+
+  // Load conversations initially
+  loadConversations().then(() => {
+    // Check if there is a redirection to chat from an item page
+    const activeChatId = localStorage.getItem("activeChatUserId");
+    const activeChatName = localStorage.getItem("activeChatUsername");
+
+    if (activeChatId) {
+      // Clear localStorage parameters so we don't re-trigger this next visit
+      localStorage.removeItem("activeChatUserId");
+      localStorage.removeItem("activeChatUsername");
+      
+      startOrOpenChat(activeChatId, activeChatName);
     }
-
-    const unreadIndicator = item.unread ? `<span style="background: #2f7e78; color: white; width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-left: 8px;"></span>` : '';
-
-    itemDiv.innerHTML = `
-      <div class="ic">${item.avatar || "👤"}</div>
-      <div class="h">
-        <div class="me">
-          <span class="n">${item.sender}</span>
-          <span class="time">${item.time}</span>
-        </div>
-        <div class="c">
-          <span class="e" style="font-weight: ${item.unread ? '700' : '400'}; color: ${item.unread ? '#1e293b' : '#64748b'};">${item.message}</span>
-          ${unreadIndicator}
-        </div>
-      </div>
-    `;
-    container.appendChild(itemDiv);
   });
+
+  // Periodically refresh conversation list and active chat history
+  setInterval(loadConversations, 5000);
+  setInterval(pollNewMessages, 3000);
 }
 
-window.toggleReadStatus = function(id) {
-  let notifications = JSON.parse(localStorage.getItem("campus_notifications"));
-  if (!notifications) return;
+// ---------------- LOAD CONVERSATION THREADS ----------------
+async function loadConversations() {
+  const listContainer = document.getElementById("conversationList");
+  if (!listContainer) return;
 
-  notifications = notifications.map(n => {
-    if (n.id === id) {
-      n.unread = false; // Mark as read
+  try {
+    const res = await fetch(`http://localhost:5000/api/messages/conversations/${currentUserId}`);
+    if (!res.ok) throw new Error("Failed to load conversations");
+    
+    let conversations = await res.json();
+    
+    // Clear list
+    listContainer.innerHTML = "";
+
+    if (conversations.length === 0 && !activeRecipientId) {
+      listContainer.innerHTML = `
+        <div class="loading-chats">
+          <div style="font-size:24px; margin-bottom:8px;">💬</div>
+          No messages yet.
+        </div>
+      `;
+      return;
     }
-    return n;
-  });
 
-  localStorage.setItem("campus_notifications", JSON.stringify(notifications));
-  loadNotifications();
-  updateNotificationBadge();
+    // If there is an active chat with someone who is NOT yet in the conversations list (no messages sent yet),
+    // we prepend a temporary chat item so the user can see who they are chatting with.
+    const hasActiveChatInList = conversations.some(c => c.userId === activeRecipientId);
+    if (activeRecipientId && !hasActiveChatInList) {
+      conversations.unshift({
+        userId: activeRecipientId,
+        username: activeRecipientName,
+        avatar: activeRecipientName.split(" ").map(n => n[0]).join("").toUpperCase().slice(0, 2),
+        lastMessage: "No messages yet. Say hello!",
+        time: new Date().toISOString()
+      });
+    }
+
+    conversations.forEach(chat => {
+      const itemDiv = document.createElement("div");
+      itemDiv.className = `chat-item ${chat.userId === activeRecipientId ? 'active' : ''}`;
+      itemDiv.onclick = () => selectConversation(chat.userId, chat.username);
+
+      const formattedTime = formatChatTime(chat.time);
+
+      itemDiv.innerHTML = `
+        <div class="chat-avatar">${chat.avatar || "👤"}</div>
+        <div class="chat-details">
+          <div class="chat-meta">
+            <span class="chat-name">${chat.username}</span>
+            <span class="chat-time">${formattedTime}</span>
+          </div>
+          <span class="chat-preview">${chat.lastMessage}</span>
+        </div>
+      `;
+      listContainer.appendChild(itemDiv);
+    });
+
+  } catch (error) {
+    console.error("Error loading conversations:", error);
+  }
+}
+
+// ---------------- OPEN CHAT (FROM ITEM CARDS OR SIDEBAR) ----------------
+async function startOrOpenChat(recipientId, recipientName) {
+  if (recipientId === currentUserId) return;
+
+  // Let's check if the user is already in our list. If not, fetch their profile name to display properly.
+  let dispName = recipientName || "Item Owner";
+  if (!recipientName) {
+    try {
+      const res = await fetch(`http://localhost:5000/api/profile/${recipientId}`);
+      if (res.ok) {
+        const profile = await res.json();
+        dispName = profile.name;
+      }
+    } catch (err) {
+      console.error("Failed to fetch profile info:", err);
+    }
+  }
+
+  selectConversation(recipientId, dispName);
+}
+
+// Select conversation
+function selectConversation(recipientId, recipientName) {
+  activeRecipientId = recipientId;
+  activeRecipientName = recipientName;
+
+  // Highlight selected item in sidebar
+  const items = document.querySelectorAll(".chat-item");
+  items.forEach(item => item.classList.remove("active"));
+  
+  // Show active view, hide welcome
+  document.getElementById("chatWelcome").style.display = "none";
+  document.getElementById("chatActive").style.display = "flex";
+
+  // Update Header details
+  document.getElementById("activeRecipientName").textContent = recipientName;
+  const avatarInitials = recipientName.split(" ").map(n => n[0]).join("").toUpperCase().slice(0, 2);
+  document.getElementById("activeRecipientAvatar").textContent = avatarInitials;
+
+  // Mobile layout adjustment
+  const chatContainer = document.getElementById("chatContainer");
+  chatContainer.classList.add("active-chat-open");
+  const backBtn = document.querySelector(".mobile-back-btn");
+  if (backBtn) backBtn.style.display = "inline-block";
+
+  // Load chat history
+  loadChatMessages(true);
+  loadConversations(); // Update active highlights
+}
+
+// Mobile back button helper
+window.closeChatMobile = function() {
+  activeRecipientId = null;
+  activeRecipientName = null;
+  document.getElementById("chatWelcome").style.display = "flex";
+  document.getElementById("chatActive").style.display = "none";
+  
+  const chatContainer = document.getElementById("chatContainer");
+  chatContainer.classList.remove("active-chat-open");
+  const backBtn = document.querySelector(".mobile-back-btn");
+  if (backBtn) backBtn.style.display = "none";
+
+  loadConversations();
 };
 
-window.markAllRead = function() {
-  let notifications = JSON.parse(localStorage.getItem("campus_notifications"));
-  if (!notifications) return;
+// ---------------- LOAD MESSAGES HISTORY ----------------
+async function loadChatMessages(shouldScrollToBottom = false) {
+  if (!activeRecipientId) return;
 
-  notifications = notifications.map(n => {
-    n.unread = false;
-    return n;
-  });
+  const messagesContainer = document.getElementById("chatMessages");
+  if (!messagesContainer) return;
 
-  localStorage.setItem("campus_notifications", JSON.stringify(notifications));
-  loadNotifications();
-  updateNotificationBadge();
+  try {
+    const res = await fetch(`http://localhost:5000/api/messages/${currentUserId}/${activeRecipientId}`);
+    if (!res.ok) throw new Error("Failed to load chat history");
+
+    const messages = await res.json();
+    
+    // Save message count to avoid redrawing if nothing changed
+    const currentCount = messages.length;
+    if (chatCountMap[activeRecipientId] === currentCount && !shouldScrollToBottom) {
+      return; // Skip redraw
+    }
+    chatCountMap[activeRecipientId] = currentCount;
+
+    messagesContainer.innerHTML = "";
+
+    if (messages.length === 0) {
+      messagesContainer.innerHTML = `
+        <div style="text-align:center; padding:40px; color:var(--muted); font-size:13px; font-style:italic;">
+          No messages yet. Send a message to start the conversation!
+        </div>
+      `;
+      return;
+    }
+
+    messages.forEach(msg => {
+      const bubble = document.createElement("div");
+      const isSent = msg.senderId === currentUserId;
+      bubble.className = `message-bubble ${isSent ? 'sent' : 'received'}`;
+      
+      const timeStr = new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+      bubble.innerHTML = `
+        <span>${msg.text}</span>
+        <span class="message-timestamp">${timeStr}</span>
+      `;
+      messagesContainer.appendChild(bubble);
+    });
+
+    if (shouldScrollToBottom) {
+      messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+
+  } catch (error) {
+    console.error("Error loading chat history:", error);
+  }
+}
+
+// ---------------- POLL NEW MESSAGES ----------------
+function pollNewMessages() {
+  if (activeRecipientId) {
+    loadChatMessages(false);
+  }
+}
+
+// ---------------- SEND MESSAGE ----------------
+window.sendMessage = async function() {
+  const input = document.getElementById("messageInput");
+  if (!input) return;
+
+  const text = input.value.trim();
+  if (!text || !activeRecipientId) return;
+
+  // Clear input instantly for better UX
+  input.value = "";
+  input.focus();
+
+  try {
+    const res = await fetch("http://localhost:5000/api/messages", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        senderId: currentUserId,
+        receiverId: activeRecipientId,
+        text: text
+      })
+    });
+
+    if (res.ok) {
+      // Refresh chat messages and scroll to bottom
+      await loadChatMessages(true);
+      loadConversations();
+    } else {
+      console.error("Failed to send message");
+    }
+  } catch (error) {
+    console.error("Error sending message:", error);
+  }
 };
 
-window.clearAllNotifications = function() {
-  if (!confirm("Are you sure you want to clear all notifications?")) return;
-  localStorage.setItem("campus_notifications", JSON.stringify([]));
-  loadNotifications();
-  updateNotificationBadge();
-};
+// Helper to format timestamps nicely
+function formatChatTime(dateString) {
+  const date = new Date(dateString);
+  const now = new Date();
+  
+  if (date.toDateString() === now.toDateString()) {
+    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  }
+  
+  const yesterday = new Date(now);
+  yesterday.setDate(now.getDate() - 1);
+  if (date.toDateString() === yesterday.toDateString()) {
+    return "Yesterday";
+  }
 
-// ---------------- DYNAMIC PROFILE DROPDOWN ----------------
+  return date.toLocaleDateString([], { month: 'short', day: 'numeric' });
+}
+
+// ---------------- DYNAMIC PROFILE DROPDOWN (COPIED FROM HOME) ----------------
 function setupProfileDropdown() {
   const userChip = document.querySelector(".user-chip");
   if (!userChip) return;
@@ -161,25 +330,6 @@ function setupProfileDropdown() {
   document.addEventListener("click", (e) => {
     if (e.target !== userChip && !userChip.contains(e.target)) {
       dropdown.style.display = "none";
-    }
-  });
-}
-
-// ---------------- NOTIFICATION BADGE SYSTEM ----------------
-window.updateNotificationBadge = function() {
-  let notifications = JSON.parse(localStorage.getItem("campus_notifications"));
-  if (!notifications) return;
-
-  const unreadCount = notifications.filter(n => n.unread).length;
-  
-  // Find all notification badges in nav links
-  const badges = document.querySelectorAll(".badge");
-  badges.forEach(badge => {
-    if (unreadCount > 0) {
-      badge.textContent = unreadCount;
-      badge.style.display = "flex"; // Ensure visible
-    } else {
-      badge.style.display = "none"; // Hide if zero
     }
   });
 }

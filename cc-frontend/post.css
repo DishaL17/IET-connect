@@ -58,7 +58,7 @@ padding: auto;}
     padding: 10px;
        background: var(--ann-bg, linear-gradient(135deg, #c9dcdc, #4f8f8f));}
 .ti{font-size: 25px; color: var(--teal); font-weight: 700;}
-.li{font-size: 17px; font-weight: 500; color: var(--text); }
+.li{font-size: 15px; font-weight: 500; color: var(--text); }
 .itm{display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;}
@@ -141,9 +141,7 @@ gap: 20px; }
     height: 180px;
   }
 
-  .li{
-    font-size: 22px;
-  }
+  
 
   .c{
     font-size: 15px;

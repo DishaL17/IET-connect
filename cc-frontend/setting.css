@@ -61,7 +61,7 @@ body{
     border-radius:50%;
 
     background: var(--background);
-    color:var(--k_text);
+    color:white;
 
     display:flex;
     align-items:center;

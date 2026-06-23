@@ -5,7 +5,7 @@
    --nvc: rgba(255,255,255,.85);
    
   /* ── Brand ── */
-  --teal:      #2f7e78;
+  --teal:      #054f49;
   --teal-md:   #29938d;      /* sidebar bg */
   --teal-lt:   #e0f7f5;
   --teal-dark: #1d5e5a;
@@ -101,7 +101,13 @@ box-shadow: 0 8px 20px rgba(94, 163, 163, 0.25);
 }
 .nav-link span { font-size: 16px; }
 .nav-link:hover  { background: rgba(255,255,255,.18); color: var(--nvc); }
-
+.nav-link.active { background: rgba(255,255,255,.25); color: var(--white); font-weight: 800; }
+.navlink.active {
+  background: #4f8f8f;
+  color: white;
+  border-radius: 10px;
+  font-size: 17px;
+}
 
 /* ── Topbar ── */
 .topbar {
@@ -117,6 +123,7 @@ box-shadow: 0 8px 20px rgba(94, 163, 163, 0.25);
   border-radius: var(--radius-lg);
   background: var(--background);
   box-shadow: var(--shadow-sm);
+  position: relative;
 }
 
 /* ── Search ── */
@@ -124,14 +131,39 @@ box-shadow: 0 8px 20px rgba(94, 163, 163, 0.25);
   display: flex;
   align-items: center;
   gap: 10px;
-  width: 680px;
+  width: 100%;
+  max-width: 680px;
   background: var(--sbc);            /* warm tint inside dashboard */
   border: 1.5px solid var(--border);
   border-radius: var(--radius-xl);
   padding: 4px 8px;
   box-shadow: none;
 }
+.search-box {
+  position: relative;
+  flex: 1;
+  width: 100%;
+}
 
+.search-box i {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: gray;
+  font-size: 16px;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 10px 10px 10px 35px; /* space for icon */
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--text);
+  font-size: 15px;
+  font-family: 'Nunito', sans-serif;
+}
 .s-icon { font-size: 20px; flex-shrink: 0; color: var(--teal); }
 
 .search-bar input {
@@ -165,44 +197,46 @@ box-shadow: 0 8px 20px rgba(94, 163, 163, 0.25);
 }
 
 /* ── User chip ── */
+.username{margin-right: 4px; color: var(--teal);  }
 .user-chip {
+  border: 1.5px solid transparent;
+  background: linear-gradient(135deg, #bde1dd, #95bcbc);
+box-shadow: 0 8px 20px rgba(94, 163, 163, 0.25);          /* teal tint button */
+  color: var(--teal);
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-   color: var(--teal);
   gap: 10px;
-  border: 1.5px solid var(--border);
+
   border-radius: 50px;
   margin: 8px 8px ;
   padding: px 20px 4px 4px;
   font-weight: 700;
-  box-shadow: var(--shadow-sm);
-  background: var(--themme);
   margin-left: auto;
 }
 
 .avatar {
+    background: linear-gradient(135deg, #bde1dd, #95bcbc);
+box-shadow: 0 8px 20px rgba(94, 163, 163, 0.25);          /* teal tint button */
+  color: var(--teal);
   width: 34px; height: 34px;
   border: solid 1px ;
   border-radius: 50%;
-   background: var(--background);
-box-shadow: 0 8px 20px rgba(94, 163, 163, 0.25);
   font-size: 14px; font-weight: 800;
   display: flex; flex-shrink: 0;
   align-items: center; justify-content: center;
-  color: var(--teal);
 }
-.username{margin-right: 4px; color: var(--teal);}
+
 /* ── Search dropdown ── */
 .search-drop {
   position: absolute;
-  top:80px;
-  left:calc(var(--sidebar-w) + 16px);
+  top: 100%;
+  left: 12px;
   background: var(--teal-lt);
   border: 1.5px solid var(--border);
   border-radius: var(--radius-lg);
-  width:680px;
-  max-width:calc(100vw - var(--sidebar-w) - 40px);
+  width: calc(100% - 24px);
+  max-width: 680px;
   z-index: 300;
   box-shadow: var(--shadow-lg);
   overflow: hidden;
