@@ -114,14 +114,112 @@ body{
         padding:25px;
     }
 }
+
+/* Modal styling */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+.modal-content {
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 550px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    text-align: left;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 10px;
+}
+.modal-header h3 {
+    margin: 0;
+    font-size: 20px;
+    color: #2f7e78;
+    font-weight: 800;
+}
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #64748b;
+}
+.form-group {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.form-group label {
+    font-weight: 700;
+    font-size: 14px;
+    color: #334155;
+}
+.form-group input, .form-group textarea {
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: 1.5px solid #cbd5e1;
+    outline: none;
+    font-family: inherit;
+    font-size: 14px;
+    width: 100%;
+    box-sizing: border-box;
+}
+.form-group input:focus, .form-group textarea:focus {
+    border-color: #2f7e78;
+}
+.form-group textarea {
+    min-height: 80px;
+    resize: vertical;
+}
+.save-btn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 12px;
+    background: #2f7e78;
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 15px;
+    transition: background 0.2s;
+    margin-top: 10px;
+}
+.save-btn:hover {
+    background: #23615c;
+}
+.edit-btn:hover {
+    background: #23615c !important;
+}
 </style>
 <body>
 
 <div class="club-container">
 
-    <a href="Announcment.html" class="back-btn">
-        ← Back to Clubs
-    </a>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+        <a href="Announcment.html" class="back-btn" style="margin-bottom: 0;">
+            ← Back to Clubs
+        </a>
+        <button id="editClubBtn" class="edit-btn" style="display: none; background: #2f7e78; color: white; border: none; padding: 8px 16px; border-radius: 8px; font-weight: 700; cursor: pointer;">
+            ✍️ Edit Details
+        </button>
+    </div>
 
     <div class="club-header">
         <h1 id="clubName"></h1>
@@ -159,9 +257,42 @@ body{
         <p id="futureScope"></p>
     </div>
 
+    <!-- Edit Club Modal -->
+    <div id="editClubModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>✍️ Edit Club Details</h3>
+                <button id="closeEditModal" class="close-btn">&times;</button>
+            </div>
+            <form id="editClubForm">
+                <div class="form-group">
+                    <label for="editHeadName">Club Head Name</label>
+                    <input type="text" id="editHeadName" required>
+                </div>
+                <div class="form-group">
+                    <label for="editFoundedYear">Founded Year</label>
+                    <input type="text" id="editFoundedYear" required>
+                </div>
+                <div class="form-group">
+                    <label for="editDescription">Description</label>
+                    <textarea id="editDescription" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="editCurrentProjects">Current Projects</label>
+                    <textarea id="editCurrentProjects"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="editFutureScope">Future Scope</label>
+                    <textarea id="editFutureScope"></textarea>
+                </div>
+                <button type="submit" class="save-btn">Save Changes</button>
+            </form>
+        </div>
+    </div>
 
 </div>
 
+<script src="common.js"></script>
 <script src="club.js"></script>
 </body>
 </html>

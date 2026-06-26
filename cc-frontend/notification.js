@@ -1,3 +1,5 @@
+const socket = io("http://localhost:5000");
+
 document.addEventListener("DOMContentLoaded", () => {
   initChatSystem();
 });
@@ -6,7 +8,6 @@ let currentUserId = localStorage.getItem("userId");
 let currentUsername = localStorage.getItem("username") || "Me";
 let activeRecipientId = null;
 let activeRecipientName = null;
-let messagePollInterval = null;
 let chatCountMap = {}; // Tracks message count to avoid unnecessary redraws
 
 function initChatSystem() {
@@ -19,8 +20,32 @@ function initChatSystem() {
   // Setup profile dropdown in top bar
   setupProfileDropdown();
 
+  // Socket connection and registration
+  socket.on("connect", () => {
+    console.log("Connected to socket server");
+    socket.emit("register", currentUserId);
+  });
+
+  // Listen for incoming messages
+  socket.on("receiveMessage", (msg) => {
+    console.log("Received message:", msg);
+    if (activeRecipientId && (msg.senderId === activeRecipientId || msg.senderId === currentUserId)) {
+      loadChatMessages(true);
+    }
+    loadConversations();
+  });
+
+  // Listen for sent acknowledgment
+  socket.on("messageSent", (msg) => {
+    console.log("Message sent acknowledgment:", msg);
+    if (activeRecipientId && msg.receiverId === activeRecipientId) {
+      loadChatMessages(true);
+    }
+    loadConversations();
+  });
+
   // Load conversations initially
-  loadConversations().then(() => {
+  loadConversations().then((conversations) => {
     // Check if there is a redirection to chat from an item page
     const activeChatId = localStorage.getItem("activeChatUserId");
     const activeChatName = localStorage.getItem("activeChatUsername");
@@ -31,12 +56,14 @@ function initChatSystem() {
       localStorage.removeItem("activeChatUsername");
       
       startOrOpenChat(activeChatId, activeChatName);
+    } else if (conversations && conversations.length > 0) {
+      // Automatically open the first conversation on load instead of welcome screen
+      selectConversation(conversations[0].userId, conversations[0].username);
     }
   });
 
-  // Periodically refresh conversation list and active chat history
-  setInterval(loadConversations, 5000);
-  setInterval(pollNewMessages, 3000);
+  // Slowly refresh conversation list in the background as a fallback
+  setInterval(loadConversations, 15000);
 }
 
 // ---------------- LOAD CONVERSATION THREADS ----------------
@@ -60,7 +87,7 @@ async function loadConversations() {
           No messages yet.
         </div>
       `;
-      return;
+      return conversations;
     }
 
     // If there is an active chat with someone who is NOT yet in the conversations list (no messages sent yet),
@@ -96,8 +123,18 @@ async function loadConversations() {
       listContainer.appendChild(itemDiv);
     });
 
+    return conversations;
+
   } catch (error) {
     console.error("Error loading conversations:", error);
+    if (listContainer) {
+      listContainer.innerHTML = `
+        <div class="loading-chats" style="color: #ef4444;">
+          ⚠️ Error loading conversations.
+        </div>
+      `;
+    }
+    return [];
   }
 }
 
@@ -105,14 +142,18 @@ async function loadConversations() {
 async function startOrOpenChat(recipientId, recipientName) {
   if (recipientId === currentUserId) return;
 
-  // Let's check if the user is already in our list. If not, fetch their profile name to display properly.
   let dispName = recipientName || "Item Owner";
-  if (!recipientName) {
+  const genericNames = ["Lost Item Owner", "Founder", "Seller", "Owner", "Item Owner"];
+
+  // Fetch real name if recipientName is generic (e.g. "Founder") or not provided
+  if (!recipientName || genericNames.includes(recipientName)) {
     try {
       const res = await fetch(`http://localhost:5000/api/profile/${recipientId}`);
       if (res.ok) {
         const profile = await res.json();
-        dispName = profile.name;
+        if (profile && profile.name) {
+          dispName = profile.name;
+        }
       }
     } catch (err) {
       console.error("Failed to fetch profile info:", err);
@@ -220,15 +261,8 @@ async function loadChatMessages(shouldScrollToBottom = false) {
   }
 }
 
-// ---------------- POLL NEW MESSAGES ----------------
-function pollNewMessages() {
-  if (activeRecipientId) {
-    loadChatMessages(false);
-  }
-}
-
 // ---------------- SEND MESSAGE ----------------
-window.sendMessage = async function() {
+window.sendMessage = function() {
   const input = document.getElementById("messageInput");
   if (!input) return;
 
@@ -239,29 +273,12 @@ window.sendMessage = async function() {
   input.value = "";
   input.focus();
 
-  try {
-    const res = await fetch("http://localhost:5000/api/messages", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        senderId: currentUserId,
-        receiverId: activeRecipientId,
-        text: text
-      })
-    });
-
-    if (res.ok) {
-      // Refresh chat messages and scroll to bottom
-      await loadChatMessages(true);
-      loadConversations();
-    } else {
-      console.error("Failed to send message");
-    }
-  } catch (error) {
-    console.error("Error sending message:", error);
-  }
+  // Emit via socket
+  socket.emit("sendMessage", {
+    senderId: currentUserId,
+    receiverId: activeRecipientId,
+    text: text
+  });
 };
 
 // Helper to format timestamps nicely

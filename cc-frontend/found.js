@@ -7,7 +7,7 @@ async function loadFoundItems() {
   if (!container) return;
 
   try {
-    const res = await fetch("http://localhost:5000/api/items?type=found");
+    const res = await fetch("http://localhost:5000/api/items?type=found&status=Active");
     const items = await res.json();
     container.innerHTML = "";
 
@@ -24,23 +24,32 @@ async function loadFoundItems() {
     items.forEach(item => {
       const card = document.createElement("div");
       card.className = "item";
+      card.id = `item_${item._id}`;
 
       const defaultPlaceholder = "https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=300&auto=format&fit=crop";
       const imgSrc = item.imageUrl || defaultPlaceholder;
       const ownerId = (item.userId && typeof item.userId === "object") ? item.userId._id : item.userId;
+      const founderName = (item.userId && typeof item.userId === "object") ? item.userId.name : "Founder";
 
       card.innerHTML = `
-        <img src="${imgSrc}" alt="${item.title}" style="object-fit: cover; height: 180px; width: 100%; border-radius: 8px;">
+        <img src="${imgSrc}" alt="${item.title}">
         <span class="identity">${item.category || "Other"}</span>
         <span class="name">${item.title}</span>
-        <span class="location">Last seen: ${item.location || "Unknown"}</span>
+        <span class="location">Last seen: ${item.location || "Unknown"} (Found by: ${founderName})</span>
         <div class="last">
           <span class="time">${new Date(item.createdAt).toLocaleDateString()}</span>
-          <button class="claim" onclick="startChat('${ownerId}', 'Founder')">Contact Founder</button>
+          <button class="claim" onclick="event.stopPropagation(); startChat('${ownerId}', '${founderName.replace(/'/g, "\\'")}')">Contact Founder</button>
         </div>
       `;
-      container.appendChild(card);
+      card.addEventListener("click", () => {
+    openModal(item);
+});
+
+container.appendChild(card);
     });
+
+    // Highlight search result if applicable
+    highlightSearchItem();
   } catch (error) {
     console.error("Error loading found items:", error);
     container.innerHTML = `
@@ -50,3 +59,47 @@ async function loadFoundItems() {
     `;
   }
 }
+function openModal(item){
+
+    document.getElementById("itemModal").style.display="flex";
+
+    document.getElementById("modalImage").src =
+        item.imageUrl || "no-image.png";
+
+    document.getElementById("modalTitle").textContent =
+        item.title;
+
+    document.getElementById("modalCategory").textContent =
+        item.category || "Other";
+
+    document.getElementById("modalLocation").textContent =
+        item.location || "Campus";
+
+    document.getElementById("modalPrice").textContent =
+        item.price ? `₹${item.price}` : "Free";
+
+    document.getElementById("modalDescription").textContent =
+        item.description || "No description available.";
+
+    const ownerId =
+        (item.userId && typeof item.userId==="object")
+        ? item.userId._id
+        : item.userId;
+
+    document.getElementById("modalChatBtn").onclick = () =>{
+        startChat(ownerId,"Owner");
+    };
+}
+
+function closeModal(){
+    document.getElementById("itemModal").style.display="none";
+}
+window.onclick = function(e){
+
+    const modal = document.getElementById("itemModal");
+
+    if(e.target === modal){
+        closeModal();
+    }
+
+};

@@ -10,8 +10,10 @@ async function loadLostItems() {
   
 
   try {
-    const res = await fetch("http://localhost:5000/api/items?type=lost");
+    const res = await fetch("http://localhost:5000/api/items?type=lost&status=Active");
  const items = await res.json();
+
+ 
     container.innerHTML = "";
 
     if (!items.length) {
@@ -27,9 +29,13 @@ async function loadLostItems() {
     items.forEach(item => {
       const card = document.createElement("div");
       card.className = "item";
+      card.id = `item_${item._id}`;
+      const defaultPlaceholder = "no-image.png"; 
+      const ownerId = (item.userId && typeof item.userId === "object") ? item.userId._id : item.userId;
+      const ownerName = (item.userId && typeof item.userId === "object") ? item.userId.name : "Lost Item Owner";
 
       card.innerHTML = `
-        <img src="${item.imageUrl || 'placeholder.jpg'}" alt="item image">
+        <img src="${item.imageUrl || defaultPlaceholder }" alt="item image">
 
         <span class="identity">${item.category || "Unknown"}</span>
 
@@ -45,25 +51,76 @@ async function loadLostItems() {
           </span>
 
           <button class="claim"
-            onclick="contactOwner('${item.userId}')">
+            onclick="event.stopPropagation(); contactOwner('${ownerId}', '${ownerName.replace(/'/g, "\\'")}')">
             I Found It!
           </button>
         </div>
       `;
 
-      container.appendChild(card);
+      card.addEventListener("click", () => {
+    openModal(item);
+});
+
+container.appendChild(card);
     });
+
+    // Highlight search result if applicable
+    highlightSearchItem();
 
   } catch (error) {
     console.error("Error loading lost items:", error);
   }
 }
 
-function contactOwner(userId) {
+function contactOwner(userId, username) {
   if (!userId) {
     console.error("No userId provided");
     return;
   }
 
-  startChat(userId, "Lost Item Owner");
+  startChat(userId, username || "Lost Item Owner");
 }
+function openModal(item){
+
+    document.getElementById("itemModal").style.display="flex";
+
+    document.getElementById("modalImage").src =
+        item.imageUrl || "no-image.png";
+
+    document.getElementById("modalTitle").textContent =
+        item.title;
+
+    document.getElementById("modalCategory").textContent =
+        item.category || "Other";
+
+    document.getElementById("modalLocation").textContent =
+        item.location || "Campus";
+
+    document.getElementById("modalPrice").textContent =
+        item.price ? `₹${item.price}` : "Free";
+
+    document.getElementById("modalDescription").textContent =
+        item.description || "No description available.";
+
+    const ownerId =
+        (item.userId && typeof item.userId==="object")
+        ? item.userId._id
+        : item.userId;
+
+    document.getElementById("modalChatBtn").onclick = () =>{
+        startChat(ownerId,"Owner");
+    };
+}
+
+function closeModal(){
+    document.getElementById("itemModal").style.display="none";
+}
+window.onclick = function(e){
+
+    const modal = document.getElementById("itemModal");
+
+    if(e.target === modal){
+        closeModal();
+    }
+
+};

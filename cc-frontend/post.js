@@ -19,13 +19,12 @@ async function loadMyPosts() {
 );
     const items = await res.json();
     
-    // Clear mock/hardcoded posts
     postsContainer.innerHTML = "";
 
     if (items.length === 0) {
       postsContainer.innerHTML = `
         <div style="grid-column: 1/-1; text-align: center; padding: 50px; background: white; border-radius: 20px; border: 1px dashed #cbd5e1; color: #64748b;">
-          <h3>📭 You haven't posted anything yet!</h3>
+          <h3> You haven't posted anything yet!</h3>
           <p style="font-size: 14px; margin-top: 5px; color: #94a3b8;">Use the Listing Forms to add items, and they will show up here.</p>
         </div>
       `;
@@ -48,16 +47,8 @@ async function loadMyPosts() {
       }
 
       // Default placeholder image based on category if none uploaded
-      let placeholderImg = "https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=300&auto=format&fit=crop"; 
-      if (item.category && item.category.toLowerCase() === "phone") {
-        placeholderImg = "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=300&auto=format&fit=crop";
-      } else if (item.category && item.category.toLowerCase() === "keys") {
-        placeholderImg = "https://images.unsplash.com/photo-1582139329536-e7284fece509?q=80&w=300&auto=format&fit=crop";
-      } else if (item.category && item.category.toLowerCase() === "wallet") {
-        placeholderImg = "https://images.unsplash.com/photo-1627124765135-565707ed47af?q=80&w=300&auto=format&fit=crop";
-      } else if (item.category && item.category.toLowerCase() === "card") {
-        placeholderImg = "https://images.unsplash.com/photo-1589758438368-0ad531db3366?q=80&w=300&auto=format&fit=crop";
-      }
+      let placeholderImg = "no-image.png"; 
+     
       
       const imgSrc = item.imageUrl || placeholderImg;
       const formattedDate = new Date(item.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
@@ -90,8 +81,8 @@ async function loadMyPosts() {
           
           <div class="time" style="font-size: 12px; color: #64748b; display: flex; justify-content: space-between; border-top: 1px solid #f1f5f9; padding-top: 10px; margin-top: -5px;">
             <span>Posted: ${formattedDate}</span>
-            <span style="font-weight: 800; color: ${item.status === 'Resolved' ? '#16803d' : '#b40b0b'};">
-              Status: ${item.status === 'Resolved' ? '✅ Resolved' : '🟢 Active'}
+            <span style="font-weight: 800; color: ${item.status === 'Resolved' ? '#16803d' : '#8b4747'};">
+              Status: ${item.status === 'Resolved' ? '✅ Resolved' : '⭕ Active'}
             </span>
           </div>
           
@@ -117,7 +108,7 @@ async function loadMyPosts() {
   } catch (err) {
     console.error("Error loading posts:", err);
     postsContainer.innerHTML = `
-      <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #ff5c5c;">
+      <div style="grid-column: 1/-1; text-align: center; padding: 40px; ">
         ⚠️ Failed to load your posts. Make sure your backend server is running on http://localhost:5000
       </div>
     `;
@@ -168,54 +159,3 @@ window.deletePost = async function(id) {
   }
 }
 
-// ---------------- DYNAMIC PROFILE DROPDOWN ----------------
-function setupProfileDropdown() {
-  const userChip = document.querySelector(".user-chip");
-  if (!userChip) return;
-
-  userChip.style.position = "relative";
-  userChip.style.cursor = "pointer";
-  userChip.id = "userChip";
-
-  const dropdown = document.createElement("div");
-  dropdown.id = "profileDropdown";
-  dropdown.className = "profile-dropdown";
-  dropdown.style.display = "none";
-  
-  const usernameSpan = userChip.querySelector(".username");
-  const avatarDiv = userChip.querySelector(".avatar");
-  
-  const fullname = usernameSpan ? usernameSpan.textContent.trim() : "Disha Lowanshi";
-  const initials = avatarDiv ? avatarDiv.textContent.trim() : "DL";
-  const email = fullname.toLowerCase().replace(/\s+/g, ".") + "@college.edu";
-
-  dropdown.innerHTML = `
-    <div class="profile-header">
-      <div class="profile-avatar">${initials}</div>
-      <div class="profile-info">
-        <div class="profile-name">${fullname}</div>
-        <div class="profile-email">${email}</div>
-      </div>
-    </div>
-    <hr class="dropdown-divider">
-    <a href="post.html" class="dropdown-item"><span>📋</span> My Posts</a>
-    <a href="setthing.html" class="dropdown-item"><span>⚙️</span> Settings</a>
-    <hr class="dropdown-divider">
-    <a href="loginpage.html" class="dropdown-item logout-item"><span>🚪</span> Logout</a>
-  `;
-
-  userChip.appendChild(dropdown);
-
-  userChip.addEventListener("click", (e) => {
-    if (!dropdown.contains(e.target)) {
-      e.stopPropagation();
-      dropdown.style.display = dropdown.style.display === "none" ? "flex" : "none";
-    }
-  });
-
-  document.addEventListener("click", (e) => {
-    if (e.target !== userChip && !userChip.contains(e.target)) {
-      dropdown.style.display = "none";
-    }
-  });
-}

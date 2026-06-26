@@ -6,8 +6,13 @@ const itemSchema = new mongoose.Schema({
   category: String,
   description: String,
   location: String,
-  price: Number,
+  price: String,
   imageUrl: String,
+  status: {
+  type: String,
+  enum: ["Active", "Resolved"],
+  default: "Active"
+},
 
   userId: {
     type: mongoose.Schema.Types.ObjectId,

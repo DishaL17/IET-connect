@@ -61,21 +61,33 @@
        <div class="rep"><button class="btn" onclick="window.location.href='itemform.html?type=sell'"> + List an item</button>
    
        </div></div> 
-    <div class="type">
-        <span class="category">All</span>
-         <span class="category">Phones</span>
-          <span class="category">Wallets</span>
-           <span class="category">Keys</span>
-            <span class="category">Cards</span>
-             <span class="category">Documents</span>
-             <span class="category">More ⋮ </span>
-    </div >
+    
     <div class="look"><span class="act">Featured listings</span>
         <button class="all">view all ➝</button></div>
     
    
     <div class="items" id="sellItems"></div>
+ <div id="itemModal" class="modal">
+  <div class="modal-content">
 
+    <span class="close-btn" onclick="closeModal()">&times;</span>
+
+    <img id="modalImage">
+    <div class="modal-body">
+      <h2 id="modalTitle"></h2>
+      <p><strong>Category:</strong> <span id="modalCategory"></span></p>
+      <p><strong>Location:</strong> <span id="modalLocation"></span></p>
+      <p><strong>Price:</strong> <span id="modalPrice"></span></p>
+      <p><strong>Description:</strong></p>
+      <p id="modalDescription"></p>
+      <button id="modalChatBtn" class="claim">
+        Contact Seller
+      </button>
+
+    </div>
+
+  </div>
+</div>
 
     </div>
     <script src="common.js"></script>

@@ -7,7 +7,7 @@ async function loadSellItems() {
   if (!container) return;
 
   try {
-    const res = await fetch("http://localhost:5000/api/items?type=sell");
+    const res = await fetch("http://localhost:5000/api/items?type=sell&status=Active");
     const items = await res.json();
     container.innerHTML = "";
 
@@ -24,24 +24,32 @@ async function loadSellItems() {
     items.forEach(item => {
       const card = document.createElement("div");
       card.className = "item";
+      card.id = `item_${item._id}`;
 
-      const defaultPlaceholder = "https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=300&auto=format&fit=crop";
+      const defaultPlaceholder = "no-image.png"; 
       const imgSrc = item.imageUrl || defaultPlaceholder;
       const ownerId = (item.userId && typeof item.userId === "object") ? item.userId._id : item.userId;
+      const sellerName = (item.userId && typeof item.userId === "object") ? item.userId.name : "Campus Member";
       const priceText = item.price ? (isNaN(item.price) ? item.price : `₹${item.price}`) : "Free";
 
       card.innerHTML = `
-        <img src="${imgSrc}" alt="${item.title}" style="object-fit: cover; height: 180px; width: 100%; border-radius: 8px;">
+        <img src="${imgSrc}" alt="${item.title}">
         <span class="identity">${item.category || "Other"}</span>
         <span class="name">${item.title}</span>
-        <span class="location">Seller: ${item.location || "Campus Member"}</span>
+        <span class="location">Seller: ${sellerName}</span>
         <div class="last">
           <span class="time">${priceText}</span>
-          <button class="claim" onclick="startChat('${ownerId}', 'Seller')">Contact Seller</button>
+          <button class="claim" onclick="event.stopPropagation(); startChat('${ownerId}', '${sellerName.replace(/'/g, "\\'")}')">Contact Seller</button>
         </div>
       `;
-      container.appendChild(card);
+      card.addEventListener("click", () => {
+    openModal(item);
+});
+
+container.appendChild(card);
     });
+
+   
   } catch (error) {
     console.error("Error loading sell items:", error);
     container.innerHTML = `
@@ -51,3 +59,47 @@ async function loadSellItems() {
     `;
   }
 }
+function openModal(item){
+
+    document.getElementById("itemModal").style.display="flex";
+
+    document.getElementById("modalImage").src =
+        item.imageUrl || "no-image.png";
+
+    document.getElementById("modalTitle").textContent =
+        item.title;
+
+    document.getElementById("modalCategory").textContent =
+        item.category || "Other";
+
+    document.getElementById("modalLocation").textContent =
+        item.location || "Campus";
+
+    document.getElementById("modalPrice").textContent =
+        item.price ? `₹${item.price}` : "Free";
+
+    document.getElementById("modalDescription").textContent =
+        item.description || "No description available.";
+
+    const ownerId =
+        (item.userId && typeof item.userId==="object")
+        ? item.userId._id
+        : item.userId;
+
+    document.getElementById("modalChatBtn").onclick = () =>{
+        startChat(ownerId,"Owner");
+    };
+}
+
+function closeModal(){
+    document.getElementById("itemModal").style.display="none";
+}
+window.onclick = function(e){
+
+    const modal = document.getElementById("itemModal");
+
+    if(e.target === modal){
+        closeModal();
+    }
+
+};

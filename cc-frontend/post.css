@@ -108,7 +108,33 @@ gap: 20px; }
   color: white !important;
 }
 
+.no-image {
+  height: 180px;
+  border: 2px dashed #ccc;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #fafafa;
+  text-align: center;
+  color: #666;
+}
 
+.no-image .icon {
+  font-size: 40px;
+  margin-bottom: 8px;
+}
+
+.no-image p {
+  font-weight: 600;
+  margin: 0;
+}
+
+.no-image span {
+  font-size: 12px;
+  margin-top: 4px;
+}
 
 /* Mobile */
 /* =========================

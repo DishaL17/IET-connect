@@ -313,7 +313,9 @@ box-shadow: 0 8px 20px rgba(94, 163, 163, 0.25); color:  #366b6b; }
   width: 100%;
   height: 180px;
   object-fit: cover;
-  border-radius: var(--radius-md);
+  background: #f5f5f5;
+  border-radius: var(--radius-sm);
+  display: block;
 }
 
 /*bottom*/
@@ -533,7 +535,12 @@ color: var(--nvc);
   }
 
   .item img{
-    height: 200px;
+   display: block;
+  width: 50%;
+  max-width: 250px;
+  margin: 20px auto;
+    height:auto;
+    object-fit:contain;
   }
 
   
@@ -585,105 +592,71 @@ color: var(--nvc);
   }
 }
 
-/* ── Profile Dropdown Menu ── */
-.profile-dropdown {
-  position: absolute;
-  top: 50px;
-  right: 0;
-  background: var(--white);
-  border: 1.5px solid var(--border);
-  border-radius: var(--radius-md);
-  width: 240px;
-  box-shadow: var(--shadow-lg);
-  z-index: 10000;
-  display: flex;
-  flex-direction: column;
-  padding: 12px;
-  box-sizing: border-box;
-  text-align: left;
-  animation: dropdownFade 0.2s ease-out;
+
+/* Duplicate .item img declaration removed to allow proper styling and media query overrides */
+
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.7);
+    justify-content:center;
+    align-items:center;
+    z-index:9999;
 }
 
-@keyframes dropdownFade {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
+.modal-content{
+    width:90%;
+    max-width:700px;
+    background:#fff;
+    border-radius:12px;
+    overflow:hidden;
+    animation:popup .3s;
 }
 
-.profile-header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 6px 4px;
+@keyframes popup{
+    from{
+        transform:scale(.8);
+        opacity:0;
+    }
+    to{
+        transform:scale(1);
+        opacity:1;
+    }
 }
 
-.profile-avatar {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #6fbab1, #4cadad);
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 800;
-  font-size: 14px;
-  flex-shrink: 0;
+.modal-content img{
+  display: block;
+  width: 50%;
+  max-width: 250px;
+  margin: 20px auto;
+    height:auto;
+    object-fit:contain;
+
+   
 }
 
-.profile-info {
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
+.modal-body{
+    padding:20px;
 }
 
-.profile-name {
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--text);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.modal-body h2{
+    margin-bottom:15px;
 }
 
-.profile-email {
-  font-size: 11px;
-  color: var(--muted);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.close-btn{
+    position:absolute;
+    right:25px;
+    top:20px;
+    color:white;
+    font-size:40px;
+    cursor:pointer;
 }
 
-.dropdown-divider {
-  border: 0;
-  border-top: 1px solid var(--border-lt);
-  margin: 8px 0;
-  width: 100%;
+.modal-body p{
+    margin:10px 0;
 }
 
-.dropdown-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 8px 12px;
-  border-radius: var(--radius-sm);
-  color: var(--text);
-  text-decoration: none;
-  font-size: 14px;
-  font-weight: 600;
-  transition: background 0.2s, color 0.2s;
-  box-sizing: border-box;
-}
-
-.dropdown-item span {
-  font-size: 16px;
-}
-
-.dropdown-item:hover {
-  background: var(--teal-lt);
-  color: var(--teal);
-}
-
-.logout-item:hover {
-  background: #fdeaea;
-  color: var(--lost);
+.modal-body .claim{
+    margin-top:20px;
 }

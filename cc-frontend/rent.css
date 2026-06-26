@@ -121,9 +121,3 @@ body {
   transition: all 0.2s ease;
 }
 .claim:hover { transform: translateY(-3px); border-color: var(--found); }
-
-
-    
-
-
-    

@@ -204,6 +204,8 @@ body{
     transform .25s ease,
     box-shadow .25s ease,
     border-color .25s ease;
+
+    margin-bottom: 10px;
 }
 
 /* Hover Animation */

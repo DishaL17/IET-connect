@@ -30,10 +30,23 @@ const userSchema = new mongoose.Schema(
       default: "",
     },
     role: {
-  type: String,
-  enum: ["user", "admin"],
-  default: "user"
-}
+      type: String,
+      enum: ["user", "admin"],
+      default: "user"
+    },
+    isVerified: {
+      type: Boolean,
+      default: false
+    },
+    verificationStatus: {
+      type: String,
+      enum: ["unverified", "pending", "verified"],
+      default: "unverified"
+    },
+    rollNumber: {
+      type: String,
+      default: ""
+    }
   },
   {
     timestamps: true,

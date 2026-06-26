@@ -42,13 +42,7 @@ console.log(data);
       return;
     }
 
-    // 🔥 SAVE USER ID
-    localStorage.setItem("userId", data.user._id);
-    localStorage.setItem("username", data.user.name);
-    localStorage.setItem("role", data.user.role);
     localStorage.setItem("token", data.token);
-
-    console.log("Saved userId:", localStorage.getItem("userId"));
 
     window.location.href = "home.html";
 

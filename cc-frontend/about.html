@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Us - Campus Connect</title>
+      <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="setting.css">
     <style>
@@ -55,11 +56,15 @@
             padding-bottom: 15px;
         }
         .settings-title {
-            font-size: 24px;
-            font-weight: 800;
-            color: var(--teal-1);
-            margin: 0;
-        }
+    display: flex;
+    align-items: center;   /* Vertically aligns icon and text */
+    gap: 10px;             /* Space between icon and text */
+    font-size: 22px;
+    line-height: 1;
+    font-weight: 800;
+    color: var(--teal-1);
+    margin: 0;
+}
         .back-link {
             text-decoration: none;
             color: var(--text);
@@ -80,15 +85,23 @@
 <body>
     <div class="settings-container">
         <div class="settings-header">
-            <h1 class="settings-title">ℹ️ About Us</h1>
+            <h1 class="settings-title"><i class="fi fi-rr-info"></i> About IET Connect</h1>
             <a href="setthing.html" class="back-link">← Settings</a>
         </div>
 
         <div class="about-content">
             <div class="about-section">
-                <h3>Our Mission</h3>
-                <p>Campus Connect is a student-to-student platform built to foster a helpful, collaborative, and sustainable campus community.</p>
-                <p>By connecting students together, we make it simple to find lost belongings, share notes, buy/sell second-hand textbooks, and rent essentials without leaving the university grounds.</p>
+                <h1></h1>
+             <p>IET Connect is a campus community platform built exclusively for
+                 students of IET DAVV to make everyday campus life easier, safer, and more connected.
+
+Our platform enables students to report lost and found items, rent or lend
+ belongings, buy and sell used items, and communicate with fellow students—all 
+ in one secure place. By connecting students directly, IET Connect promotes 
+ collaboration, trust, and sustainability within the campus community.</p>
+ <p>Whether you've misplaced your ID card, want to rent a calculator for an exam,
+     sell a used textbook, or find affordable essentials from classmates,
+     IET Connect provides a simple and reliable solution.</p>
             </div>
 
             <div class="about-section">
@@ -102,8 +115,8 @@
             </div>
 
             <div class="about-section" style="border-top: 1px solid var(--border); padding-top: 20px; text-align: center;">
-                <p style="font-size: 13px; margin: 0;">Developed with ♥ by the College Tech Team.</p>
-                <p style="font-size: 12px; color: var(--muted); margin-top: 4px;">Version 1.0.0 (Beta) • © 2026 Campus Connect</p>
+                <p style="font-size: 13px; margin: 0;">Developed by Disha Lowanshi.</p>
+                <p style="font-size: 12px; color: var(--muted); margin-top: 4px;">Version 1.0.0 (Beta) • © 2026 IET Connect</p>
             </div>
         </div>
     </div>

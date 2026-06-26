@@ -30,9 +30,11 @@ const response = await fetch("http://localhost:5000/register", {
 const data = await response.json();
 console.log(data);
 
-window.location.href = "loginpage.html";
-
-console.log("Response Status:", response.status);
-console.log("Response Data:", data);
+if (response.ok && data.success) {
+    alert("🎉 Registration successful! Please log in.");
+    window.location.href = "loginpage.html";
+} else {
+    alert(`❌ Registration failed: ${data.message || "Unknown error"}`);
+}
 
 });

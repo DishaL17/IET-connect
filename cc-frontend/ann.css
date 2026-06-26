@@ -60,12 +60,14 @@ font-weight: 800; margin: 12px  16px;}
     margin: 40px auto;
     
 }
-
+.create-btn{ color: teal; text-decoration: none; margin-left: 20px;}
+.create-btn:hover{transform: translateY(-2px); font-weight: 500;}
 /* Announcement Section */
 .announcement-section {
     display: flex;
     flex-direction: column;
     gap: 15px;
+
 }
 
 /* Latest Button */
@@ -90,6 +92,7 @@ font-weight: 800; margin: 12px  16px;}
     justify-content: space-between;
     align-items: center;
     padding: 18px;
+    margin: 20px;
     background: var(--white);
     border-radius: 16px;
     box-shadow: 0 3px 10px rgba(0,0,0,0.08);
@@ -119,6 +122,8 @@ font-weight: 800; margin: 12px  16px;}
 .time {
     color: var(--muted);
     font-size: 14px;
+    display: flex;
+    flex-direction: column;
 }
 
 .more{ border: 1px solid transparent;
@@ -149,6 +154,7 @@ background-color: transparent; cursor: pointer;}
     border-radius: 12px;
     background: var(--border-lt);
     cursor: pointer;
+    margin-bottom: 10px;
 }
 
 .ar {

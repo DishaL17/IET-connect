@@ -15,6 +15,10 @@ headName: {
 },
   foundedYear: String,
   createdBy: String,
+  clubAdmin: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User"
+  },
   status: {
   type: String,
   enum: ["pending", "approved"],

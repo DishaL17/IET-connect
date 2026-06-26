@@ -232,7 +232,7 @@ box-shadow: 0 8px 20px rgba(94, 163, 163, 0.25);          /* teal tint button */
   position: absolute;
   top: 100%;
   left: 12px;
-  background: var(--teal-lt);
+  background: var(--white);
   border: 1.5px solid var(--border);
   border-radius: var(--radius-lg);
   width: calc(100% - 24px);
@@ -309,7 +309,7 @@ margin: 2px 4px;
         flex-direction:column;
         align-items:center;
         justify-content:center;
-color: var(--text);
+color: var(--white);
         gap:4px;
         font-size:12px;
         text-decoration:none;
@@ -436,5 +436,23 @@ color: var(--text);
 .logout-item:hover {
   background: #fdeaea;
   color: var(--lost);
+}
+
+/* ── Sidebar Footer / Copyright ── */
+.sidebar-footer {
+  margin-top: auto;
+  padding: 16px;
+  border-top: 1px solid rgba(255,255,255,.15);
+  text-align: center;
+}
+.sidebar-footer span {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.65);
+  line-height: 1.4;
+}
+@media (max-width: 768px) {
+  .sidebar-footer {
+    display: none !important;
+  }
 }
 
