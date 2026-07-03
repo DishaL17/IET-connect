@@ -6,6 +6,7 @@ const announcementSchema = new mongoose.Schema({
   venue: String,
   date: Date,
   time: String,
+  description: String,
   createdAt: {
     type: Date,
     default: Date.now

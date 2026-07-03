@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Q&A Board - IET Connect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="setting.css">
+    <style>
+        body { font-family: 'Nunito', sans-serif; }
+        .qa-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        .qa-card {
+            padding: 18px;
+            border-radius: 14px;
+            border: 1.5px solid var(--border);
+            background: var(--white);
+            text-align: left;
+        }
+        .qa-question {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--teal-1);
+            margin-bottom: 8px;
+        }
+        .qa-meta {
+            font-size: 11px;
+            color: var(--muted);
+            margin-bottom: 12px;
+        }
+        .qa-answer {
+            font-size: 14px;
+            color: var(--text);
+            line-height: 1.5;
+            background: var(--bg);
+            padding: 12px 16px;
+            border-radius: 10px;
+            border-left: 3px solid var(--teal-1);
+        }
+        .settings-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 25px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 15px;
+        }
+        .settings-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--teal-1);
+            margin: 0;
+        }
+        .back-link {
+            text-decoration: none;
+            color: var(--text);
+            font-size: 14px;
+            font-weight: 700;
+            border: 1px solid var(--border);
+            padding: 6px 12px;
+            border-radius: 8px;
+            background: var(--white);
+        }
+        .back-link:hover {
+            color: var(--teal-1);
+            border-color: var(--teal-1);
+            background: var(--bottom-line);
+        }
+    </style>
+</head>
+<body>
+    <div class="settings-container">
+        <div class="settings-header">
+            <h1 class="settings-title">💬 Question & Answers</h1>
+            <a href="setthing.html" class="back-link">← Settings</a>
+        </div>
+
+        <div class="qa-list">
+            <div class="qa-card">
+                <div class="qa-question">❓ Where can I drop off items that I found on campus?</div>
+                <div class="qa-answer">💡 You can post it here on IET Connect first so the owner can contact you! Alternatively, you can drop it off at the security office near the main gate or the F-Block office.</div>
+            </div>
+
+            <div class="qa-card">
+                <div class="qa-question">❓ Is there a limit on how many rental items I can list?</div>
+                <div class="qa-answer">💡 No, you can list as many items for sale or rent as you want. However, please make sure to mark them as completed/rented in "My Posts" once they are no longer available.</div>
+            </div>
+
+            <div class="qa-card">
+                <div class="qa-question">❓ How do I coordinate the transaction for buying items?</div>
+                <div class="qa-answer">💡 We recommend meeting up in public campus areas (like the Central Canteen or the Library foyer) during daylight hours to safely inspect items and coordinate payments.</div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Create Announcement</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Nunito',sans-serif;
+}
+
+body{
+    background:#f8fafc;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+    padding:20px;
+}
+
+.container{position: relative;
+    width:100%;
+    max-width:700px;
+    background:white;
+    padding:30px;
+    border-radius:20px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.08);
+}
+
+.back {
+    position: absolute;
+    top: 20px;
+    cursor: pointer;
+    font-weight: 700;
+    color: gray;
+    border: 1px solid grey;
+    border-radius: 20px ;
+    padding: 2px;
+}
+.back:hover{ color: teal; border-color: teal; transform:translateY(2px) ;}
+h1{
+    margin-bottom:20px;
+    color:#2f7e78;
+}
+
+.form-group{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    margin-bottom:18px;
+}
+
+label{
+    font-weight:700;
+}
+
+input{
+    padding:12px;
+    border:1px solid #dbe2ea;
+    border-radius:12px;
+    outline:none;
+    font-size:15px;
+}
+
+button{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:12px;
+    background:#2f7e78;
+    color:white;
+    font-size:16px;
+    font-weight:700;
+    cursor:pointer;
+}
+
+button:hover{
+    opacity:0.9;
+}
+
+#message{
+    margin-top:15px;
+    text-align:center;
+    font-weight:700;
+}
+.back {
+  position: relative; /* or fixed */
+  top: 0;
+  right: 0;
+}
+
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <span class="back" onclick="window.location.href = 'Announcment.html'">← Back</span>
+    <h1> Create Announcement</h1>
+    <form id="announcementForm">
+
+        <div class="form-group">
+            <label>Club Name</label>
+            <div id="clubNameContainer">
+                <input
+                    type="text"
+                    id="clubName"
+                    placeholder=""
+                    required>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Announcement Title</label>
+            <input
+                type="text"
+                id="title"
+                placeholder=""
+                required>
+        </div>
+         <div class="form-group">
+            <label>Description</label>
+            <textarea
+                id="desc"
+                placeholder="Enter announcement details..."
+                style="padding:12px; border:1px solid #dbe2ea; border-radius:12px; outline:none; font-size:15px; font-family:inherit; min-height:100px; resize:vertical;"
+                required></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>Venue</label>
+            <input
+                type="text"
+                id="venue"
+                placeholder=""
+                required>
+        </div>
+
+        <div class="form-group">
+            <label>Event Date</label>
+            <input
+                type="date"
+                id="date"
+                required>
+        </div>
+
+        <div class="form-group">
+            <label>Event Time</label>
+            <input
+                type="text"
+                id="time"
+                placeholder=""
+                required>
+        </div>
+
+        <button type="submit">
+            Publish Announcement
+        </button>
+
+        <div id="message"></div>
+
+    </form>
+
+</div>
+
+<script src="../common.js"></script>
+<script src="announcementform.js"></script>
+
+</body>
+</html>

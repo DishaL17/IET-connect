@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report / List Item - IET Connect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="itemform.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="brand">
+                <div class="logo-icon"><img src="../iet_connect_icon.png" alt="Logo" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;"></div>
+     <div class="logo-text"><span class="logo-title">IET Connect</span><span class="logo-subtext">Student Hub</span></div>
+            </div>
+            <a href="../home/home.html" class="back-btn" id="backBtn">← Home</a>
+        </div>
+
+        <h2 id="formTitle">List an Item</h2>
+
+        <form id="itemForm">
+          
+            <div class="form-group">
+                <label for="itemType">What would you like to do?</label>
+                <select id="itemType" required>
+                    <option value="lost">Report Lost Item 🔦</option>
+                    <option value="found">Report Found Item 🤝</option>
+                    <option value="sell">Sell an Item 📦</option>
+                    <option value="rent">List a Rental 🔑</option>
+                </select>
+            </div>
+
+          
+            <div class="form-group">
+                <label for="itemTitle" id="labelTitle">Item Name</label>
+                <input type="text" id="itemTitle" placeholder="e.g. iPhone 13, Casio Calculator" required />
+            </div>
+
+         
+            <div class="form-group">
+                <label for="itemCategory">Category</label>
+                <select id="itemCategory" required>
+                    <option value="Other">Other</option>
+                    <option value="Phone">Phone</option>
+                    <option value="Keys">Keys</option>
+                    <option value="Wallet">Wallet</option>
+                    <option value="Card">Card / ID Card</option>
+                    <option value="Document">Document / Notes</option>
+                    <option value="Book">Textbook</option>
+                    <option value="Calculator">Calculator</option>
+                </select>
+            </div>
+
+            <div class="form-group" class="location">
+                <label for="itemLocation" id="labelLocation">Last Seen Location</label>
+                <input type="text" id="itemLocation" placeholder="e.g. Library 3rd Floor, Canteen" required />
+            </div>
+
+            <div class="form-group price-field-wrapper" id="priceFieldWrapper">
+                <label for="itemPrice" id="labelPrice">Price / Rental Fee</label>
+                <input type="text" id="itemPrice" placeholder="e.g. ₹500, Free, ₹50/day" />
+            </div>
+
+            <div class="form-group">
+                <label for="itemDescription">Description / Details</label>
+                <textarea id="itemDescription" placeholder="Add any descriptive details (color, brand, distinguishing marks, condition)..."></textarea>
+            </div>
+
+            <div class="form-group">
+            <label for="itemImage">Upload Image</label>
+             <input
+               type="file"
+                id="itemImage"
+                  accept="image/*"
+    />
+    <img
+    id="imagePreview"
+    src=""
+    alt="Preview"
+    style="display:none; width:200px; margin-top:10px; border-radius:10px;"
+>
+</div>
+
+            <button type="submit" class="submit-btn" id="submitBtn">Submit Listing</button>
+        </form>
+
+        <div id="formMessage" class="message"></div>
+    </div>
+<script src="../darktheme.js"></script>
+    <script src="../common.js"></script>
+    <script src="itemform.js"></script>
+</body>
+</html>

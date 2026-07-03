@@ -44,7 +44,7 @@ console.log(data);
 
     localStorage.setItem("token", data.token);
 
-    window.location.href = "home.html";
+    window.location.href = "home/home.html";
 
   } catch (err) {
     console.error(err);

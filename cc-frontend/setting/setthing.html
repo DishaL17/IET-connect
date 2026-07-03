@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - IET Connect</title>
+    <!-- Google Fonts Nunito -->
+     <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="setting.css">
+    
+</head>
+<body>
+    <div class="settings-container">
+        <!-- Settings Top Header -->
+        <div class="settings-header">
+            <h1 class="settings-title" ><i class="fi fi-rr-settings"></i> Settings</h1>
+            <a href="../home/home.html" class="home-link">← Home</a>
+        </div>
+
+        <!-- Profile Card -->
+        <div class="user-chip" style="margin-bottom: 25px;">
+            <div class="avatar"></div>
+            <div>
+                <div class="username"></div>
+                <div class="user-email"></div>
+            </div>
+        </div>
+
+        <!-- Section 1: Account Settings -->
+        <div class="set">
+            <div class="k">Account Settings</div>
+            
+            <div class="acc" onclick="window.location.href='edit-profile.html'" style="cursor: pointer;">
+                <span class="h"><span class="icon"><i class="fi fi-rr-user"></i></span> Edit Profile</span>
+                <button class="a">&gt;</button>
+            </div>
+            
+            <div class="acc" onclick="window.location.href='verification.html'" style="cursor: pointer;">
+                <span class="h"><span class="icon"><i class="fi fi-rr-badge-check"></i></span> Verification</span>
+                <button class="a">&gt;</button>
+            </div>
+            
+            <div class="acc" onclick="window.location.href='password.html'" style="cursor: pointer;">
+                <span class="h"><span class="icon"><i class="fi fi-rr-lock"></i></span> Password </span>
+                 <button class="a">&gt;</button>
+            </div>
+            
+            <div class="acc" id="logoutBtn" style="cursor: pointer; color: #b40b0b;">
+                <span class="h" style="color: #b40b0b;"><span class="icon"><i class="fi fi-rr-sign-out-alt"></i></span> Logout</span>
+                <button class="a" style="color: #b40b0b;">&gt;</button>
+            </div>
+        </div>
+        
+        <!-- Section 3: Feedback & Info -->
+        <div class="set">
+            <div class="k">Feedback & Information</div>
+            
+            <div class="acc" onclick="window.location.href='about.html'" style="cursor: pointer;">
+                <span class="h"><span class="icon"><i class="fi fi-rr-info"></i></span> About Us</span>
+                <button class="a">&gt;</button>
+            </div>
+            
+            <div class="acc" onclick="window.location.href='feedback.html'" style="cursor: pointer;">
+                <span class="h"><span class="icon"><i class="fi fi-rr-comment-alt"></i></span> Feedback</span>
+                <button class="a">&gt;</button>
+            </div>
+            <div class="acc" onclick="window.location.href='qa.html'" style="cursor: pointer;">
+                <span class="h"><span class="icon"><i class="fi fi-rr-interrogation"></i></span> Questions & Answers</span>
+                <button class="a">&gt;</button>
+            </div>
+        </div>
+        <div style="margin-top: 30px; font-size: 11px; text-align: center; color: var(--text); opacity: 0.6; border-top: 1.5px solid var(--border); padding-top: 15px;">
+            © 2026 IET Connect. All rights reserved.
+        </div>
+    </div>
+    <script src="../common.js"></script>
+    <script src="setthing.js"></script>
+</body>
+</html>

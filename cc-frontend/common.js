@@ -1,3 +1,11 @@
+// Global helper to resolve file paths from any subfolder
+window.getRootPath = function(targetFile) {
+  const subfolders = ["/home/", "/item/", "/message/", "/announcement/", "/setting/"];
+  const currentPath = window.location.pathname;
+  const isSubfolder = subfolders.some(folder => currentPath.includes(folder));
+  return isSubfolder ? `../${targetFile}` : targetFile;
+};
+
 // Sync JWT session info to localStorage helper fields
 (function syncSession() {
   const token = localStorage.getItem("token");
@@ -6,7 +14,7 @@
   if (!token) {
     if (!isAuthPage) {
       alert("Please log in to continue.");
-      window.location.href = "loginpage.html";
+      window.location.href = getRootPath("loginpage.html");
     }
     return;
   }
@@ -35,7 +43,7 @@
     
     if (!isAuthPage) {
       alert(payload ? "Session expired. Please log in again." : "Session invalid. Please log in again.");
-      window.location.href = "loginpage.html";
+      window.location.href = getRootPath("loginpage.html");
     }
     return;
   }
@@ -102,7 +110,7 @@ async function searchItems() {
             // click on result - navigate to item page with ID highlight parameter
             li.onclick = () => {
                 drop.style.display = "none";
-                window.location.href = `${item.type}.html?id=${item._id}`;
+                window.location.href = getRootPath("item/" + item.type + ".html?id=" + item._id);
             };
 
             resultBox.appendChild(li);
@@ -118,7 +126,7 @@ window.startChat = function(ownerId, ownerName) {
   const currentUserId = localStorage.getItem("userId");
   if (!currentUserId) {
     alert("Please log in to chat with the owner.");
-    window.location.href = "loginpage.html";
+    window.location.href = getRootPath("loginpage.html");
     return;
   }
   
@@ -129,7 +137,7 @@ window.startChat = function(ownerId, ownerName) {
   
   localStorage.setItem("activeChatUserId", ownerId);
   localStorage.setItem("activeChatUsername", ownerName || "Item Owner");
-  window.location.href = "notification.html";
+  window.location.href = getRootPath("message/notification.html");
 };
 
 window.updateNotificationBadge = function() {

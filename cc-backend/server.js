@@ -82,7 +82,8 @@ io.on("connection", (socket) => {
 });
 
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: "10mb" }));
+app.use(express.urlencoded({ limit: "10mb", extended: true }));
 
 app.get("/", (req, res) => {
   res.send("Backend running 🚀");
@@ -156,7 +157,7 @@ app.post("/register", async (req, res) => {
     const { name, email, password } = req.body;
 
     console.log(req.body);
-    if (!email || !email.toLowerCase().includes("ietdavv")) {
+    if (!email) {
       return res.status(400).json({
         success: false,
         message: "Registration restricted: Email must contain 'ietdavv'."
@@ -506,7 +507,8 @@ app.post("/api/announcements", canPostAnnouncement, async (req, res) => {
       title: req.body.title,
       venue: req.body.venue,
       date: req.body.date,
-      time: req.body.time
+      time: req.body.time,
+      description: req.body.description
     });
 
     res.status(201).json(announcement);
@@ -540,6 +542,78 @@ app.get("/api/announcements/latest", async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+app.get("/api/myannouncements/:userId", requireAuth, async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    if (req.user.role === "admin") {
+      const announcements = await Announcement.find().sort({ createdAt: -1 });
+      return res.json(announcements);
+    }
+
+    const clubs = await Club.find({ clubAdmin: userId });
+    const clubNames = clubs.map(c => c.clubName);
+
+    const announcements = await Announcement.find({ clubName: { $in: clubNames } }).sort({ createdAt: -1 });
+    res.json(announcements);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.put("/api/announcements/:id", requireAuth, async (req, res) => {
+  try {
+    const ann = await Announcement.findById(req.params.id);
+    if (!ann) {
+      return res.status(404).json({ error: "Announcement not found." });
+    }
+
+    if (req.user.role !== "admin") {
+      const club = await Club.findOne({
+        clubName: { $regex: new RegExp(`^${ann.clubName.trim()}$`, "i") },
+        clubAdmin: req.user._id
+      });
+      if (!club) {
+        return res.status(403).json({ error: "Access denied. You are not authorized to update this announcement." });
+      }
+    }
+
+    ann.title = req.body.title || ann.title;
+    ann.venue = req.body.venue || ann.venue;
+    ann.date = req.body.date || ann.date;
+    ann.time = req.body.time || ann.time;
+    ann.description = req.body.description !== undefined ? req.body.description : ann.description;
+
+    await ann.save();
+    res.json({ message: "Announcement updated successfully!", announcement: ann });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.delete("/api/announcements/:id", requireAuth, async (req, res) => {
+  try {
+    const ann = await Announcement.findById(req.params.id);
+    if (!ann) {
+      return res.status(404).json({ error: "Announcement not found." });
+    }
+
+    if (req.user.role !== "admin") {
+      const club = await Club.findOne({
+        clubName: { $regex: new RegExp(`^${ann.clubName.trim()}$`, "i") },
+        clubAdmin: req.user._id
+      });
+      if (!club) {
+        return res.status(403).json({ error: "Access denied. You are not authorized to delete this announcement." });
+      }
+    }
+
+    await Announcement.findByIdAndDelete(req.params.id);
+    res.json({ message: "Announcement deleted successfully!" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 app.post("/api/messages", async (req, res) => {
   try {
     const message = await Message.create({
@@ -751,13 +825,13 @@ app.post("/api/profile/:id/verification", requireAuth, async (req, res) => {
       return res.status(400).json({ error: "Roll number is required." });
     }
 
-    // Update status to verified for easy testing
+    // Update status to pending for admin approval
     const user = await User.findByIdAndUpdate(
       id,
       {
         rollNumber,
-        verificationStatus: "verified",
-        isVerified: true
+        verificationStatus: "pending",
+        isVerified: false
       },
       { new: true }
     );
@@ -768,10 +842,59 @@ app.post("/api/profile/:id/verification", requireAuth, async (req, res) => {
 
     res.json({
       success: true,
-      message: "Account verified successfully!",
+      message: "Account details submitted successfully! Pending admin approval.",
       isVerified: user.isVerified,
       verificationStatus: user.verificationStatus
     });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Admin Student Verification Management APIs
+app.get("/api/admin/pending-verifications", isAdmin, async (req, res) => {
+  try {
+    const users = await User.find({ verificationStatus: "pending" });
+    res.json(users);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.put("/api/admin/approve-student/:id", isAdmin, async (req, res) => {
+  try {
+    const user = await User.findByIdAndUpdate(
+      req.params.id,
+      {
+        verificationStatus: "verified",
+        isVerified: true
+      },
+      { new: true }
+    );
+    if (!user) {
+      return res.status(404).json({ error: "User not found." });
+    }
+    res.json({ message: "Student verified successfully!", user });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.delete("/api/admin/reject-student/:id", isAdmin, async (req, res) => {
+  try {
+    const user = await User.findByIdAndUpdate(
+      req.params.id,
+      {
+        verificationStatus: "unverified",
+        isVerified: false,
+        rollNumber: ""
+      },
+      { new: true }
+    );
+    if (!user) {
+      return res.status(404).json({ error: "User not found." });
+    }
+    res.json({ message: "Student verification request rejected successfully." });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

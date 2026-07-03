@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Poppins
+:ital,wght@0,400;0,500;0,600;1,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="notification.css">
+    <link rel="stylesheet" href="../dash.css">
+</head>
+<body>
+    <nav class="sidebar"  id="sidebar">
+ <img src="../sidelogo.png" alt="IET Connect Logo">
+
+  <div class="nav-links">
+    
+    <a href="../home/home.html" class="nav-link "><i class="fi fi-rr-home"></i> Home</a>
+    <a href="../item/post.html" class="nav-link"><i class="fi fi-rr-edit"></i> My Post</a>
+    <a href="../announcement/Announcment.html" class="nav-link"><i class="fi fi-rr-megaphone"></i> Announcements</a>
+       <a href="notification.html" class="nav-link active"><i class="fi fi-rr-comment-dots"></i> Messages </a>
+        <a href="../setting/setthing.html" class="nav-link"><i class="fi fi-rr-settings"></i> Settings</a>
+  </div>
+  <div class="sidebar-footer">
+    <span>© 2026 IET Connect<br>All rights reserved.</span>
+  </div>
+  </nav>
+
+   <!-- Topbar -->
+  <header class="topbar">
+    <div class="search-bar">
+      <div class="search-box">
+        <i class="fi fi-rr-search"></i>
+        <input type="text" id="sea"
+          placeholder="Search for lost, rent, sell items…"
+          oninput="searchItems()"
+          onkeydown="if(event.key==='Enter') searchItems()">
+      </div>
+      <button onclick="searchItems()">Search</button>
+    </div>
+    <div class="user-chip">
+      <div class="avatar"></div>
+      <span class="username"></span>
+    </div>
+
+    <!-- Search Dropdown -->
+    <div class="search-drop" id="searchDrop" style="display:none">
+      <ul id="result"></ul>
+    </div>
+  </header>
+  <!--notifications-->
+  <main class="main">
+    <div class="chat-container" id="chatContainer">
+      
+      <!-- Left sidebar: Active Conversations -->
+      <div class="chat-sidebar" id="chatSidebar">
+        <div class="chat-sidebar-header">
+          <h2>Messages</h2>
+        </div>
+        <div class="conversation-list" id="conversationList">
+          <div class="loading-chats">Loading conversations...</div>
+        </div>
+      </div>
+      
+      <!-- Right area: Message History & Send Input -->
+      <div class="chat-main" id="chatMain">
+        <!-- Default State: No conversation selected -->
+        <div class="chat-welcome" id="chatWelcome">
+          <div class="welcome-icon">💬</div>
+          <h3>Select a conversation</h3>
+          <p>Choose a chat from the sidebar or contact a seller/founder to start messaging.</p>
+        </div>
+        
+        <!-- Active Chat State (hidden by default) -->
+        <div class="chat-active" id="chatActive" style="display: none;">
+          <div class="chat-header">
+            <!-- Mobile Back Button -->
+            <button class="mobile-back-btn" onclick="closeChatMobile()" style="display:none; background:none; border:none; font-size:20px; cursor:pointer; color:var(--teal); padding: 4px 8px; margin-right: 8px;">←</button>
+            <div class="chat-recipient-avatar" id="activeRecipientAvatar">👤</div>
+            <div class="chat-recipient-info">
+              <h3 id="activeRecipientName">Recipient Name</h3>
+              <span class="online-indicator">Active Conversation</span>
+            </div>
+          </div>
+          
+          <div class="chat-messages" id="chatMessages">
+            <!-- Messages bubbles populated dynamically -->
+          </div>
+          
+          <div class="chat-input-bar">
+            <input type="text" id="messageInput" placeholder="Type a message..." onkeydown="if(event.key==='Enter') sendMessage()">
+            <button id="sendBtn" onclick="sendMessage()">Send</button>
+          </div>
+        </div>
+        
+      </div>
+      
+    </div>
+  </main>
+<script src="../common.js"></script>
+<script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+<script src="notification.js"></script>
+</body>
+</html>

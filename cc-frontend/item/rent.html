@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+     <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css">
+    <link rel="stylesheet" href="rent.css">
+    <link rel="stylesheet" href="../lsrf.css">
+</head>
+<body>
+       <header class="n">
+
+ 
+
+   <div class="topbar">
+    
+    <div class="search-bar">
+      <div class="search-box">
+        <i class="fi fi-rr-search"></i>
+        <input type="text" id="sea"
+          placeholder="Search for lost, rent, sell items…"
+          oninput="searchItems()"
+          onkeydown="if(event.key==='Enter') searchItems()">
+      </div>
+      <button onclick="searchItems()">Search</button>
+    </div>
+    <div class="user-chip">
+      <div class="avatar"></div>
+      <span class="username"></span>
+    </div>
+  </div>
+
+  <!-- Search Dropdown -->
+  <div class="search-drop" id="searchDrop" style="display:none">
+    <ul id="result"></ul>
+  </div>
+
+</header>
+  <div class="nav-links">
+    
+    <a href="../home/home.html" class="nav-link "><i class="fi fi-rr-home"></i> Home</a>
+    <a href="post.html" class="nav-link"><i class="fi fi-rr-edit"></i> My Post</a>
+    <a href="../announcement/Announcment.html" class="nav-link"><i class="fi fi-rr-megaphone"></i> Announcements</a>
+       <a href="../message/notification.html" class="nav-link"><i class="fi fi-rr-comment-dots"></i> Messages </a>
+        <a href="../setting/setthing.html" class="nav-link"><i class="fi fi-rr-settings"></i> Settings</a>
+  </div>
+    <div>
+        <div class="pages">
+        <button class="lpage" onclick="window.location.href='lost.html'">Lost items</button>
+        <button class="fpage" onclick="window.location.href='found.html'">Found items</button>
+        <button class="spage" onclick="window.location.href='sell.html'">For Sell</button>
+        <button class="rpage" onclick="window.location.href='rent.html'">Rentals</button>
+        </div>
+    
+       <div class="main"> <h1>Rent anything you need
+ nearby?</h1>
+        <span class="line">Homes, gadgets, vehicles — rent from trusted locals at fair prices
+       <div class="rep"><button class="btn" onclick="window.location.href='itemform.html?type=rent'">+ Post a Rental</button>
+       </div></div> 
+    
+    <div class="look"><span class="act">Available Items</span>
+        <button class="all">view all ➝</button></div>
+    
+   
+    <div class="items" id="rentItems"></div>
+    <div id="itemModal" class="modal">
+  <div class="modal-content">
+
+    <span class="close-btn" onclick="closeModal()">&times;</span>
+
+    <img id="modalImage">
+    <div class="modal-body">
+      <h2 id="modalTitle"></h2>
+      <p><strong>Category:</strong> <span id="modalCategory"></span></p>
+      <p><strong>Location:</strong> <span id="modalLocation"></span></p>
+      <p><strong>Price:</strong> <span id="modalPrice"></span></p>
+      <p><strong>Description:</strong></p>
+      <p id="modalDescription"></p>
+      <button id="modalChatBtn" class="claim">
+        Enquire
+      </button>
+
+    </div>
+
+  </div>
+</div>
+
+
+    </div>
+    <script src="../common.js"></script>
+    <script src="rent.js"></script>
+</body>
+</html>
