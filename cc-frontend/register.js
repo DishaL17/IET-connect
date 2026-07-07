@@ -19,7 +19,7 @@ if (password !== confirmPassword) {
     return;}
 
 const userData = { name, email, password };
-const response = await fetch("http://localhost:5000/register", {
+const response = await fetch(window.API_BASE_URL + "/register", {
     method: "POST",
     headers: {
         "Content-Type": "application/json"

@@ -7,7 +7,7 @@ async function loadFoundItems() {
   if (!container) return;
 
   try {
-    const res = await fetch("http://localhost:5000/api/items?type=found&status=Active");
+    const res = await fetch(window.API_BASE_URL + "/api/items?type=found&status=Active");
     const items = await res.json();
     container.innerHTML = "";
 

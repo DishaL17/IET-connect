@@ -102,9 +102,6 @@ body{
 }
 .hero-text p { font-size: 17px; word-spacing: .5px; font-weight: 700; color: var(--text);}
 
-/* ── Announcements ── */
-/* ── Announcements ── */
-/* ───────────────── Announcement Section ───────────────── */
 
 .ann {
   padding: 22px;
@@ -541,7 +538,6 @@ body{
   .bottom       { grid-template-columns: 1fr; }
   .activity     { height: auto; position: relative; padding-bottom: 90px; }
   .view-btn     { width: calc(100% - 24px); left: 12px; bottom: 12px; }
-  .a{}
 }
 /* Tablet */
 

@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // Fetch and display user profile details
   try {
-    const res = await fetch(`http://localhost:5000/api/profile/${userId}`);
+    const res = await fetch(`${window.API_BASE_URL}/api/profile/${userId}`);
     if (res.ok) {
       const user = await res.json();
       

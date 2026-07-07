@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 async function initializeForm() {
   try {
-    const res = await fetch("http://localhost:5000/api/clubs", {
+    const res = await fetch(window.API_BASE_URL + "/api/clubs", {
       headers: {
         "Authorization": `Bearer ${token}`
       }
@@ -69,7 +69,7 @@ form.addEventListener("submit", async (e) => {
 
   try {
     const res = await fetch(
-      "http://localhost:5000/api/announcements",
+      window.API_BASE_URL + "/api/announcements",
       {
         method: "POST",
         headers: {

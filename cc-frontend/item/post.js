@@ -46,7 +46,7 @@ async function loadMyPosts() {
   if (!postsContainer) return;
 
   try {
-    const res = await fetch(`http://localhost:5000/api/myposts/${userId}`);
+    const res = await fetch(`${window.API_BASE_URL}/api/myposts/${userId}`);
     const items = await res.json();
     
     postsContainer.innerHTML = "";
@@ -139,7 +139,7 @@ async function loadMyAnnouncements() {
   if (!postsContainer) return;
 
   try {
-    const res = await fetch(`http://localhost:5000/api/myannouncements/${userId}`, {
+    const res = await fetch(`${window.API_BASE_URL}/api/myannouncements/${userId}`, {
       headers: {
         "Authorization": `Bearer ${token}`
       }
@@ -214,7 +214,7 @@ async function loadMyAnnouncements() {
 window.resolvePost = async function(id) {
   if (!confirm("Are you sure you want to mark this item as resolved?")) return;
   try {
-    const res = await fetch(`http://localhost:5000/api/items/${id}`, {
+    const res = await fetch(`${window.API_BASE_URL}/api/items/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ status: "Resolved" })
@@ -233,7 +233,7 @@ window.resolvePost = async function(id) {
 window.deletePost = async function(id) {
   if (!confirm("Are you sure you want to delete this listing permanently? This cannot be undone.")) return;
   try {
-    const res = await fetch(`http://localhost:5000/api/items/${id}`, { method: "DELETE" });
+    const res = await fetch(`${window.API_BASE_URL}/api/items/${id}`, { method: "DELETE" });
     if (res.ok) {
       alert("Listing deleted successfully!");
       loadMyPosts();
@@ -287,7 +287,7 @@ window.submitEditAnnouncement = async function(e) {
   };
 
   try {
-    const res = await fetch(`http://localhost:5000/api/announcements/${id}`, {
+    const res = await fetch(`${window.API_BASE_URL}/api/announcements/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -315,7 +315,7 @@ window.deleteAnnouncement = async function(id) {
   const token = localStorage.getItem("token");
 
   try {
-    const res = await fetch(`http://localhost:5000/api/announcements/${id}`, {
+    const res = await fetch(`${window.API_BASE_URL}/api/announcements/${id}`, {
       method: "DELETE",
       headers: {
         "Authorization": `Bearer ${token}`

@@ -662,12 +662,21 @@ app.get("/api/messages/conversations/:userId", async (req, res) => {
       if (otherUser) {
         const username = otherUser.name || "Unknown User";
         const avatar = username.split(" ").filter(Boolean).map(n => n[0]).join("").toUpperCase().slice(0, 2);
+        
+        // Count unread messages sent by otherId to userId
+        const unreadCount = await Message.countDocuments({
+          senderId: otherId,
+          receiverId: userId,
+          isRead: { $ne: true }
+        });
+
         conversations.push({
           userId: otherId,
           username: username,
           avatar: avatar || "U",
           lastMessage: lastMsg.text,
-          time: lastMsg.createdAt
+          time: lastMsg.createdAt,
+          unreadCount: unreadCount
         });
       }
     }
@@ -688,6 +697,38 @@ app.get("/api/messages/:userId1/:userId2", async (req, res) => {
       ]
     }).sort({ createdAt: 1 });
     res.json(messages);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Mark all messages in a conversation as read
+app.put("/api/messages/read/:senderId/:receiverId", async (req, res) => {
+  try {
+    const { senderId, receiverId } = req.params;
+    await Message.updateMany(
+      { senderId: senderId, receiverId: receiverId, isRead: { $ne: true } },
+      { $set: { isRead: true } }
+    );
+    
+    // Notify receiver socket if active
+    const recipientSocketId = activeUsers.get(receiverId);
+    if (recipientSocketId) {
+      io.to(recipientSocketId).emit("messagesRead", { senderId });
+    }
+
+    res.json({ success: true, message: "Messages marked as read" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Get total unread messages count for a user
+app.get("/api/messages/unread-count/:userId", async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const count = await Message.countDocuments({ receiverId: userId, isRead: { $ne: true } });
+    res.json({ count });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

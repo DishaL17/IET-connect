@@ -7,7 +7,7 @@ async function loadRentItems() {
   if (!container) return;
 
   try {
-    const res = await fetch("http://localhost:5000/api/items?type=rent&status=Active");
+    const res = await fetch(window.API_BASE_URL + "/api/items?type=rent&status=Active");
     const items = await res.json();
     container.innerHTML = "";
 

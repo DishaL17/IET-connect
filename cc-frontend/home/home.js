@@ -13,7 +13,7 @@ let allActivities = [];
 
 async function loadActivities() {
     try {
-        const res = await fetch("http://localhost:5000/api/items"); 
+        const res = await fetch(window.API_BASE_URL + "/api/items"); 
         const data = await res.json();
 
         const now = new Date();

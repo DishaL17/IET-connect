@@ -1,3 +1,6 @@
+// Global API Base URL (Change this to your deployed backend URL in production)
+window.API_BASE_URL = "http://localhost:5000";
+
 // Global helper to resolve file paths from any subfolder
 window.getRootPath = function(targetFile) {
   const subfolders = ["/home/", "/item/", "/message/", "/announcement/", "/setting/"];
@@ -9,7 +12,9 @@ window.getRootPath = function(targetFile) {
 // Sync JWT session info to localStorage helper fields
 (function syncSession() {
   const token = localStorage.getItem("token");
-  const isAuthPage = window.location.pathname.includes("loginpage.html") || window.location.pathname.includes("register.html");
+  const isAuthPage = window.location.pathname.includes("loginpage.html") || 
+                     window.location.pathname.includes("register.html") || 
+                     window.location.pathname.includes("forgot-password.html");
 
   if (!token) {
     if (!isAuthPage) {
@@ -64,7 +69,7 @@ async function searchItems() {
         return;
     }
     try {
-        const res = await fetch("http://localhost:5000/api/items");
+        const res = await fetch(window.API_BASE_URL + "/api/items");
         const data = await res.json();
 
         // filter results
@@ -140,8 +145,33 @@ window.startChat = function(ownerId, ownerName) {
   window.location.href = getRootPath("message/notification.html");
 };
 
-window.updateNotificationBadge = function() {
-  // Safe no-op to prevent ReferenceError
+window.updateNotificationBadge = async function() {
+  const currentUserId = localStorage.getItem("userId");
+  if (!currentUserId) return;
+
+  try {
+    const res = await fetch(`${window.API_BASE_URL}/api/messages/unread-count/${currentUserId}`);
+    if (!res.ok) return;
+    const { count } = await res.json();
+
+    const navLinks = document.querySelectorAll(".nav-link");
+    navLinks.forEach(link => {
+      if (link.textContent.includes("Messages") || link.href.includes("notification.html")) {
+        let badge = link.querySelector(".nav-badge");
+        if (badge) {
+          badge.remove();
+        }
+        if (count > 0) {
+          badge = document.createElement("span");
+          badge.className = "nav-badge";
+          badge.textContent = count;
+          link.appendChild(badge);
+        }
+      }
+    });
+  } catch (err) {
+    console.error("Error updating notification badge:", err);
+  }
 };
 function getCurrentUser() {
   const token = localStorage.getItem("token");
@@ -176,6 +206,51 @@ document.addEventListener("DOMContentLoaded", () => {
       .toUpperCase()
       .slice(0, 2);
   }
+
+  // Update notification badge on page load
+  window.updateNotificationBadge();
 });
+
+// Setup background socket for live notification badge updates
+(function initBackgroundSocket() {
+  const currentUserId = localStorage.getItem("userId");
+  const token = localStorage.getItem("token");
+  if (!currentUserId || !token) return;
+
+  // Only connect socket in the background if we are NOT on the notification/chat page
+  if (window.location.pathname.includes("notification.html")) {
+    return;
+  }
+
+  // Load socket.io client script dynamically if not already loaded
+  if (typeof io === "undefined") {
+    const script = document.createElement("script");
+    script.src = "https://cdn.socket.io/4.7.5/socket.io.min.js";
+    script.onload = () => {
+      connectBackgroundSocket();
+    };
+    document.head.appendChild(script);
+  } else {
+    connectBackgroundSocket();
+  }
+
+  function connectBackgroundSocket() {
+    const socket = io(window.API_BASE_URL);
+
+    socket.on("connect", () => {
+      socket.emit("register", currentUserId);
+    });
+
+    socket.on("receiveMessage", (msg) => {
+      // Trigger a badge update when a new message is received!
+      window.updateNotificationBadge();
+    });
+
+    socket.on("messagesRead", () => {
+      // Sync unread badge count when receiver marks messages as read
+      window.updateNotificationBadge();
+    });
+  }
+})();
 
 

@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const userId = localStorage.getItem("userId");
 
   const res = await fetch(
-    `http://localhost:5000/api/profile/${userId}`
+    `${window.API_BASE_URL}/api/profile/${userId}`
   );
 
   const user = await res.json();
@@ -27,7 +27,7 @@ profileForm.addEventListener("submit", async (e) => {
   };
 
   const res = await fetch(
-    `http://localhost:5000/api/profile/${userId}`,
+    `${window.API_BASE_URL}/api/profile/${userId}`,
     {
       method: "PUT",
       headers: {

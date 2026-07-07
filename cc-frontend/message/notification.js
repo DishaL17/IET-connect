@@ -1,4 +1,4 @@
-const socket = io("http://localhost:5000");
+const socket = io(window.API_BASE_URL);
 
 document.addEventListener("DOMContentLoaded", () => {
   initChatSystem();
@@ -30,9 +30,19 @@ function initChatSystem() {
   socket.on("receiveMessage", (msg) => {
     console.log("Received message:", msg);
     if (activeRecipientId && (msg.senderId === activeRecipientId || msg.senderId === currentUserId)) {
+      if (msg.senderId === activeRecipientId) {
+        markConversationAsRead(activeRecipientId);
+      }
       loadChatMessages(true);
     }
     loadConversations();
+  });
+
+  socket.on("messagesRead", (data) => {
+    loadConversations();
+    if (window.updateNotificationBadge) {
+      window.updateNotificationBadge();
+    }
   });
 
   // Listen for sent acknowledgment
@@ -72,7 +82,7 @@ async function loadConversations() {
   if (!listContainer) return;
 
   try {
-    const res = await fetch(`http://localhost:5000/api/messages/conversations/${currentUserId}`);
+    const res = await fetch(`${window.API_BASE_URL}/api/messages/conversations/${currentUserId}`);
     if (!res.ok) throw new Error("Failed to load conversations");
     
     let conversations = await res.json();
@@ -110,12 +120,16 @@ async function loadConversations() {
 
       const formattedTime = formatChatTime(chat.time);
 
+      const badgeHtml = (chat.unreadCount && chat.unreadCount > 0 && chat.userId !== activeRecipientId)
+        ? `<span class="unread-badge" style="background:var(--teal); color:white; border-radius:50%; width:18px; height:18px; display:inline-flex; align-items:center; justify-content:center; font-size:10px; font-weight:800; margin-left:8px; line-height:1;">${chat.unreadCount}</span>`
+        : '';
+
       itemDiv.innerHTML = `
         <div class="chat-avatar">${chat.avatar || "👤"}</div>
         <div class="chat-details">
           <div class="chat-meta">
             <span class="chat-name">${chat.username}</span>
-            <span class="chat-time">${formattedTime}</span>
+            <span class="chat-time" style="display:flex; align-items:center;">${formattedTime}${badgeHtml}</span>
           </div>
           <span class="chat-preview">${chat.lastMessage}</span>
         </div>
@@ -148,7 +162,7 @@ async function startOrOpenChat(recipientId, recipientName) {
   // Fetch real name if recipientName is generic (e.g. "Founder") or not provided
   if (!recipientName || genericNames.includes(recipientName)) {
     try {
-      const res = await fetch(`http://localhost:5000/api/profile/${recipientId}`);
+      const res = await fetch(`${window.API_BASE_URL}/api/profile/${recipientId}`);
       if (res.ok) {
         const profile = await res.json();
         if (profile && profile.name) {
@@ -167,6 +181,9 @@ async function startOrOpenChat(recipientId, recipientName) {
 function selectConversation(recipientId, recipientName) {
   activeRecipientId = recipientId;
   activeRecipientName = recipientName;
+
+  // Mark this conversation as read
+  markConversationAsRead(recipientId);
 
   // Highlight selected item in sidebar
   const items = document.querySelectorAll(".chat-item");
@@ -215,7 +232,7 @@ async function loadChatMessages(shouldScrollToBottom = false) {
   if (!messagesContainer) return;
 
   try {
-    const res = await fetch(`http://localhost:5000/api/messages/${currentUserId}/${activeRecipientId}`);
+    const res = await fetch(`${window.API_BASE_URL}/api/messages/${currentUserId}/${activeRecipientId}`);
     if (!res.ok) throw new Error("Failed to load chat history");
 
     const messages = await res.json();
@@ -377,4 +394,19 @@ function setupProfileDropdown() {
       dropdown.style.display = "none";
     }
   });
+}
+
+async function markConversationAsRead(recipientId) {
+  try {
+    const res = await fetch(`${window.API_BASE_URL}/api/messages/read/${recipientId}/${currentUserId}`, {
+      method: "PUT"
+    });
+    if (res.ok) {
+      if (window.updateNotificationBadge) {
+        window.updateNotificationBadge();
+      }
+    }
+  } catch (err) {
+    console.error("Failed to mark conversation as read:", err);
+  }
 }

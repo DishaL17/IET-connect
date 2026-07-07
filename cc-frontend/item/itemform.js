@@ -143,7 +143,7 @@ const preview = document.getElementById("imagePreview");
     }
  
     try {
-      const res = await fetch("http://localhost:5000/api/items", {
+      const res = await fetch(window.API_BASE_URL + "/api/items", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

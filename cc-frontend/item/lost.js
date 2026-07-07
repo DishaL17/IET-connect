@@ -10,7 +10,7 @@ async function loadLostItems() {
   
 
   try {
-    const res = await fetch("http://localhost:5000/api/items?type=lost&status=Active");
+    const res = await fetch(window.API_BASE_URL + "/api/items?type=lost&status=Active");
  const items = await res.json();
 
  

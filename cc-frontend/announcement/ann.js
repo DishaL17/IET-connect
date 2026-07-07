@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 async function loadLatestAnnouncementsForHome() {
   try {
-    const res = await fetch("http://localhost:5000/api/announcements");
+    const res = await fetch(window.API_BASE_URL + "/api/announcements");
     const announcements = await res.json();
     const latest = announcements.slice(0, 3); // latest 3 only
 
@@ -52,7 +52,7 @@ async function loadAnnouncements() {
 
   try {
     const res = await fetch(
-      "http://localhost:5000/api/announcements"
+      window.API_BASE_URL + "/api/announcements"
     );
 
     const announcements = await res.json();
@@ -112,7 +112,7 @@ async function loadClubs() {
   const currentUserId = localStorage.getItem("userId");
 
   try {
-    const res = await fetch("http://localhost:5000/api/clubs", {
+    const res = await fetch(window.API_BASE_URL + "/api/clubs", {
       headers: {
         "Authorization": `Bearer ${token}`
       }
@@ -213,7 +213,7 @@ async function approveClub(id) {
   const token = localStorage.getItem("token");
   if (!confirm("Are you sure you want to approve this club application?")) return;
   try {
-    const res = await fetch(`http://localhost:5000/api/clubs/${id}/approve`, {
+    const res = await fetch(`${window.API_BASE_URL}/api/clubs/${id}/approve`, {
       method: "PUT",
       headers: {
         "Authorization": `Bearer ${token}`
@@ -236,7 +236,7 @@ async function rejectClub(id) {
   const token = localStorage.getItem("token");
   if (!confirm("Are you sure you want to reject and delete this club application?")) return;
   try {
-    const res = await fetch(`http://localhost:5000/api/clubs/${id}`, {
+    const res = await fetch(`${window.API_BASE_URL}/api/clubs/${id}`, {
       method: "DELETE",
       headers: {
         "Authorization": `Bearer ${token}`
@@ -306,7 +306,7 @@ async function loadPendingStudents() {
   const token = localStorage.getItem("token");
 
   try {
-    const res = await fetch("http://localhost:5000/api/admin/pending-verifications", {
+    const res = await fetch(window.API_BASE_URL + "/api/admin/pending-verifications", {
       headers: {
         "Authorization": `Bearer ${token}`
       }
@@ -355,7 +355,7 @@ async function approveStudent(id) {
   if (!confirm("Are you sure you want to verify this student?")) return;
 
   try {
-    const res = await fetch(`http://localhost:5000/api/admin/approve-student/${id}`, {
+    const res = await fetch(`${window.API_BASE_URL}/api/admin/approve-student/${id}`, {
       method: "PUT",
       headers: {
         "Authorization": `Bearer ${token}`
@@ -379,7 +379,7 @@ async function rejectStudent(id) {
   if (!confirm("Are you sure you want to reject this student verification request?")) return;
 
   try {
-    const res = await fetch(`http://localhost:5000/api/admin/reject-student/${id}`, {
+    const res = await fetch(`${window.API_BASE_URL}/api/admin/reject-student/${id}`, {
       method: "DELETE",
       headers: {
         "Authorization": `Bearer ${token}`

@@ -211,7 +211,7 @@
         async function checkVerificationStatus() {
             try {
                 // Fetch User Details
-                const res = await fetch(`http://localhost:5000/api/profile/${userId}`, {
+                const res = await fetch(`${window.API_BASE_URL}/api/profile/${userId}`, {
                     headers: {
                         "Authorization": `Bearer ${token}`
                     }
@@ -221,7 +221,7 @@
                 const user = await res.json();
                 
                 // Fetch Club details
-                const clubRes = await fetch("http://localhost:5000/api/clubs", {
+                const clubRes = await fetch(window.API_BASE_URL + "/api/clubs", {
                     headers: {
                         "Authorization": `Bearer ${token}`
                     }
@@ -369,7 +369,7 @@
             const rollNumber = document.getElementById("rollNumber").value.trim();
             
             try {
-                const res = await fetch(`http://localhost:5000/api/profile/${userId}/verification`, {
+                const res = await fetch(`${window.API_BASE_URL}/api/profile/${userId}/verification`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -402,7 +402,7 @@
             };
 
             try {
-                const res = await fetch("http://localhost:5000/api/clubs", {
+                const res = await fetch(window.API_BASE_URL + "/api/clubs", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",

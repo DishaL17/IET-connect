@@ -529,3 +529,20 @@ color: var(--white);
   margin-right: 6px;
 }
 
+.nav-badge {
+  background-color: #ef4444;
+  color: white;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 1px 6px;
+  border-radius: 999px;
+  margin-left: auto;
+  margin-right: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  box-shadow: 0 2px 4px rgba(239, 68, 68, 0.3);
+}
+

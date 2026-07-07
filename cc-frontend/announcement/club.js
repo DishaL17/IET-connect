@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Load and render club details
   async function loadClubDetails() {
     try {
-      const res = await fetch(`http://localhost:5000/api/clubs/${id}`);
+      const res = await fetch(`${window.API_BASE_URL}/api/clubs/${id}`);
       if (!res.ok) throw new Error("Failed to load club details.");
       const club = await res.json();
 
@@ -85,7 +85,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       try {
         const token = localStorage.getItem("token");
-        const res = await fetch(`http://localhost:5000/api/clubs/${id}`, {
+        const res = await fetch(`${window.API_BASE_URL}/api/clubs/${id}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
