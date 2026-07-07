@@ -1,4 +1,4 @@
-/*document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", () => {
   const eye = document.getElementById("eye");
   const passwordInput = document.getElementById("password");
 
@@ -6,7 +6,7 @@
     eye.addEventListener("click", () => {
       if (passwordInput.type === "password") {
         passwordInput.type = "text";
-        // Support FontAwesome class toggling if loaded
+        
         eye.className = "fa-solid fa-eye-slash";
       } else {
         passwordInput.type = "password";
@@ -14,7 +14,7 @@
       }
     });
   }
-});*/
+});
 
 const emailInput = document.getElementById("email");
 const passwordInput = document.getElementById("password");

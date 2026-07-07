@@ -1,13 +1,13 @@
 
 :root {
     --bg: rgb(249, 250, 250);
-  /* ── Brand ── */
+ 
   --teal:      #2f7e78;
-  --teal-md:   #29938d;      /* sidebar bg */
+  --teal-md:   #29938d;      
   --teal-lt:   #e0f7f5;
   --teal-dark: #1d5e5a;
 
-  /* ── Status ── */
+  
   --lost:      #b40b0b;
   --lost-lt:   #fdeaea;
   --found:     #1b8843;
@@ -17,25 +17,25 @@
   --rent:      #2563eb;
   --rent-lt:   #dbeafe;
 
-  /* ── Neutral ── */
+ 
   --text:      #1e293b;
   --muted:     #64748b;
   --border:    #e2e8f0;
   --border-lt: #f1f5f9;
-  --bg:        #fff7f5;       /* warm page bg — both pages */
+  --bg:        #fff7f5;       
   --surface:   #ffffff;
   --white:     #ffffff;
   --opp : black;
 }
 
-/* ── Main content area ── */
+
 .main {
   margin-left: calc(var(--sidebar-w) + 20px);
   border-radius: 20px;
   border: 2px solid var(--border);
   padding: 19px;
   position: relative;
-  background: var(--background);            /* warm bg — matches homepage */
+  background: var(--background);       
   min-height: 100vh;
 }
 

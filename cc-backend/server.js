@@ -27,12 +27,11 @@ const io = new Server(server, {
 console.log(process.env.MONGO_URI);
 connectDB();
 
-const activeUsers = new Map(); // userId -> socketId
+const activeUsers = new Map(); 
 
 io.on("connection", (socket) => {
   console.log(`User connected: ${socket.id}`);
 
-  // Register user mapping
   socket.on("register", (userId) => {
     if (userId) {
       activeUsers.set(userId, socket.id);
@@ -40,23 +39,21 @@ io.on("connection", (socket) => {
     }
   });
 
-  // Handle incoming message
+
   socket.on("sendMessage", async (data) => {
     try {
       const { senderId, receiverId, text } = data;
       if (!senderId || !receiverId || !text) return;
 
-      // Save to database
       const savedMessage = await Message.create({
         senderId,
         receiverId,
         text
       });
 
-      // Send back acknowledgment to sender
+    
       socket.emit("messageSent", savedMessage);
 
-      // Send to recipient if online
       const recipientSocketId = activeUsers.get(receiverId);
       if (recipientSocketId) {
         io.to(recipientSocketId).emit("receiveMessage", savedMessage);
@@ -67,10 +64,9 @@ io.on("connection", (socket) => {
     }
   });
 
-  // Handle disconnect
+
   socket.on("disconnect", () => {
     console.log(`User disconnected: ${socket.id}`);
-    // Clean up mapping
     for (const [userId, socketId] of activeUsers.entries()) {
       if (socketId === socket.id) {
         activeUsers.delete(userId);
@@ -87,8 +83,7 @@ app.use(express.urlencoded({ limit: "10mb", extended: true }));
 
 app.get("/", (req, res) => {
   res.send("Backend running 🚀");
-});
-//Items api 
+}); 
 app.get("/api/items", async (req, res) => {
   try {
     const { type, status } = req.query;
@@ -118,7 +113,7 @@ app.post("/api/items", async (req, res) => {
       location: req.body.location,
       price: req.body.price,
       imageUrl: req.body.imageUrl,
-       userId: req.body.userId // userId: req.user.id
+       userId: req.body.userId 
     });
     res.status(201).json(item);
   } catch (error) {
@@ -126,7 +121,6 @@ app.post("/api/items", async (req, res) => {
   }
 });
 
-// Update item (e.g. resolve it)
 app.put("/api/items/:id", async (req, res) => {
   try {
     const item = await Item.findByIdAndUpdate(
@@ -141,7 +135,6 @@ app.put("/api/items/:id", async (req, res) => {
   }
 });
 
-// Delete item
 app.delete("/api/items/:id", async (req, res) => {
   try {
     const item = await Item.findByIdAndDelete(req.params.id);
@@ -151,7 +144,7 @@ app.delete("/api/items/:id", async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
-//user api
+
 app.post("/register", async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -312,7 +305,6 @@ const requireAuth = (req, res, next) => {
   }
 };
 
-//club api
 app.post("/api/clubs", requireAuth, async (req, res) => {
   try {
     const club = await Club.create({
@@ -355,7 +347,7 @@ app.get("/api/clubs", async (req, res) => {
           };
         }
       } catch (jwtErr) {
-        // invalid token, show approved only
+       
       }
     }
 
@@ -389,7 +381,7 @@ app.put("/api/clubs/:id", requireAuth, async (req, res) => {
 
     const clubAdminId = club.clubAdmin ? club.clubAdmin.toString() : club.createdBy;
 
-    // Authorization: Must be the club admin or a global admin
+    
     if (clubAdminId !== req.user._id.toString() && req.user.role !== "admin") {
       return res.status(403).json({ error: "Access denied. Only the club admin can make changes." });
     }
@@ -422,7 +414,6 @@ const isAdmin = (req, res, next) => {
   }
 };
 
-// Middleware to check if user is global admin or the approved clubAdmin for the clubName
 const canPostAnnouncement = async (req, res, next) => {
   try {
     const authHeader = req.headers.authorization;
@@ -461,7 +452,7 @@ const canPostAnnouncement = async (req, res, next) => {
   }
 };
 
-// Approve a club application (Global admin only)
+
 app.put("/api/clubs/:id/approve", isAdmin, async (req, res) => {
   try {
     const club = await Club.findById(req.params.id);
@@ -478,7 +469,6 @@ app.put("/api/clubs/:id/approve", isAdmin, async (req, res) => {
   }
 });
 
-// Reject/Delete a club application (Global admin or creator)
 app.delete("/api/clubs/:id", requireAuth, async (req, res) => {
   try {
     const club = await Club.findById(req.params.id);
@@ -535,8 +525,8 @@ app.get("/api/announcements/latest", async (req, res) => {
   try {
     const announcements = await Announcement
       .find()
-      .sort({ createdAt: -1 }) // newest first
-      .limit(3); // latest 3 announcements
+      .sort({ createdAt: -1 }) 
+      .limit(3); 
     res.json(announcements);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -622,7 +612,7 @@ app.post("/api/messages", async (req, res) => {
       text: req.body.text
     });
 
-    // Send to recipient if online
+   
     const recipientSocketId = activeUsers.get(req.body.receiverId);
     if (recipientSocketId) {
       io.to(recipientSocketId).emit("receiveMessage", message);
@@ -637,12 +627,12 @@ app.post("/api/messages", async (req, res) => {
   }
 });
 
-// Get all unique conversation threads for a user
+
 app.get("/api/messages/conversations/:userId", async (req, res) => {
   try {
     const { userId } = req.params;
     
-    // Find all messages where this user is sender or receiver
+   
     const messages = await Message.find({
       $or: [{ senderId: userId }, { receiverId: userId }]
     }).sort({ createdAt: -1 });
@@ -662,8 +652,6 @@ app.get("/api/messages/conversations/:userId", async (req, res) => {
       if (otherUser) {
         const username = otherUser.name || "Unknown User";
         const avatar = username.split(" ").filter(Boolean).map(n => n[0]).join("").toUpperCase().slice(0, 2);
-        
-        // Count unread messages sent by otherId to userId
         const unreadCount = await Message.countDocuments({
           senderId: otherId,
           receiverId: userId,
@@ -686,7 +674,6 @@ app.get("/api/messages/conversations/:userId", async (req, res) => {
   }
 });
 
-// Get chat history between two users
 app.get("/api/messages/:userId1/:userId2", async (req, res) => {
   try {
     const { userId1, userId2 } = req.params;
@@ -702,7 +689,6 @@ app.get("/api/messages/:userId1/:userId2", async (req, res) => {
   }
 });
 
-// Mark all messages in a conversation as read
 app.put("/api/messages/read/:senderId/:receiverId", async (req, res) => {
   try {
     const { senderId, receiverId } = req.params;
@@ -711,7 +697,6 @@ app.put("/api/messages/read/:senderId/:receiverId", async (req, res) => {
       { $set: { isRead: true } }
     );
     
-    // Notify receiver socket if active
     const recipientSocketId = activeUsers.get(receiverId);
     if (recipientSocketId) {
       io.to(recipientSocketId).emit("messagesRead", { senderId });
@@ -723,7 +708,6 @@ app.put("/api/messages/read/:senderId/:receiverId", async (req, res) => {
   }
 });
 
-// Get total unread messages count for a user
 app.get("/api/messages/unread-count/:userId", async (req, res) => {
   try {
     const { userId } = req.params;
@@ -734,7 +718,6 @@ app.get("/api/messages/unread-count/:userId", async (req, res) => {
   }
 });
 
-// Feedback API
 app.post("/api/feedback", async (req, res) => {
   try {
     const feedback = await Feedback.create({
@@ -749,7 +732,6 @@ app.post("/api/feedback", async (req, res) => {
   }
 });
 
-// Reviews API
 app.post("/api/reviews", async (req, res) => {
   try {
     const review = await Review.create({
@@ -773,9 +755,6 @@ app.get("/api/reviews/:userId", async (req, res) => {
   }
 });
 
-// --- Forgot Password APIs ---
-
-// 1. Verify if email exists
 app.post("/api/forgot-password/verify-email", async (req, res) => {
   try {
     const { email } = req.body;
@@ -792,7 +771,6 @@ app.post("/api/forgot-password/verify-email", async (req, res) => {
   }
 });
 
-// 2. Reset password (OTP code '1234' verified for simplicity)
 app.post("/api/forgot-password/reset", async (req, res) => {
   try {
     const { email, code, newPassword } = req.body;
@@ -815,15 +793,12 @@ app.post("/api/forgot-password/reset", async (req, res) => {
   }
 });
 
-// --- Password & Verification Profile APIs ---
-
-// 3. Change password for logged-in user
 app.put("/api/profile/:id/change-password", requireAuth, async (req, res) => {
   try {
     const { id } = req.params;
     const { currentPassword, newPassword } = req.body;
 
-    // Check authorization: Must be the user modifying their own profile
+
     if (req.user._id !== id) {
       return res.status(403).json({ error: "Access denied. Unauthorized request." });
     }
@@ -852,7 +827,7 @@ app.put("/api/profile/:id/change-password", requireAuth, async (req, res) => {
   }
 });
 
-// 4. Submit verification details
+
 app.post("/api/profile/:id/verification", requireAuth, async (req, res) => {
   try {
     const { id } = req.params;
@@ -866,7 +841,7 @@ app.post("/api/profile/:id/verification", requireAuth, async (req, res) => {
       return res.status(400).json({ error: "Roll number is required." });
     }
 
-    // Update status to pending for admin approval
+
     const user = await User.findByIdAndUpdate(
       id,
       {
@@ -892,7 +867,7 @@ app.post("/api/profile/:id/verification", requireAuth, async (req, res) => {
   }
 });
 
-// Admin Student Verification Management APIs
+
 app.get("/api/admin/pending-verifications", isAdmin, async (req, res) => {
   try {
     const users = await User.find({ verificationStatus: "pending" });

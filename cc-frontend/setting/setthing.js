@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     return;
   }
 
-  // Fetch and display user profile details
+
   try {
     const res = await fetch(`${window.API_BASE_URL}/api/profile/${userId}`);
     if (res.ok) {
@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     console.error("Error loading settings profile:", err);
   }
 
-  // Handle Logout
+ 
   const logoutBtn = document.getElementById("logoutBtn");
   if (logoutBtn) {
     logoutBtn.addEventListener("click", () => {

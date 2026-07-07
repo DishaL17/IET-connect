@@ -27,7 +27,7 @@
   </div>
   </nav>
 
-   <!-- Topbar -->
+  
   <header class="topbar">
     <div class="search-bar">
       <div class="search-box">
@@ -44,16 +44,16 @@
       <span class="username"></span>
     </div>
 
-    <!-- Search Dropdown -->
+   
     <div class="search-drop" id="searchDrop" style="display:none">
       <ul id="result"></ul>
     </div>
   </header>
-  <!--notifications-->
+ 
   <main class="main">
     <div class="chat-container" id="chatContainer">
       
-      <!-- Left sidebar: Active Conversations -->
+     
       <div class="chat-sidebar" id="chatSidebar">
         <div class="chat-sidebar-header">
           <h2>Messages</h2>
@@ -63,19 +63,18 @@
         </div>
       </div>
       
-      <!-- Right area: Message History & Send Input -->
+   
       <div class="chat-main" id="chatMain">
-        <!-- Default State: No conversation selected -->
+     
         <div class="chat-welcome" id="chatWelcome">
           <div class="welcome-icon">💬</div>
           <h3>Select a conversation</h3>
           <p>Choose a chat from the sidebar or contact a seller/founder to start messaging.</p>
         </div>
-        
-        <!-- Active Chat State (hidden by default) -->
+       
         <div class="chat-active" id="chatActive" style="display: none;">
           <div class="chat-header">
-            <!-- Mobile Back Button -->
+          
             <button class="mobile-back-btn" onclick="closeChatMobile()" style="display:none; background:none; border:none; font-size:20px; cursor:pointer; color:var(--teal); padding: 4px 8px; margin-right: 8px;">←</button>
             <div class="chat-recipient-avatar" id="activeRecipientAvatar">👤</div>
             <div class="chat-recipient-info">
@@ -85,7 +84,7 @@
           </div>
           
           <div class="chat-messages" id="chatMessages">
-            <!-- Messages bubbles populated dynamically -->
+           
           </div>
           
           <div class="chat-input-bar">

@@ -1,5 +1,5 @@
 :root {
-  /* Colors from lsrf.css */
+
   --teal:      #2f7e78;
   --teal-lt:   #e0f7f5;
   --teal-dark: #1d5e5a;
@@ -147,7 +147,7 @@ textarea {
 }
 
 .price-field-wrapper {
-  display: none; /* Controlled dynamically by type select */
+  display: none; 
 }
 
 .submit-btn {
@@ -180,7 +180,6 @@ textarea {
   transform: none;
 }
 
-/* Response messaging */
 .message {
   margin-top: 15px;
   padding: 12px;

@@ -12,10 +12,10 @@ async function loadLatestAnnouncementsForHome() {
   try {
     const res = await fetch(window.API_BASE_URL + "/api/announcements");
     const announcements = await res.json();
-    const latest = announcements.slice(0, 3); // latest 3 only
+    const latest = announcements.slice(0, 3); 
 
     const container = document.getElementById("announcement-list");
-    window.latestAnnouncements = latest; // Store globally for access by index
+    window.latestAnnouncements = latest; 
 
     container.innerHTML = latest.map((a, index) => {
       const postDate = a.createdAt ? new Date(a.createdAt) : (a.date ? new Date(a.date) : null);
@@ -128,7 +128,7 @@ async function loadClubs() {
     let canPublish = (role === "admin");
 
     clubs.forEach(club => {
-      // Check if user is the admin of this approved club
+      
       if (club.status === "approved" && club.clubAdmin && club.clubAdmin.toString() === currentUserId) {
         canPublish = true;
       }
@@ -157,7 +157,7 @@ async function loadClubs() {
 
           pendingList.appendChild(div);
         } else {
-          // User's own pending club request
+       
           const div = document.createElement("div");
           div.className = "cn";
           div.style.background = "#fffbeb";
@@ -177,7 +177,7 @@ async function loadClubs() {
           clubList.appendChild(div);
         }
       } else {
-        // Approved club
+       
         const div = document.createElement("div");
         div.className = "cn";
         div.innerHTML = `
@@ -220,15 +220,15 @@ async function approveClub(id) {
       }
     });
     if (res.ok) {
-      alert("🎉 Club approved successfully!");
+      alert(" Club approved successfully!");
       loadClubs();
     } else {
       const err = await res.json();
-      alert(`❌ Approval failed: ${err.error || "Unknown error"}`);
+      alert(` Approval failed: ${err.error || "Unknown error"}`);
     }
   } catch (e) {
     console.error(e);
-    alert("❌ Server connection error.");
+    alert(" Server connection error.");
   }
 }
 
@@ -243,18 +243,18 @@ async function rejectClub(id) {
       }
     });
     if (res.ok) {
-      alert("✅ Club request rejected/deleted.");
+      alert("Club request rejected/deleted.");
       loadClubs();
     } else {
       const err = await res.json();
-      alert(`❌ Rejection failed: ${err.error || "Unknown error"}`);
+      alert(` Rejection failed: ${err.error || "Unknown error"}`);
     }
   } catch (e) {
     console.error(e);
-    alert("❌ Server connection error.");
+    alert(" Server connection error.");
   }
 }
-// --- Announcement Modal helper functions ---
+
 window.openAnnouncementModal = function(ann) {
   const modal = document.getElementById("announcementModal");
   if (!modal) return;
@@ -363,11 +363,11 @@ async function approveStudent(id) {
     });
 
     if (res.ok) {
-      alert("✅ Student verified successfully!");
+      alert(" Student verified successfully!");
       loadPendingStudents();
     } else {
       const err = await res.json();
-      alert(`❌ Verification failed: ${err.error || "Unknown error"}`);
+      alert(` Verification failed: ${err.error || "Unknown error"}`);
     }
   } catch (err) {
     console.error(err);
@@ -387,11 +387,11 @@ async function rejectStudent(id) {
     });
 
     if (res.ok) {
-      alert("❌ Student verification request rejected.");
+      alert(" Student verification request rejected.");
       loadPendingStudents();
     } else {
       const err = await res.json();
-      alert(`❌ Rejection failed: ${err.error || "Unknown error"}`);
+      alert(` Rejection failed: ${err.error || "Unknown error"}`);
     }
   } catch (err) {
     console.error(err);

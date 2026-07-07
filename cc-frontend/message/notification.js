@@ -8,7 +8,7 @@ let currentUserId = localStorage.getItem("userId");
 let currentUsername = localStorage.getItem("username") || "Me";
 let activeRecipientId = null;
 let activeRecipientName = null;
-let chatCountMap = {}; // Tracks message count to avoid unnecessary redraws
+let chatCountMap = {}; 
 
 function initChatSystem() {
   if (!currentUserId) {
@@ -17,16 +17,14 @@ function initChatSystem() {
     return;
   }
 
-  // Setup profile dropdown in top bar
   setupProfileDropdown();
 
-  // Socket connection and registration
+ 
   socket.on("connect", () => {
     console.log("Connected to socket server");
     socket.emit("register", currentUserId);
   });
 
-  // Listen for incoming messages
   socket.on("receiveMessage", (msg) => {
     console.log("Received message:", msg);
     if (activeRecipientId && (msg.senderId === activeRecipientId || msg.senderId === currentUserId)) {
@@ -45,7 +43,6 @@ function initChatSystem() {
     }
   });
 
-  // Listen for sent acknowledgment
   socket.on("messageSent", (msg) => {
     console.log("Message sent acknowledgment:", msg);
     if (activeRecipientId && msg.receiverId === activeRecipientId) {
@@ -54,29 +51,29 @@ function initChatSystem() {
     loadConversations();
   });
 
-  // Load conversations initially
+ 
   loadConversations().then((conversations) => {
-    // Check if there is a redirection to chat from an item page
+    
     const activeChatId = localStorage.getItem("activeChatUserId");
     const activeChatName = localStorage.getItem("activeChatUsername");
 
     if (activeChatId) {
-      // Clear localStorage parameters so we don't re-trigger this next visit
+     
       localStorage.removeItem("activeChatUserId");
       localStorage.removeItem("activeChatUsername");
       
       startOrOpenChat(activeChatId, activeChatName);
     } else if (conversations && conversations.length > 0) {
-      // Automatically open the first conversation on load instead of welcome screen
+      
       selectConversation(conversations[0].userId, conversations[0].username);
     }
   });
 
-  // Slowly refresh conversation list in the background as a fallback
+ 
   setInterval(loadConversations, 15000);
 }
 
-// ---------------- LOAD CONVERSATION THREADS ----------------
+
 async function loadConversations() {
   const listContainer = document.getElementById("conversationList");
   if (!listContainer) return;
@@ -87,7 +84,7 @@ async function loadConversations() {
     
     let conversations = await res.json();
     
-    // Clear list
+    
     listContainer.innerHTML = "";
 
     if (conversations.length === 0 && !activeRecipientId) {
@@ -100,8 +97,7 @@ async function loadConversations() {
       return conversations;
     }
 
-    // If there is an active chat with someone who is NOT yet in the conversations list (no messages sent yet),
-    // we prepend a temporary chat item so the user can see who they are chatting with.
+  
     const hasActiveChatInList = conversations.some(c => c.userId === activeRecipientId);
     if (activeRecipientId && !hasActiveChatInList) {
       conversations.unshift({
@@ -152,14 +148,13 @@ async function loadConversations() {
   }
 }
 
-// ---------------- OPEN CHAT (FROM ITEM CARDS OR SIDEBAR) ----------------
+
 async function startOrOpenChat(recipientId, recipientName) {
   if (recipientId === currentUserId) return;
 
   let dispName = recipientName || "Item Owner";
   const genericNames = ["Lost Item Owner", "Founder", "Seller", "Owner", "Item Owner"];
 
-  // Fetch real name if recipientName is generic (e.g. "Founder") or not provided
   if (!recipientName || genericNames.includes(recipientName)) {
     try {
       const res = await fetch(`${window.API_BASE_URL}/api/profile/${recipientId}`);
@@ -177,39 +172,39 @@ async function startOrOpenChat(recipientId, recipientName) {
   selectConversation(recipientId, dispName);
 }
 
-// Select conversation
+
 function selectConversation(recipientId, recipientName) {
   activeRecipientId = recipientId;
   activeRecipientName = recipientName;
 
-  // Mark this conversation as read
+  
   markConversationAsRead(recipientId);
 
-  // Highlight selected item in sidebar
+
   const items = document.querySelectorAll(".chat-item");
   items.forEach(item => item.classList.remove("active"));
   
-  // Show active view, hide welcome
+
   document.getElementById("chatWelcome").style.display = "none";
   document.getElementById("chatActive").style.display = "flex";
 
-  // Update Header details
+
   document.getElementById("activeRecipientName").textContent = recipientName;
   const avatarInitials = recipientName.split(" ").map(n => n[0]).join("").toUpperCase().slice(0, 2);
   document.getElementById("activeRecipientAvatar").textContent = avatarInitials;
 
-  // Mobile layout adjustment
+  
   const chatContainer = document.getElementById("chatContainer");
   chatContainer.classList.add("active-chat-open");
   const backBtn = document.querySelector(".mobile-back-btn");
   if (backBtn) backBtn.style.display = "inline-block";
 
-  // Load chat history
+
   loadChatMessages(true);
-  loadConversations(); // Update active highlights
+  loadConversations(); 
 }
 
-// Mobile back button helper
+
 window.closeChatMobile = function() {
   activeRecipientId = null;
   activeRecipientName = null;
@@ -224,7 +219,7 @@ window.closeChatMobile = function() {
   loadConversations();
 };
 
-// ---------------- LOAD MESSAGES HISTORY ----------------
+
 async function loadChatMessages(shouldScrollToBottom = false) {
   if (!activeRecipientId) return;
 
@@ -237,10 +232,10 @@ async function loadChatMessages(shouldScrollToBottom = false) {
 
     const messages = await res.json();
     
-    // Save message count to avoid redrawing if nothing changed
+   
     const currentCount = messages.length;
     if (chatCountMap[activeRecipientId] === currentCount && !shouldScrollToBottom) {
-      return; // Skip redraw
+      return; 
     }
     chatCountMap[activeRecipientId] = currentCount;
 
@@ -261,7 +256,7 @@ async function loadChatMessages(shouldScrollToBottom = false) {
       const msgDate = new Date(msg.createdAt);
       const dateStr = msgDate.toDateString();
 
-      // Render date separator if the day changes
+   
       if (dateStr !== lastDateStr) {
         const separator = document.createElement("div");
         separator.className = "chat-date-separator";
@@ -306,7 +301,7 @@ async function loadChatMessages(shouldScrollToBottom = false) {
   }
 }
 
-// ---------------- SEND MESSAGE ----------------
+
 window.sendMessage = function() {
   const input = document.getElementById("messageInput");
   if (!input) return;
@@ -314,11 +309,11 @@ window.sendMessage = function() {
   const text = input.value.trim();
   if (!text || !activeRecipientId) return;
 
-  // Clear input instantly for better UX
+ 
   input.value = "";
   input.focus();
 
-  // Emit via socket
+ 
   socket.emit("sendMessage", {
     senderId: currentUserId,
     receiverId: activeRecipientId,
@@ -326,7 +321,7 @@ window.sendMessage = function() {
   });
 };
 
-// Helper to format timestamps nicely
+
 function formatChatTime(dateString) {
   const date = new Date(dateString);
   const now = new Date();
@@ -344,7 +339,7 @@ function formatChatTime(dateString) {
   return date.toLocaleDateString([], { month: 'short', day: 'numeric' });
 }
 
-// ---------------- DYNAMIC PROFILE DROPDOWN (COPIED FROM HOME) ----------------
+
 function setupProfileDropdown() {
   const userChip = document.querySelector(".user-chip");
   if (!userChip) return;

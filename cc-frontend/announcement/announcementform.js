@@ -22,7 +22,7 @@ async function initializeForm() {
     if (!res.ok) throw new Error("Failed to load clubs.");
     const clubs = await res.json();
 
-    // Find approved clubs managed by this user
+ 
     const myClubs = clubs.filter(c => c.status === "approved" && c.clubAdmin && c.clubAdmin.toString() === currentUserId);
 
     const isGlobalAdmin = (role === "admin");
@@ -34,7 +34,7 @@ async function initializeForm() {
       return;
     }
 
-    // If club admin and NOT global admin, swap the text input with a select dropdown
+  
     if (isClubAdmin && !isGlobalAdmin) {
       const container = document.getElementById("clubNameContainer");
       if (container) {
@@ -85,7 +85,7 @@ form.addEventListener("submit", async (e) => {
     if (res.ok) {
       document.getElementById("message").style.color = "green";
       document.getElementById("message").textContent =
-        "✅ Announcement Created Successfully";
+        " Announcement Created Successfully";
 
       form.reset();
     } else {
@@ -98,6 +98,6 @@ form.addEventListener("submit", async (e) => {
     console.error(error);
     document.getElementById("message").style.color = "red";
     document.getElementById("message").textContent =
-      "❌ Server Error";
+      " Server Error";
   }
 });

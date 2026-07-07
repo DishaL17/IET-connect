@@ -20,11 +20,11 @@ const preview = document.getElementById("imagePreview");
     itemTypeSelect.value = typeParam.toLowerCase();
   }
 
-  // 2. Adjust Form Fields dynamically based on Type selection
+  
   function adjustFormFields() {
     const type = itemTypeSelect.value;
     
-    // Update Form Header Title
+    
     if (type === "lost") {
       formTitle.textContent = "Report a Lost Item";
       backBtn.href = "lost.html";
@@ -74,7 +74,7 @@ const preview = document.getElementById("imagePreview");
 
   let base64Image = "";
 
-  // Handle image selection, preview, and downscaling compression
+ 
   imageInput.addEventListener("change", (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -83,7 +83,7 @@ const preview = document.getElementById("imagePreview");
     reader.onload = function(event) {
       const img = new Image();
       img.onload = function() {
-        // Downscale image to maximum 800px width/height to save DB size
+        
         const canvas = document.createElement("canvas");
         let width = img.width;
         let height = img.height;
@@ -106,10 +106,10 @@ const preview = document.getElementById("imagePreview");
         const ctx = canvas.getContext("2d");
         ctx.drawImage(img, 0, 0, width, height);
 
-        // Compress to JPEG with 0.7 quality
+        
         base64Image = canvas.toDataURL("image/jpeg", 0.7);
 
-        // Render preview image
+        
         preview.src = base64Image;
         preview.style.display = "block";
       };
@@ -134,7 +134,7 @@ const preview = document.getElementById("imagePreview");
       category: document.getElementById("itemCategory").value,
       location: inputLocation.value.trim(),
       description: document.getElementById("itemDescription").value.trim(),
-      imageUrl: base64Image || "", // Use base64 string
+      imageUrl: base64Image || "", 
       userId: userId
     };
 
@@ -154,7 +154,7 @@ const preview = document.getElementById("imagePreview");
       const data = await res.json();
 
       if (res.ok) {
-        formMessage.textContent = "🎉 Listing posted successfully! Redirecting...";
+        formMessage.textContent = " Listing posted successfully! Redirecting...";
         formMessage.className = "message success";
         formMessage.style.display = "block";
         itemForm.reset();
@@ -171,7 +171,7 @@ const preview = document.getElementById("imagePreview");
 
     } catch (err) {
       console.error("Form Submit Error:", err);
-      formMessage.textContent = `❌ Error: ${err.message}`;
+      formMessage.textContent = ` Error: ${err.message}`;
       formMessage.className = "message error";
       formMessage.style.display = "block";
       

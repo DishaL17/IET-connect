@@ -133,7 +133,7 @@
             <div class="status-badge status-unverified" id="statusBadge">Checking...</div>
         </div>
 
-        <!-- Option Selector (only shown if unverified in both student and club) -->
+      
         <div id="roleSelector" class="role-selector-container" style="display: none; flex-direction: column; gap: 20px; margin-bottom: 25px;">
             <p style="font-weight: 700; font-size: 16px; color: var(--text); margin-bottom: 5px; text-align: center;">Choose your verification type:</p>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
@@ -150,7 +150,7 @@
             </div>
         </div>
 
-        <!-- Student Verification Form -->
+       
         <form id="verificationForm" style="display: none;">
             <div class="form-group">
                 <label class="form-label">College Registration / Roll Number</label>
@@ -169,7 +169,7 @@
             <button type="submit" class="btn-submit">Submit for Verification</button>
         </form>
 
-        <!-- Club Verification Form -->
+       
         <form id="clubVerificationForm" style="display: none;">
             <div class="form-group">
                 <label class="form-label">Club Name</label>
@@ -210,7 +210,7 @@
 
         async function checkVerificationStatus() {
             try {
-                // Fetch User Details
+               
                 const res = await fetch(`${window.API_BASE_URL}/api/profile/${userId}`, {
                     headers: {
                         "Authorization": `Bearer ${token}`
@@ -220,7 +220,7 @@
                 if (!res.ok) return;
                 const user = await res.json();
                 
-                // Fetch Club details
+                
                 const clubRes = await fetch(window.API_BASE_URL + "/api/clubs", {
                     headers: {
                         "Authorization": `Bearer ${token}`
@@ -246,7 +246,7 @@
                     document.getElementById("verificationForm").style.display = "none";
                     updateClubStatusUI(myClub);
                 } else {
-                    // Both unverified
+                    
                     document.getElementById("statusContainer").style.display = "none";
                     document.getElementById("roleSelector").style.display = "flex";
                     document.getElementById("verificationForm").style.display = "none";
@@ -334,7 +334,7 @@
                     verifiedMessage.style.color = "#1b8843";
                     verifiedMessage.innerHTML = `🎉 Congratulations! Your club <b>${club.clubName}</b> has been verified. You now have full admin privileges to publish announcements and edit details for this club.`;
                 } else {
-                    // Pending
+                    
                     statusIcon.textContent = "⏳";
                     statusBadge.textContent = "Pending Approval";
                     statusBadge.classList.add("status-pending");
@@ -346,14 +346,14 @@
                     verifiedMessage.innerHTML = `⏳ Your club verification request for <b>${club.clubName}</b> is pending. Our admin team is reviewing your club details.`;
                 }
             } else {
-                // No club request yet
+               
                 statusIcon.textContent = "❌";
                 statusBadge.textContent = "Unverified Club";
                 statusBadge.classList.add("status-unverified");
                 clubForm.style.display = "block";
                 verifiedMessage.style.display = "none";
                 
-                // Pre-fill headName with user's name
+                
                 document.getElementById("clubHeadInput").value = localStorage.getItem("username") || "";
             }
         }

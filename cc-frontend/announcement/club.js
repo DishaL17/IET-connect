@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     return;
   }
 
-  // Load and render club details
+ 
   async function loadClubDetails() {
     try {
       const res = await fetch(`${window.API_BASE_URL}/api/clubs/${id}`);
@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       document.getElementById("currentProjects").textContent = club.currentProjects || "";
       document.getElementById("futureScope").textContent = club.futureScope || "";
 
-      // Authorization Check: Only club admin (ref/createdBy) or global admin
+  
       const currentUserId = localStorage.getItem("userId");
       const currentUserRole = localStorage.getItem("role");
       const clubAdminId = club.clubAdmin ? club.clubAdmin.toString() : club.createdBy;
@@ -49,7 +49,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     if (!editBtn || !modal || !closeBtn || !form) return;
 
-    // Open Modal and Pre-fill current details
     editBtn.onclick = () => {
       document.getElementById("editHeadName").value = club.headName || "";
       document.getElementById("editFoundedYear").value = club.foundedYear || "";
@@ -59,19 +58,19 @@ document.addEventListener("DOMContentLoaded", async () => {
       modal.style.display = "flex";
     };
 
-    // Close Modal
+    
     closeBtn.onclick = () => {
       modal.style.display = "none";
     };
 
-    // Close Modal on clicking outside content area
+    
     window.onclick = (e) => {
       if (e.target === modal) {
         modal.style.display = "none";
       }
     };
 
-    // Handle Form Submit
+    
     form.onsubmit = async (e) => {
       e.preventDefault();
 
@@ -96,15 +95,15 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         const data = await res.json();
         if (res.ok) {
-          alert("🎉 Club details updated successfully!");
+          alert(" Club details updated successfully!");
           modal.style.display = "none";
-          loadClubDetails(); // Reload and re-render
+          loadClubDetails(); 
         } else {
-          alert(`❌ Failed to update: ${data.error || "Unknown error"}`);
+          alert(` Failed to update: ${data.error || "Unknown error"}`);
         }
       } catch (err) {
         console.error("Error updating club:", err);
-        alert("❌ Server connection error.");
+        alert(" Server connection error.");
       }
     };
   }

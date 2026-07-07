@@ -1,7 +1,6 @@
-// Global API Base URL (Change this to your deployed backend URL in production)
+
 window.API_BASE_URL = "http://localhost:5000";
 
-// Global helper to resolve file paths from any subfolder
 window.getRootPath = function(targetFile) {
   const subfolders = ["/home/", "/item/", "/message/", "/announcement/", "/setting/"];
   const currentPath = window.location.pathname;
@@ -9,7 +8,6 @@ window.getRootPath = function(targetFile) {
   return isSubfolder ? `../${targetFile}` : targetFile;
 };
 
-// Sync JWT session info to localStorage helper fields
 (function syncSession() {
   const token = localStorage.getItem("token");
   const isAuthPage = window.location.pathname.includes("loginpage.html") || 
@@ -53,7 +51,6 @@ window.getRootPath = function(targetFile) {
     return;
   }
 
-  // Token is valid, sync the fields
   localStorage.setItem("userId", payload._id);
   localStorage.setItem("username", payload.name);
   localStorage.setItem("role", payload.role);
@@ -72,24 +69,23 @@ async function searchItems() {
         const res = await fetch(window.API_BASE_URL + "/api/items");
         const data = await res.json();
 
-        // filter results
+       
         const filtered = data.filter(item =>
             item.title.toLowerCase().includes(query.toLowerCase())
         );
 
-        // show dropdown
+  
         drop.style.display = "block";
 
-        // clear old results
+     
         resultBox.innerHTML = "";
 
-        // no results
+      
         if (filtered.length === 0) {
             resultBox.innerHTML = "<li>No results found</li>";
             return;
         }
 
-        // render results
         filtered.slice(0, 5).forEach(item => {
             const li = document.createElement("li");
             li.style.display = "flex";
@@ -112,7 +108,7 @@ async function searchItems() {
                 </span>
             `;
 
-            // click on result - navigate to item page with ID highlight parameter
+
             li.onclick = () => {
                 drop.style.display = "none";
                 window.location.href = getRootPath("item/" + item.type + ".html?id=" + item._id);
@@ -126,7 +122,6 @@ async function searchItems() {
     }
 }
 
-// Global startChat helper to redirect to chats page with correct active recipient
 window.startChat = function(ownerId, ownerName) {
   const currentUserId = localStorage.getItem("userId");
   if (!currentUserId) {
@@ -207,22 +202,19 @@ document.addEventListener("DOMContentLoaded", () => {
       .slice(0, 2);
   }
 
-  // Update notification badge on page load
   window.updateNotificationBadge();
 });
 
-// Setup background socket for live notification badge updates
 (function initBackgroundSocket() {
   const currentUserId = localStorage.getItem("userId");
   const token = localStorage.getItem("token");
   if (!currentUserId || !token) return;
 
-  // Only connect socket in the background if we are NOT on the notification/chat page
+ 
   if (window.location.pathname.includes("notification.html")) {
     return;
   }
 
-  // Load socket.io client script dynamically if not already loaded
   if (typeof io === "undefined") {
     const script = document.createElement("script");
     script.src = "https://cdn.socket.io/4.7.5/socket.io.min.js";
@@ -242,12 +234,12 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     socket.on("receiveMessage", (msg) => {
-      // Trigger a badge update when a new message is received!
+    
       window.updateNotificationBadge();
     });
 
     socket.on("messagesRead", () => {
-      // Sync unread badge count when receiver marks messages as read
+    
       window.updateNotificationBadge();
     });
   }

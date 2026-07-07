@@ -39,7 +39,6 @@ function loadTabContent() {
   }
 }
 
-// ---------------- FETCH AND RENDER MY POSTS (ITEMS) ----------------
 async function loadMyPosts() {
   const userId = localStorage.getItem("userId");
   const postsContainer = document.querySelector(".itm");
@@ -131,7 +130,7 @@ async function loadMyPosts() {
   }
 }
 
-// ---------------- FETCH AND RENDER MY ANNOUNCEMENTS ----------------
+
 async function loadMyAnnouncements() {
   const userId = localStorage.getItem("userId");
   const token = localStorage.getItem("token");
@@ -210,7 +209,7 @@ async function loadMyAnnouncements() {
   }
 }
 
-// ---------------- RESOLVE/DELETE ITEMS ----------------
+
 window.resolvePost = async function(id) {
   if (!confirm("Are you sure you want to mark this item as resolved?")) return;
   try {
@@ -245,7 +244,7 @@ window.deletePost = async function(id) {
   }
 };
 
-// ---------------- ANNOUNCEMENT EDIT & DELETE HANDLERS ----------------
+
 window.openEditAnnouncementModal = function(id) {
   const ann = myAnnouncements.find(a => a._id === id);
   if (!ann) return;
@@ -297,16 +296,16 @@ window.submitEditAnnouncement = async function(e) {
     });
 
     if (res.ok) {
-      alert("✅ Announcement updated successfully!");
+      alert(" Announcement updated successfully!");
       closeEditAnnouncementModal();
       loadMyAnnouncements();
     } else {
       const err = await res.json();
-      alert(`❌ Update failed: ${err.error || "Unknown error"}`);
+      alert(` Update failed: ${err.error || "Unknown error"}`);
     }
   } catch (err) {
     console.error("Update error:", err);
-    alert("❌ Server connection error.");
+    alert(" Server connection error.");
   }
 };
 
@@ -323,19 +322,18 @@ window.deleteAnnouncement = async function(id) {
     });
 
     if (res.ok) {
-      alert("✅ Announcement deleted successfully!");
+      alert("Announcement deleted successfully!");
       loadMyAnnouncements();
     } else {
       const err = await res.json();
-      alert(`❌ Delete failed: ${err.error || "Unknown error"}`);
+      alert(` Delete failed: ${err.error || "Unknown error"}`);
     }
   } catch (err) {
     console.error("Delete error:", err);
-    alert("❌ Server connection error.");
+    alert(" Server connection error.");
   }
 };
 
-// Handle clicks outside of modals to close them
 window.onclick = function(e) {
   const editModal = document.getElementById("editAnnouncementModal");
   if (e.target === editModal) {
