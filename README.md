@@ -45,39 +45,4 @@ campus-connect/
     └── register.html           # Student registration page
 ```
 
----
 
-## ⚙️ Getting Started
-
-### Prerequisites
-* [Node.js](https://nodejs.org/) installed locally.
-* A running [MongoDB](https://www.mongodb.com/) instance (locally or via MongoDB Atlas).
-
-### 1. Backend Configuration
-1. Navigate to the backend directory:
-   ```bash
-   cd cc-backend
-   ```
-2. Install required dependencies:
-   ```bash
-   npm install
-   ```
-3. Create a `.env` file in the root of `/cc-backend` and configure your environment variables:
-   ```env
-   MONGO_URI="your-mongodb-connection-string"
-   PORT=5000
-   JWT_SECRET="your-secure-jwt-secret-key"
-   ```
-4. Start the server:
-   ```bash
-   npm start
-   ```
-
-### 2. Frontend Launch
-1. Open the `cc-frontend/loginpage.html` file directly in your browser, or serve it using a local dev server (e.g. VS Code Live Server).
-2. Log in using your registered credentials. Note: By default, registrations are restricted to email addresses containing `"ietdavv"`.
-
----
-
-## 🌐 Production Deployment
-For deploying the app to staging or production environments (such as Render, Netlify, or Vercel), refer to the detailed deployment guide for configuring the database connection strings and updating `window.API_BASE_URL` inside `common.js`.
