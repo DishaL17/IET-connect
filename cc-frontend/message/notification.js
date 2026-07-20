@@ -17,8 +17,6 @@ function initChatSystem() {
     return;
   }
 
-  setupProfileDropdown();
-
  
   socket.on("connect", () => {
     console.log("Connected to socket server");
@@ -339,57 +337,6 @@ function formatChatTime(dateString) {
   return date.toLocaleDateString([], { month: 'short', day: 'numeric' });
 }
 
-
-function setupProfileDropdown() {
-  const userChip = document.querySelector(".user-chip");
-  if (!userChip) return;
-
-  userChip.style.position = "relative";
-  userChip.style.cursor = "pointer";
-  userChip.id = "userChip";
-
-  const dropdown = document.createElement("div");
-  dropdown.id = "profileDropdown";
-  dropdown.className = "profile-dropdown";
-  dropdown.style.display = "none";
-  
-  const usernameSpan = userChip.querySelector(".username");
-  const avatarDiv = userChip.querySelector(".avatar");
-  
-  const fullname = usernameSpan ? usernameSpan.textContent.trim() : "Disha Lowanshi";
-  const initials = avatarDiv ? avatarDiv.textContent.trim() : "DL";
-  const email = fullname.toLowerCase().replace(/\s+/g, ".") + "@college.edu";
-
-  dropdown.innerHTML = `
-    <div class="profile-header">
-      <div class="profile-avatar">${initials}</div>
-      <div class="profile-info">
-        <div class="profile-name">${fullname}</div>
-        <div class="profile-email">${email}</div>
-      </div>
-    </div>
-    <hr class="dropdown-divider">
-    <a href="../item/post.html" class="dropdown-item"><span>📋</span> My Posts</a>
-    <a href="../setting/setthing.html" class="dropdown-item"><span>⚙️</span> Settings</a>
-    <hr class="dropdown-divider">
-    <a href="../loginpage.html" class="dropdown-item logout-item"><span>🚪</span> Logout</a>
-  `;
-
-  userChip.appendChild(dropdown);
-
-  userChip.addEventListener("click", (e) => {
-    if (!dropdown.contains(e.target)) {
-      e.stopPropagation();
-      dropdown.style.display = dropdown.style.display === "none" ? "flex" : "none";
-    }
-  });
-
-  document.addEventListener("click", (e) => {
-    if (e.target !== userChip && !userChip.contains(e.target)) {
-      dropdown.style.display = "none";
-    }
-  });
-}
 
 async function markConversationAsRead(recipientId) {
   try {

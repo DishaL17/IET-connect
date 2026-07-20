@@ -44,7 +44,7 @@ function renderRecent() {
 
     if (recent.length === 0) {
         recentList.innerHTML = `
-            <li class="act-item" style="color: var(--muted); font-style: italic; padding: 15px; text-align: center; justify-content: center; width: 100%;">
+            <li class="act-item" style="color: var(--muted); font-style: italic; padding: 10px; text-align: center; justify-content: center; ">
                 No recent activity in the last 7 days.
             </li>
         `;
