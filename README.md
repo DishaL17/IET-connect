@@ -45,4 +45,8 @@ campus-connect/
     └── register.html           # Student registration page
 ```
 
+## 🚀 Live Demo
+🌐 Frontend: https://iet-connect-dun.vercel.app
+⚙️ Backend API: https://iet-connect-escl.onrender.com
+
 
