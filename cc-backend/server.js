@@ -17,9 +17,15 @@ const app = express();
 const http = require("http");
 const { Server } = require("socket.io");
 const server = http.createServer(app);
+const allowedOrigins = [
+  "https://iet-connect-dun.vercel.app",
+  "http://127.0.0.1:5500",
+  "http://localhost:5500"
+];
+
 const io = new Server(server, {
   cors: {
-    origin: "https://iet-connect-dun.vercel.app",
+    origin: allowedOrigins,
     methods: ["GET", "POST"],
     credentials: true
   }
@@ -78,8 +84,22 @@ io.on("connection", (socket) => {
   });
 });
 
+const allowedOrigins = [
+  "https://iet-connect-dun.vercel.app",
+  "http://127.0.0.1:5500",
+  "http://localhost:5500"
+];
+
 app.use(cors({
-  origin: "https://iet-connect-dun.vercel.app",
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true);
+
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   credentials: true
 }));
 app.use(express.json({ limit: "10mb" }));
@@ -715,10 +735,24 @@ app.put("/api/messages/read/:senderId/:receiverId", async (req, res) => {
 app.get("/api/messages/unread-count/:userId", async (req, res) => {
   try {
     const { userId } = req.params;
-    const count = await Message.countDocuments({ receiverId: userId, isRead: { $ne: true } });
+
+    console.log("Unread count request:", userId);
+
+    const count = await Message.countDocuments({
+      receiverId: userId,
+      isRead: { $ne: true }
+    });
+
+    console.log("Count:", count);
+
     res.json({ count });
+
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.error(error);
+    res.status(500).json({
+      error: error.message,
+      stack: error.stack
+    });
   }
 });
 

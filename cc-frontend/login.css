@@ -39,30 +39,25 @@ body {
 }
 
 .logo-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+   
 }
 
-.logo-icon {
-  font-size: 32px;
-  background: #e0f7f5;
-  color: #2f7e78;
-  border-radius: 16px;
-  width: 50px;
-  height: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 10px;
-  box-shadow: 0 4px 12px rgba(47, 126, 120, 0.1);
+.logo-icon img {
+    width: 200px;
+    height: auto;
+    object-fit: contain;
+    
 }
 
 .logo-text {
-  font-size: 20px;
-  font-weight: 800;
-  color: #1d5e5a;
+    font-size: 28px;
+    font-weight: 700;
+    color: #0b8f9b;
+    font-family: "Poppins", sans-serif;
+    letter-spacing: 0.5px;
 }
 
 .wb {
